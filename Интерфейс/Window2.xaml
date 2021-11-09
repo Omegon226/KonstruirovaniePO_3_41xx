@@ -1,0 +1,67 @@
+﻿<Window x:Class="Интерфейс.Window2"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Интерфейс"
+        mc:Ignorable="d"
+        Title="Window2" Height="450" Width="800">
+    <Grid Background="#FF440D44">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Grid.Column="0">
+            <TextBlock Text="Фамилия" Margin="15" FontSize="16" Foreground="White"/>
+            <TextBox Width="230" Height="50" Margin="0,15,0,0"/>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="1">
+            <TextBlock Text="Имя" Margin="15" FontSize="16" Foreground="White"/>
+            <TextBox Width="230" Height="50" Margin="0,15,0,0"/>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="2">
+            <TextBlock Text="Отчетсов" Margin="15" FontSize="16" Foreground="White"/>
+            <TextBox Width="230" Height="50" Margin="0,15,0,0"/>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <TextBlock Text="Дата рождения" Margin="15" FontSize="16" Foreground="White"/>
+            <TextBox Width="230" Height="50" Margin="0,15,0,0"/>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <TextBlock Text="Пол" Margin="15" FontSize="16" Foreground="White"/>
+            <ComboBox Width="230" Height="50" Margin="0,15,0,0"/>
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="2">
+            <TextBlock Text="Гражданство" Margin="15" FontSize="16" Foreground="White"/>
+            <ComboBox Width="230" Height="50" Margin="0,15,0,0"/>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="0">
+            <TextBlock Text="Тип документа" Margin="15" FontSize="16" Foreground="White"/>
+            <ComboBox Width="230" Height="50" Margin="0,15,0,0"/>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="1">
+            <TextBlock Text="Номер Документа" Margin="15" FontSize="16" Foreground="White"/>
+            <TextBox Width="230" Height="50" Margin="0,15,0,0"/>
+        </Grid>
+        <Grid Grid.Row="2" Grid.Column="2">
+            <TextBlock Text="Тариф" Margin="15" FontSize="16" Foreground="White"/>
+            <ComboBox Width="230" Height="50" Margin="0,15,0,0"/>
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+            <TextBlock Text="Место посадки" Margin="40" FontSize="16" Foreground="White"/>
+            <ComboBox Width="230" Height="50" Margin="50,0,0,0"/>
+        </Grid>
+        <Grid Grid.Row="3" Grid.Column="2">
+            <Button Width="200" Height="70" Content="Заказать билет" FontSize="25"/>
+        </Grid>
+
+    </Grid>
+</Window>
