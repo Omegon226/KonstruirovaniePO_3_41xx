@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Интерфейс", "Интерфейс\Интерфейс.csproj", "{8B6271BA-47A5-4E70-ABBE-35D85D432180}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{04332A25-AF61-4A4C-87F7-52C693819098}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{16D7B85C-B5A9-4D13-957F-62889E8D483D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{8B6271BA-47A5-4E70-ABBE-35D85D432180}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B6271BA-47A5-4E70-ABBE-35D85D432180}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B6271BA-47A5-4E70-ABBE-35D85D432180}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04332A25-AF61-4A4C-87F7-52C693819098}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04332A25-AF61-4A4C-87F7-52C693819098}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04332A25-AF61-4A4C-87F7-52C693819098}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04332A25-AF61-4A4C-87F7-52C693819098}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16D7B85C-B5A9-4D13-957F-62889E8D483D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16D7B85C-B5A9-4D13-957F-62889E8D483D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16D7B85C-B5A9-4D13-957F-62889E8D483D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16D7B85C-B5A9-4D13-957F-62889E8D483D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
