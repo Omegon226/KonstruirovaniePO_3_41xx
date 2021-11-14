@@ -30,7 +30,7 @@
             <Button Grid.Column="3" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
                 <Grid>
                     <TextBlock Text="Справка" Foreground="White" FontSize="19"/>
-                    <Image Source="file:///C:/Users/ivanm/Downloads/pngwing.com.png" HorizontalAlignment="Right" Width="30" Margin="80,0,0,0"/>
+                    
                 </Grid>
             </Button>
         </Grid>
