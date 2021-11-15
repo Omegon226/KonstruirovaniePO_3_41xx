@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace Интерфейс
 {
     /// <summary>
-    /// Логика взаимодействия для Window2.xaml
+    /// Логика взаимодействия для OrderTicketWindow.xaml
     /// </summary>
-    public partial class Window2 : Window
+    public partial class OrderTicketWindow : Window
     {
-        public Window2()
+        public OrderTicketWindow()
         {
             InitializeComponent();
         }
