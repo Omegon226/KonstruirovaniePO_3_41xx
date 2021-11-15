@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Интерфейс", "Интерфейс\Интерфейс.csproj", "{8B6271BA-47A5-4E70-ABBE-35D85D432180}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Интерфейс (PL)", "Интерфейс\Интерфейс (PL).csproj", "{8B6271BA-47A5-4E70-ABBE-35D85D432180}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{04332A25-AF61-4A4C-87F7-52C693819098}"
 EndProject
