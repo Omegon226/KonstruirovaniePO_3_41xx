@@ -107,7 +107,7 @@
                 <Button Grid.Column="1" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
                     <Grid>
                         <TextBlock Text="Справка" Foreground="White" FontSize="30"/>
-                        <Image Source="file:///C:/Users/ivanm/Downloads/pngwing.com.png" HorizontalAlignment="Center" Width="30" Margin="0,50,0,0"/>
+                        <Image HorizontalAlignment="Center" Width="30" Margin="0,50,0,0"/>
                     </Grid>
                 </Button>
             </Grid>
