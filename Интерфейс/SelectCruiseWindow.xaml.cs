@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace Интерфейс
 {
     /// <summary>
-    /// Логика взаимодействия для Window1.xaml
+    /// Логика взаимодействия для SelectCruiseWindow.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class SelectCruiseWindow : Window
     {
-        public Window1()
+        public SelectCruiseWindow()
         {
             InitializeComponent();
         }
