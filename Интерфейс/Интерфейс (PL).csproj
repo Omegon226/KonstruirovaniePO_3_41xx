@@ -70,12 +70,89 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CeateUpdateWindows\CruiseCUWindow.xaml.cs">
+      <DependentUpon>CruiseCUWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CeateUpdateWindows\DayOfTheWeekCUWindow.xaml.cs">
+      <DependentUpon>DayOfTheWeekCUWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CeateUpdateWindows\DriverCUWindow.xaml.cs">
+      <DependentUpon>DriverCUWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CeateUpdateWindows\LocalityCUWindow.xaml.cs">
+      <DependentUpon>LocalityCUWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CeateUpdateWindows\RouteCUWindow.xaml.cs">
+      <DependentUpon>RouteCUWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CeateUpdateWindows\StoppingOnTheRouteCUWindow.xaml.cs">
+      <DependentUpon>StoppingOnTheRouteCUWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CeateUpdateWindows\StopSequencesCUWindow.xaml.cs">
+      <DependentUpon>StopSequencesCUWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CeateUpdateWindows\TicketCUWindow.xaml.cs">
+      <DependentUpon>TicketCUWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CeateUpdateWindows\TransportCUWindow.xaml.cs">
+      <DependentUpon>TransportCUWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CeateUpdateWindows\UserCUWindow.xaml.cs">
+      <DependentUpon>UserCUWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EnterAvtovokzalSystemWindow.xaml.cs">
+      <DependentUpon>EnterAvtovokzalSystemWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="OrderTicketWindow.xaml.cs">
       <DependentUpon>OrderTicketWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="SelectCruiseWindow.xaml.cs">
       <DependentUpon>SelectCruiseWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="CeateUpdateWindows\CruiseCUWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CeateUpdateWindows\DayOfTheWeekCUWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CeateUpdateWindows\DriverCUWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CeateUpdateWindows\LocalityCUWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CeateUpdateWindows\RouteCUWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CeateUpdateWindows\StoppingOnTheRouteCUWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CeateUpdateWindows\StopSequencesCUWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CeateUpdateWindows\TicketCUWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CeateUpdateWindows\TransportCUWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CeateUpdateWindows\UserCUWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EnterAvtovokzalSystemWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
