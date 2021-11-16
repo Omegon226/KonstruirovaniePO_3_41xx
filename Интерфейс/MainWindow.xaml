@@ -51,13 +51,13 @@
             <Button x:Name="AuthorisetionButton" Grid.Column="4" Margin="15" Background="#FFB46EB4">
                 <Grid Margin="0,0,0,0">
                     <Viewbox MinHeight="100" MaxHeight="200" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="Войти" Foreground="White"/>
+                        <TextBlock Margin="5" Text="Войти" Foreground="White"/>
                     </Viewbox>
                 </Grid>
             </Button>
         </Grid>
 
-        <Grid Grid.Row="1" x:Name="FindeRouteGrid" Visibility="Visible">
+        <Grid Grid.Row="1" x:Name="FindeRouteGrid" Visibility="Hidden">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.3*"/>
@@ -164,17 +164,506 @@
                         <RowDefinition Height="0.3*"/>
                     </Grid.RowDefinitions>
 
-                    <Button x:Name="FindeRouteButton" Grid.Column="1" Grid.Row="1">
+                    <Button x:Name="FindeRouteButton" Grid.Column="1" Grid.Row="1" Background="#FFB46EB4">
                         <Viewbox>
-                            <TextBlock Margin="7.5" Text="Найти маршрут" Foreground="Black"/>
+                            <TextBlock Margin="7.5" Text="Найти маршрут" Foreground="White"/>
                         </Viewbox>
                     </Button>
                 </Grid>
             </Grid>
         </Grid>
 
-        <Grid Grid.Row="1" x:Name="CreateReportsGrid" Visibility="Hidden">
+        <Grid Grid.Row="1" x:Name="CreateReportsGrid" Visibility="Visible">
 
+            <TabControl x:Name="TabControlForCRUD" Background="#FF440D44">
+
+                <TabItem x:Name="UserTab">
+                    <TabItem.Header>
+                        <TextBlock Margin="3">User</TextBlock>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.1*"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="CreateUserButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Create" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button x:Name="UpdateUserButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Update" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button x:Name="DeleteUserButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Delete" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                            </Grid>
+                            <ListView Grid.Row="1" Name="UsersList">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=ID}" Width="100">ID</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=FullName}" Width="100">ФИО</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Login}" Width="100">Логин</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Password}" Width="100">Пароль</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Status}" Width="100">Статус</GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Grid>
+                    </TabItem.Content>
+                </TabItem>
+
+                <TabItem x:Name="TicketTab">
+                    <TabItem.Header>
+                        <TextBlock Margin="3">Ticket</TextBlock>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.1*"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="CreateTicketButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Create" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button x:Name="UpdateTicketButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Update" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button x:Name="DeleteTicketButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Delete" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                            </Grid>
+                            <ListView Grid.Row="1" Name="TicketList">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=ID}" Width="100">ID</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=DateOfIssue}" Width="150">Дата выдачи билета</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=IdentificationInformation}" Width="150">Индент. информация</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=SeatNumberOnTheTransport}" Width="100">Ноиер места</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=FullName}" Width="100">ФИО</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=CruiseID}" Width="100">ID Поездки</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=UserID}" Width="100">ID Пользователя</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=RaceDepartureTime}" Width="160">Время отправки билета</GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Grid>
+                    </TabItem.Content>
+                </TabItem>
+
+                <TabItem x:Name="TransportTab">
+                    <TabItem.Header>
+                        <TextBlock Margin="3">Transport</TextBlock>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.1*"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="CreateTransportButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Create" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button x:Name="UpdateTransportButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Update" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button x:Name="DeleteTransportButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Delete" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                            </Grid>
+                            <ListView Grid.Row="1" Name="TransportList">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=ID}" Width="100">ID</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=NumberOfSeats}" Width="150">Кол-во сидений</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=RegistrationNumber}" Width="150">Гос. номер</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Model}" Width="100">Марка</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Hidden}" Width="100">Скрытость</GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Grid>
+                    </TabItem.Content>
+                </TabItem>
+
+                <TabItem x:Name="StopSequencesTab">
+                    <TabItem.Header>
+                        <TextBlock Margin="3">StopSequences</TextBlock>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.1*"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="CreateStopSequencesButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Create" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button x:Name="UpdateStopSequencesButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Update" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button x:Name="DeleteStopSequencesButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Delete" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                            </Grid>
+                            <ListView Grid.Row="1" Name="StopSequencesList">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=ID}" Width="100">ID</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=IndexNumber}" Width="100">Номер остановки</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=StoppingID}" Width="100">ID Остановки</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=StopRouteID}" Width="100">ID Маршрута</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=TripPrice}" Width="150">Цена за остановку</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=TravelTimeToStop}" Width="150">Время до остановки</GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Grid>
+                    </TabItem.Content>
+                </TabItem>
+
+                <TabItem x:Name="StoppingOnTheRouteTab">
+                    <TabItem.Header>
+                        <TextBlock Margin="3">StoppingOnTheRoute</TextBlock>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.1*"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="CreateStoppingOnTheRouteButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Create" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button x:Name="UpdateStoppingOnTheRouteButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Update" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button x:Name="DeleteStoppingOnTheRouteButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Delete" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                            </Grid>
+                            <ListView Grid.Row="1" Name="StoppingOnTheRouteList">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=ID}" Width="100">ID</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=StopLocalityID}" Width="150">ID Населённого пункта</GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Grid>
+                    </TabItem.Content>
+                </TabItem>
+
+                <TabItem x:Name="RouteTab">
+                    <TabItem.Header>
+                        <TextBlock Margin="3">Route</TextBlock>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.1*"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="CreateRouteButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Create" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button x:Name="UpdateRouteButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Update" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button x:Name="DeleteRouteButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Delete" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                            </Grid>
+                            <ListView Grid.Row="1" Name="RouteList">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=ID}" Width="100">ID</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=TravelTimeInHours}" Width="150">Кол-во часов в поездке</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Hidden}" Width="100">Скрытость</GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Grid>
+                    </TabItem.Content>
+                </TabItem>
+
+                <TabItem x:Name="LocalityTab">
+                    <TabItem.Header>
+                        <TextBlock Margin="3">Locality</TextBlock>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.1*"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="CreateLocalityButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Create" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button x:Name="UpdateLocalityButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Update" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button x:Name="DeleteLocalityButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Delete" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                            </Grid>
+                            <ListView Grid.Row="1" Name="LocalityList">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=ID}" Width="100">ID</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Region}" Width="150">Номер области</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Width="180">Название населённого пункта</GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Grid>
+                    </TabItem.Content>
+                </TabItem>
+
+                <TabItem x:Name="DriverTab">
+                    <TabItem.Header>
+                        <TextBlock Margin="3">Driver</TextBlock>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.1*"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="CreateDriverButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Create" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button x:Name="UpdateDriverButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Update" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button x:Name="DeleteDriverButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Delete" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                            </Grid>
+                            <ListView Grid.Row="1" Name="DriverList">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=ID}" Width="100">ID</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=FullName}" Width="180">ФИО Водителя</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Experience}" Width="100">Опыт водителя</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Salary}" Width="100">Зарплата</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Hidden}" Width="100">Скрытость</GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Grid>
+                    </TabItem.Content>
+                </TabItem>
+
+                <TabItem x:Name="DayOfTheWeekTab">
+                    <TabItem.Header>
+                        <TextBlock Margin="3">DayOfTheWeek</TextBlock>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.1*"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="CreateDayOfTheWeekButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Create" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button x:Name="UpdateDayOfTheWeekButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Update" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button x:Name="DeleteDayOfTheWeekButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Delete" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                            </Grid>
+                            <ListView Grid.Row="1" Name="DayOfTheWeekList">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=ID}" Width="100">ID</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=DayOfTheWeekName}" Width="180">День недели</GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Grid>
+                    </TabItem.Content>
+                </TabItem>
+
+                <TabItem x:Name="CruiseTab">
+                    <TabItem.Header>
+                        <TextBlock Margin="3">Cruise</TextBlock>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.1*"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="CreateCruiseButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Create" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button x:Name="UpdateCruiseButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Update" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                                <Button x:Name="DeleteCruiseButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple">
+                                    <Viewbox>
+                                        <TextBlock Text="Delete" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+                            </Grid>
+                            <ListView Grid.Row="1" Name="CruiseList">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=ID}" Width="100">ID</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=DayOfTheWeekCruiseID}" Width="100">ID Деня недели</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=RouteIDOfTheCruise}" Width="100">ID Маршрут</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=DriverIDOfTheCruise}" Width="100">ID Водителя</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=TransportIDOfTheCruise}" Width="100">ID Транспорта</GridViewColumn>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=StartTime}" Width="150">Время начала</GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Grid>
+                    </TabItem.Content>
+                </TabItem>
+
+            </TabControl>
+                 
         </Grid>
 
         <Grid Grid.Row="1" x:Name="CreateChartsGrid" Visibility="Hidden">
