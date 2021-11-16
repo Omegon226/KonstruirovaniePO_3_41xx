@@ -60,6 +60,7 @@ namespace BLL.DBInteraction
             DALRawToUpdate.RegistrationNumber = RowToUpdate.RegistrationNumber;
             DALRawToUpdate.Model = RowToUpdate.Model;
             DALRawToUpdate.Hidden = RowToUpdate.Hidden;
+            Save();
         }
 
         public List<TransportModel> GetAll()

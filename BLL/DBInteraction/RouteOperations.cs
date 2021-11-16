@@ -57,6 +57,7 @@ namespace BLL.DBInteraction
             Route DALRawToUpdate = DBContext.Route.Find(RowToUpdate.ID);
             DALRawToUpdate.TravelTimeInHours = RowToUpdate.TravelTimeInHours;
             DALRawToUpdate.Hidden = RowToUpdate.Hidden;
+            Save();
         }
 
         public List<RouteModel> GetAll()

@@ -54,6 +54,7 @@ namespace BLL.DBInteraction
         {
             StoppingOnTheRoute DALRawToUpdate = DBContext.StoppingOnTheRoute.Find(RowToUpdate.ID);
             DALRawToUpdate.StopLocalityID = RowToUpdate.StopLocalityID;
+            Save();
         }
 
         public List<StoppingOnTheRouteModel> GetAll()

@@ -242,17 +242,17 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
 
-                                <Button x:Name="CreateTicketButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="CreateTicketButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="CreateTicketButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Create" Foreground="White"/>
                                     </Viewbox>
                                 </Button>
-                                <Button x:Name="UpdateTicketButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="UpdateTicketButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple" Click="UpdateTicketButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Update" Foreground="White"/>
                                     </Viewbox>
                                 </Button>
-                                <Button x:Name="DeleteTicketButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="DeleteTicketButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple" Click="DeleteTicketButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Delete" Foreground="White"/>
                                     </Viewbox>
@@ -264,7 +264,7 @@
                                     <DataGridTextColumn x:Name="TicketDateOfIssueColumn" Header="Дата выдачи билета" Binding="{Binding Path=DateOfIssue}" Width="150"></DataGridTextColumn>
                                     <DataGridTextColumn x:Name="TicketIdentificationInformationColumn" Header="Индент. информация" Binding="{Binding Path=IdentificationInformation}" Width="150"></DataGridTextColumn>
                                     <DataGridTextColumn x:Name="TicketSeatNumberOnTheTransportColumn" Header="Номер места" Binding="{Binding Path=SeatNumberOnTheTransport}" Width="100"></DataGridTextColumn>
-                                    <DataGridTextColumn x:Name="TicketFullNameColumn" Header="ФИО" Binding="{Binding Path=FullName}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="TicketFullNameColumn" Header="ФИО" Binding="{Binding Path=FullName}" Width="180"></DataGridTextColumn>
                                     <DataGridTextColumn x:Name="TicketCruiseIDColumn" Header="ID Поездки" Binding="{Binding Path=CruiseID}" Width="100"></DataGridTextColumn>
                                     <DataGridTextColumn x:Name="TicketUserIDColumn" Header="ID Пользователя" Binding="{Binding Path=UserID}" Width="100"></DataGridTextColumn>
                                     <DataGridTextColumn x:Name="TicketRaceDepartureTimeColumn" Header="Время отправки билета" Binding="{Binding Path=RaceDepartureTime}" Width="160"></DataGridTextColumn>
@@ -292,17 +292,17 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
 
-                                <Button x:Name="CreateTransportButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="CreateTransportButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="CreateTransportButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Create" Foreground="White"/>
                                     </Viewbox>
                                 </Button>
-                                <Button x:Name="UpdateTransportButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="UpdateTransportButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple" Click="UpdateTransportButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Update" Foreground="White"/>
                                     </Viewbox>
                                 </Button>
-                                <Button x:Name="DeleteTransportButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="DeleteTransportButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple" Click="DeleteTransportButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Delete" Foreground="White"/>
                                     </Viewbox>
@@ -339,17 +339,17 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
 
-                                <Button x:Name="CreateStopSequencesButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="CreateStopSequencesButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="CreateStopSequencesButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Create" Foreground="White"/>
                                     </Viewbox>
                                 </Button>
-                                <Button x:Name="UpdateStopSequencesButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="UpdateStopSequencesButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple" Click="UpdateStopSequencesButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Update" Foreground="White"/>
                                     </Viewbox>
                                 </Button>
-                                <Button x:Name="DeleteStopSequencesButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="DeleteStopSequencesButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple" Click="DeleteStopSequencesButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Delete" Foreground="White"/>
                                     </Viewbox>
@@ -387,17 +387,17 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
 
-                                <Button x:Name="CreateStoppingOnTheRouteButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="CreateStoppingOnTheRouteButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="CreateStoppingOnTheRouteButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Create" Foreground="White"/>
                                     </Viewbox>
                                 </Button>
-                                <Button x:Name="UpdateStoppingOnTheRouteButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="UpdateStoppingOnTheRouteButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple" Click="UpdateStoppingOnTheRouteButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Update" Foreground="White"/>
                                     </Viewbox>
                                 </Button>
-                                <Button x:Name="DeleteStoppingOnTheRouteButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="DeleteStoppingOnTheRouteButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple" Click="DeleteStoppingOnTheRouteButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Delete" Foreground="White"/>
                                     </Viewbox>
@@ -431,17 +431,17 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
 
-                                <Button x:Name="CreateRouteButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="CreateRouteButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="CreateRouteButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Create" Foreground="White"/>
                                     </Viewbox>
                                 </Button>
-                                <Button x:Name="UpdateRouteButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="UpdateRouteButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple" Click="UpdateRouteButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Update" Foreground="White"/>
                                     </Viewbox>
                                 </Button>
-                                <Button x:Name="DeleteRouteButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="DeleteRouteButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple" Click="DeleteRouteButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Delete" Foreground="White"/>
                                     </Viewbox>
@@ -476,17 +476,17 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
 
-                                <Button x:Name="CreateLocalityButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="CreateLocalityButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="CreateLocalityButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Create" Foreground="White"/>
                                     </Viewbox>
                                 </Button>
-                                <Button x:Name="UpdateLocalityButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="UpdateLocalityButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple" Click="UpdateLocalityButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Update" Foreground="White"/>
                                     </Viewbox>
                                 </Button>
-                                <Button x:Name="DeleteLocalityButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="DeleteLocalityButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple" Click="DeleteLocalityButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Delete" Foreground="White"/>
                                     </Viewbox>
@@ -521,17 +521,17 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
 
-                                <Button x:Name="CreateDriverButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="CreateDriverButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="CreateDriverButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Create" Foreground="White"/>
                                     </Viewbox>
                                 </Button>
-                                <Button x:Name="UpdateDriverButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="UpdateDriverButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple" Click="UpdateDriverButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Update" Foreground="White"/>
                                     </Viewbox>
                                 </Button>
-                                <Button x:Name="DeleteDriverButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="DeleteDriverButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple" Click="DeleteDriverButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Delete" Foreground="White"/>
                                     </Viewbox>
@@ -568,17 +568,17 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
 
-                                <Button x:Name="CreateDayOfTheWeekButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="CreateDayOfTheWeekButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="CreateDayOfTheWeekButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Create" Foreground="White"/>
                                     </Viewbox>
                                 </Button>
-                                <Button x:Name="UpdateDayOfTheWeekButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="UpdateDayOfTheWeekButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple" Click="UpdateDayOfTheWeekButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Update" Foreground="White"/>
                                     </Viewbox>
                                 </Button>
-                                <Button x:Name="DeleteDayOfTheWeekButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="DeleteDayOfTheWeekButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple" Click="DeleteDayOfTheWeekButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Delete" Foreground="White"/>
                                     </Viewbox>
@@ -612,17 +612,17 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
 
-                                <Button x:Name="CreateCruiseButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="CreateCruiseButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="CreateCruiseButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Create" Foreground="White"/>
                                     </Viewbox>
                                 </Button>
-                                <Button x:Name="UpdateCruiseButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="UpdateCruiseButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple" Click="UpdateCruiseButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Update" Foreground="White"/>
                                     </Viewbox>
                                 </Button>
-                                <Button x:Name="DeleteCruiseButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="DeleteCruiseButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple" Click="DeleteCruiseButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Delete" Foreground="White"/>
                                     </Viewbox>

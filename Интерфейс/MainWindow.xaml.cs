@@ -45,6 +45,8 @@ namespace Интерфейс
             InsertInformationInListViews();
         }
 
+        #region --- Подгрузка информации в переменные эмулирующие таблицы
+
         private void LoadAllInformationFromDataBase()
         {
             LoadAllCruiseInformation();
@@ -99,59 +101,67 @@ namespace Интерфейс
             allUser = DBComunication.User.GetAll();
         }
 
+        #endregion
+
+        #region --- Подгрузка информации в таблицы для администрирования
+
         private void InsertInformationInListViews()
         {
-            InsertInformationInCruiseListView();
-            InsertInformationInDayOfTheWeekListView();
-            InsertInformationInDriverListView();
-            InsertInformationInLocalityListView();
-            InsertInformationInRouteListView();
-            InsertInformationInStoppingOnTheRouteListView();
-            InsertInformationInStopSequencesListView();
-            InsertInformationInTicketListView();
-            InsertInformationInTransportListView();
-            InsertInformationInUserListView();
+            InsertInformationInCruiseDataGrid();
+            InsertInformationInDayOfTheWeekDataGrid();
+            InsertInformationInDriverDataGrid();
+            InsertInformationInLocalityDataGrid();
+            InsertInformationInRouteDataGrid();
+            InsertInformationInStoppingOnTheRouteDataGrid();
+            InsertInformationInStopSequencesDataGrid();
+            InsertInformationInTicketDataGrid();
+            InsertInformationInTransportDataGrid();
+            InsertInformationInUserDataGrid();
         }
-        private void InsertInformationInCruiseListView()
+        private void InsertInformationInCruiseDataGrid()
         {
             CruiseDataGrid.ItemsSource = allCruise;
         }
-        private void InsertInformationInDayOfTheWeekListView()
+        private void InsertInformationInDayOfTheWeekDataGrid()
         {
             DayOfTheWeekDataGrid.ItemsSource = allDayOfTheWeek;
         }
-        private void InsertInformationInDriverListView()
+        private void InsertInformationInDriverDataGrid()
         {
             DriverDataGrid.ItemsSource = allDriver;
         }
-        private void InsertInformationInLocalityListView()
+        private void InsertInformationInLocalityDataGrid()
         {
             LocalityDataGrid.ItemsSource = allLocality;
         }
-        private void InsertInformationInRouteListView()
+        private void InsertInformationInRouteDataGrid()
         {
             RouteDataGrid.ItemsSource = allRoute;
         }
-        private void InsertInformationInStoppingOnTheRouteListView()
+        private void InsertInformationInStoppingOnTheRouteDataGrid()
         {
             StoppingOnTheRouteDataGrid.ItemsSource = allStoppingOnTheRoute;
         }
-        private void InsertInformationInStopSequencesListView()
+        private void InsertInformationInStopSequencesDataGrid()
         {
             StopSequencesDataGrid.ItemsSource = allStopSequences;
         }
-        private void InsertInformationInTicketListView()
+        private void InsertInformationInTicketDataGrid()
         {
             TicketDataGrid.ItemsSource = allTicket;
         }
-        private void InsertInformationInTransportListView()
+        private void InsertInformationInTransportDataGrid()
         {
             TransportDataGrid.ItemsSource = allTransport;
         }
-        private void InsertInformationInUserListView()
+        private void InsertInformationInUserDataGrid()
         {
             UsersDataGrid.ItemsSource = allUser;
         }
+
+        #endregion
+
+
 
         private int getSelectedRow(DataGrid dataGrid)
         {
@@ -159,11 +169,12 @@ namespace Интерфейс
             if (dataGrid.SelectedItems.Count > 0 || dataGrid.SelectedCells.Count == 1)
             {
                 // Проверка на кол - во выделенных элементов не нужна, ибо возвращается первый выделенный элемент
-                index = UsersDataGrid.Items.IndexOf(UsersDataGrid.SelectedItem);
+                index = dataGrid.Items.IndexOf(dataGrid.SelectedItem);
             }
             return index;
         }
 
+        // CRUD Для User
         private void CreateUserButton_Click(object sender, RoutedEventArgs e)
         {
             UserCUWindow CreateWindow = new UserCUWindow();
@@ -182,21 +193,22 @@ namespace Интерфейс
 
                 DBComunication.User.Create(NewObject);
                 allUser = DBComunication.User.GetAll();
-                InsertInformationInUserListView();
+                InsertInformationInUserDataGrid();
 
                 MessageBox.Show("Новый объект добавлен");
             }
 
         }
-
         private void UpdateUserButton_Click(object sender, RoutedEventArgs e)
         {
-            int index = getSelectedRow(UsersDataGrid);
+            DataGrid DataGridForUpdateOperation = UsersDataGrid;
+
+            int index = getSelectedRow(DataGridForUpdateOperation);
             if (index != -1)
             {
 
                 int id = 0;
-                UserModel MarkedRow = (UserModel)UsersDataGrid.Items[index];
+                UserModel MarkedRow = (UserModel)DataGridForUpdateOperation.Items[index];
                 bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
                 if (converted == false)
                     return;
@@ -223,7 +235,7 @@ namespace Интерфейс
 
                         DBComunication.User.Update(ph);
                         allUser = DBComunication.User.GetAll();
-                        InsertInformationInUserListView();
+                        InsertInformationInUserDataGrid();
 
                         MessageBox.Show("Объект обновлен");
                     }
@@ -234,23 +246,360 @@ namespace Интерфейс
                 MessageBox.Show("Ни один объект не выбран!");
             }
         }
-
         private void DeleteUserButton_Click(object sender, RoutedEventArgs e)
         {
-            int index = getSelectedRow(UsersDataGrid);
+            DataGrid DataGridForDeleteOperation = UsersDataGrid;
+            int index = getSelectedRow(DataGridForDeleteOperation);
+
             if (index != -1)
             {
                 int id = 0;
-                UserModel MarkedRow = (UserModel)UsersDataGrid.Items[index];
+                UserModel MarkedRow = (UserModel)DataGridForDeleteOperation.Items[index];
                 bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
                 if (converted == false)
                     return;
 
                 DBComunication.User.Delete(id);
                 allUser = DBComunication.User.GetAll();
-                InsertInformationInUserListView();
+                InsertInformationInUserDataGrid();
+            }
+        }
+
+        // CRUD Для Ticket
+        private void CreateTicketButton_Click(object sender, RoutedEventArgs e)
+        {
+            var c = allUser;
+
+            TicketCUWindow CreateWindow = new TicketCUWindow();
+            CreateWindow.CruiseIDComboBox.ItemsSource = allCruise;
+            CreateWindow.CruiseIDComboBox.DisplayMemberPath = "ID";
+            CreateWindow.CruiseIDComboBox.SelectedValuePath = "ID";
+            CreateWindow.UserIDComboBox.ItemsSource = allUser;
+            CreateWindow.UserIDComboBox.DisplayMemberPath = "FullName";
+            CreateWindow.UserIDComboBox.SelectedValuePath = "ID";
+
+            bool? result = CreateWindow.ShowDialog();
+            if (result == false)
+                return;
+            else
+            {
+                TicketModel NewObject = new TicketModel();
+
+                NewObject.DateOfIssue = DateTime.Parse(CreateWindow.DateOfIssueTextBox.Text);
+                NewObject.IdentificationInformation = CreateWindow.IndentificationInformationTextBox.Text;
+                NewObject.SeatNumberOnTheTransport = CreateWindow.SeatNumberOnTheTransportIntegerUpDown.Value;
+                NewObject.FullName = CreateWindow.FullNameTextBox.Text;
+                NewObject.CruiseID = (int)CreateWindow.CruiseIDComboBox.SelectedValue;
+                NewObject.UserID = (int)CreateWindow.UserIDComboBox.SelectedValue;
+                NewObject.RaceDepartureTime = DateTime.Parse(CreateWindow.RaceDepartureTimeTextBox.Text);
+
+                DBComunication.Ticket.Create(NewObject);
+                allTicket = DBComunication.Ticket.GetAll();
+                InsertInformationInTicketDataGrid();
+
+                MessageBox.Show("Новый объект добавлен");
+            }
+        }
+        private void UpdateTicketButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataGrid DataGridForUpdateOperation = TicketDataGrid;
+
+            int index = getSelectedRow(DataGridForUpdateOperation);
+            if (index != -1)
+            {
+
+                int id = 0;
+                TicketModel MarkedRow = (TicketModel)DataGridForUpdateOperation.Items[index];
+                bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                TicketModel ph = allTicket.Where(i => i.ID == id).FirstOrDefault();
+                if (ph != null)
+                {
+                    TicketCUWindow UpdateWindow = new TicketCUWindow();
+                    UpdateWindow.CruiseIDComboBox.ItemsSource = allCruise;
+                    UpdateWindow.CruiseIDComboBox.DisplayMemberPath = "ID";
+                    UpdateWindow.CruiseIDComboBox.SelectedValuePath = "ID";
+                    UpdateWindow.UserIDComboBox.ItemsSource = allUser;
+                    UpdateWindow.UserIDComboBox.DisplayMemberPath = "FullName";
+                    UpdateWindow.UserIDComboBox.SelectedValuePath = "ID";
+
+                    UpdateWindow.DateOfIssueTextBox.Text = ph.DateOfIssue.ToString();
+                    UpdateWindow.IndentificationInformationTextBox.Text = ph.IdentificationInformation;
+                    UpdateWindow.SeatNumberOnTheTransportIntegerUpDown.Value = ph.SeatNumberOnTheTransport;
+                    UpdateWindow.FullNameTextBox.Text = ph.FullName;
+                    UpdateWindow.CruiseIDComboBox.SelectedValue = ph.CruiseID;
+                    UpdateWindow.UserIDComboBox.SelectedValue = ph.UserID;
+                    UpdateWindow.RaceDepartureTimeTextBox.Text = ph.RaceDepartureTime.ToString();
+
+                    bool? result = UpdateWindow.ShowDialog();
+                    if (result == false)
+                        return;
+                    else
+                    {
+                        ph.DateOfIssue = DateTime.Parse(UpdateWindow.DateOfIssueTextBox.Text);
+                        ph.IdentificationInformation = UpdateWindow.IndentificationInformationTextBox.Text;
+                        ph.SeatNumberOnTheTransport = UpdateWindow.SeatNumberOnTheTransportIntegerUpDown.Value;
+                        ph.FullName = UpdateWindow.FullNameTextBox.Text;
+                        ph.CruiseID = (int)UpdateWindow.CruiseIDComboBox.SelectedValue;
+                        ph.UserID = (int)UpdateWindow.UserIDComboBox.SelectedValue;
+                        ph.RaceDepartureTime = DateTime.Parse(UpdateWindow.RaceDepartureTimeTextBox.Text);
+
+                        DBComunication.Ticket.Update(ph);
+                        allTicket = DBComunication.Ticket.GetAll();
+                        InsertInformationInTicketDataGrid();
+
+                        MessageBox.Show("Объект обновлен");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ни один объект не выбран!");
+            }
+        }
+        private void DeleteTicketButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataGrid DataGridForDeleteOperation = TicketDataGrid;
+            int index = getSelectedRow(DataGridForDeleteOperation);
+
+            if (index != -1)
+            {
+                int id = 0;
+                UserModel MarkedRow = (UserModel)DataGridForDeleteOperation.Items[index];
+                bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                DBComunication.Ticket.Delete(id);
+                allTicket = DBComunication.Ticket.GetAll();
+                InsertInformationInTicketDataGrid();
+            }
+        }
+
+        // CRUD Для Transport
+        private void CreateTransportButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void UpdateTransportButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void DeleteTransportButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataGrid DataGridForDeleteOperation = TransportDataGrid;
+            int index = getSelectedRow(DataGridForDeleteOperation);
+
+            if (index != -1)
+            {
+                int id = 0;
+                UserModel MarkedRow = (UserModel)DataGridForDeleteOperation.Items[index];
+                bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                DBComunication.User.Delete(id);
+                allUser = DBComunication.User.GetAll();
+                InsertInformationInTransportDataGrid();
+            }
+        }
+
+        // CRUD Для StopSequences
+        private void CreateStopSequencesButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void UpdateStopSequencesButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void DeleteStopSequencesButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataGrid DataGridForDeleteOperation = StopSequencesDataGrid;
+            int index = getSelectedRow(DataGridForDeleteOperation);
+
+            if (index != -1)
+            {
+                int id = 0;
+                UserModel MarkedRow = (UserModel)DataGridForDeleteOperation.Items[index];
+                bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                DBComunication.User.Delete(id);
+                allUser = DBComunication.User.GetAll();
+                InsertInformationInStopSequencesDataGrid();
+            }
+        }
+
+        // CRUD Для StoppingOnTheRoute
+        private void CreateStoppingOnTheRouteButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void UpdateStoppingOnTheRouteButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void DeleteStoppingOnTheRouteButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataGrid DataGridForDeleteOperation = StoppingOnTheRouteDataGrid;
+            int index = getSelectedRow(DataGridForDeleteOperation);
+
+            if (index != -1)
+            {
+                int id = 0;
+                UserModel MarkedRow = (UserModel)DataGridForDeleteOperation.Items[index];
+                bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                DBComunication.User.Delete(id);
+                allUser = DBComunication.User.GetAll();
+                InsertInformationInStoppingOnTheRouteDataGrid();
+            }
+        }
+
+        // CRUD Для RouteButton
+        private void CreateRouteButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void UpdateRouteButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void DeleteRouteButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataGrid DataGridForDeleteOperation = RouteDataGrid;
+            int index = getSelectedRow(DataGridForDeleteOperation);
+
+            if (index != -1)
+            {
+                int id = 0;
+                UserModel MarkedRow = (UserModel)DataGridForDeleteOperation.Items[index];
+                bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                DBComunication.User.Delete(id);
+                allUser = DBComunication.User.GetAll();
+                InsertInformationInRouteDataGrid();
+            }
+        }
+
+        // CRUD Для Locality
+        private void CreateLocalityButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void UpdateLocalityButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void DeleteLocalityButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataGrid DataGridForDeleteOperation = LocalityDataGrid;
+            int index = getSelectedRow(DataGridForDeleteOperation);
+
+            if (index != -1)
+            {
+                int id = 0;
+                UserModel MarkedRow = (UserModel)DataGridForDeleteOperation.Items[index];
+                bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                DBComunication.User.Delete(id);
+                allUser = DBComunication.User.GetAll();
+                InsertInformationInLocalityDataGrid();
+            }
+        }
+
+        // CRUD Для Driver
+        private void CreateDriverButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void UpdateDriverButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void DeleteDriverButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataGrid DataGridForDeleteOperation = DriverDataGrid;
+            int index = getSelectedRow(DataGridForDeleteOperation);
+
+            if (index != -1)
+            {
+                int id = 0;
+                UserModel MarkedRow = (UserModel)DataGridForDeleteOperation.Items[index];
+                bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                DBComunication.User.Delete(id);
+                allUser = DBComunication.User.GetAll();
+                InsertInformationInDriverDataGrid();
+            }
+        }
+
+        // CRUD Для DayOfTheWeek
+        private void CreateDayOfTheWeekButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void UpdateDayOfTheWeekButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void DeleteDayOfTheWeekButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataGrid DataGridForDeleteOperation = DayOfTheWeekDataGrid;
+            int index = getSelectedRow(DataGridForDeleteOperation);
+
+            if (index != -1)
+            {
+                int id = 0;
+                UserModel MarkedRow = (UserModel)DataGridForDeleteOperation.Items[index];
+                bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                DBComunication.User.Delete(id);
+                allUser = DBComunication.User.GetAll();
+                InsertInformationInDayOfTheWeekDataGrid();
+            }
+        }
+
+        // CRUD Для Cruise
+        private void CreateCruiseButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void UpdateCruiseButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void DeleteCruiseButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataGrid DataGridForDeleteOperation = CruiseDataGrid;
+            int index = getSelectedRow(DataGridForDeleteOperation);
+
+            if (index != -1)
+            {
+                int id = 0;
+                UserModel MarkedRow = (UserModel)DataGridForDeleteOperation.Items[index];
+                bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                DBComunication.User.Delete(id);
+                allUser = DBComunication.User.GetAll();
+                InsertInformationInCruiseDataGrid();
             }
         }
     }
-
 }

@@ -62,6 +62,7 @@ namespace BLL.DBInteraction
             CruiseToUpdate.DriverIDOfTheCruise = RowToUpdate.DriverIDOfTheCruise;
             CruiseToUpdate.TransportIDOfTheCruise = RowToUpdate.TransportIDOfTheCruise;
             CruiseToUpdate.StartTime = RowToUpdate.StartTime;
+            Save();
         }
 
         public List<CruiseModel> GetAll()

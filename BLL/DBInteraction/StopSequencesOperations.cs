@@ -62,6 +62,7 @@ namespace BLL.DBInteraction
             DALRawToUpdate.StopRouteID = RowToUpdate.StopRouteID;
             DALRawToUpdate.TripPrice = RowToUpdate.TripPrice;
             DALRawToUpdate.TravelTimeToStop = RowToUpdate.TravelTimeToStop;
+            Save();
         }
 
         public List<StopSequencesModel> GetAll()

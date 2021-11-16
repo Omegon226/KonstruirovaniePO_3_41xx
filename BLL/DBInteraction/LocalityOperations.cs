@@ -56,6 +56,7 @@ namespace BLL.DBInteraction
             Locality DALRawToUpdate = DBContext.Locality.Find(RowToUpdate.ID);
             DALRawToUpdate.Region = RowToUpdate.Region;
             DALRawToUpdate.Name = RowToUpdate.Name;
+            Save();
         }
 
         public List<LocalityModel> GetAll()

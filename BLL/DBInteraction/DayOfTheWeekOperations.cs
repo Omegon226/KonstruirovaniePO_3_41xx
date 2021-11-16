@@ -54,6 +54,7 @@ namespace BLL.DBInteraction
         {
             DayOfTheWeek DALRawToUpdate = DBContext.DayOfTheWeek.Find(RowToUpdate.ID);
             DALRawToUpdate.DayOfTheWeekName = RowToUpdate.DayOfTheWeekName;
+            Save();
         }
 
         public List<DayOfTheWeekModel> GetAll()

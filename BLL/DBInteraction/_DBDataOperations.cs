@@ -41,7 +41,16 @@ namespace BLL.DBInteraction
             User = new UserOperations(DBContext);
 
             DBContext.Cruise.Load();
+            DBContext.DayOfTheWeek.Load();
+            DBContext.Driver.Load();
+            DBContext.Locality.Load();
             DBContext.Route.Load();
+            DBContext.StoppingOnTheRoute.Load();
+            DBContext.Cruise.Load();
+            DBContext.StopSequences.Load();
+            DBContext.Ticket.Load();
+            DBContext.Transport.Load();
+            DBContext.User.Load();
         }
         public DBDataOperations(AvtovokzalDBContext NewDBContext)
         {
@@ -59,7 +68,16 @@ namespace BLL.DBInteraction
             User = new UserOperations(DBContext);
 
             DBContext.Cruise.Load();
+            DBContext.DayOfTheWeek.Load();
+            DBContext.Driver.Load();
+            DBContext.Locality.Load();
             DBContext.Route.Load();
+            DBContext.StoppingOnTheRoute.Load();
+            DBContext.Cruise.Load();
+            DBContext.StopSequences.Load();
+            DBContext.Ticket.Load();
+            DBContext.Transport.Load();
+            DBContext.User.Load();
         }
 
         public bool Save()

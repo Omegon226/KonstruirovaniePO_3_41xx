@@ -42,7 +42,7 @@ namespace BLL.DBInteraction
                 CruiseID = RowToCreate.CruiseID,
                 UserID = RowToCreate.UserID,
                 RaceDepartureTime = RowToCreate.RaceDepartureTime
-        });
+            });
             Save();
         }
 
@@ -66,6 +66,7 @@ namespace BLL.DBInteraction
             DALRawToUpdate.CruiseID = RowToUpdate.CruiseID;
             DALRawToUpdate.UserID = RowToUpdate.UserID;
             DALRawToUpdate.RaceDepartureTime = RowToUpdate.RaceDepartureTime;
+            Save();
         }
 
         public List<TicketModel> GetAll()

@@ -60,6 +60,7 @@ namespace BLL.DBInteraction
             DALRawToUpdate.Experience = RowToUpdate.Experience;
             DALRawToUpdate.Salary = RowToUpdate.Salary;
             DALRawToUpdate.Hidden = RowToUpdate.Hidden;
+            Save();
         }
 
         public List<DriverModel> GetAll()

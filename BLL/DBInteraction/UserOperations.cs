@@ -60,6 +60,7 @@ namespace BLL.DBInteraction
             DALRawToUpdate.Login = RowToUpdate.Login;
             DALRawToUpdate.Password = RowToUpdate.Password;
             DALRawToUpdate.Status = RowToUpdate.Status;
+            Save();
         }
 
         public List<UserModel> GetAll()
