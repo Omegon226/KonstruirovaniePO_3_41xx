@@ -23,5 +23,10 @@ namespace Интерфейс.CeateUpdateWindows
         {
             InitializeComponent();
         }
+
+        private void AcceptButton_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = true;
+        }
     }
 }

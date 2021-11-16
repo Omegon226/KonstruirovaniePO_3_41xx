@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BLL.Models;
 using BLL.DBInteraction;
+using Интерфейс.CeateUpdateWindows;
 
 namespace Интерфейс
 {
@@ -34,6 +35,8 @@ namespace Интерфейс
         private List<TicketModel> allTicket;
         private List<TransportModel> allTransport;
         private List<UserModel> allUser;
+
+        private int StatusLevelOfUser = 0;
 
         public MainWindow()
         {
@@ -111,45 +114,143 @@ namespace Интерфейс
         }
         private void InsertInformationInCruiseListView()
         {
-            CruiseList.ItemsSource = allCruise;
+            CruiseDataGrid.ItemsSource = allCruise;
         }
         private void InsertInformationInDayOfTheWeekListView()
         {
-            DayOfTheWeekList.ItemsSource = allDayOfTheWeek;
+            DayOfTheWeekDataGrid.ItemsSource = allDayOfTheWeek;
         }
         private void InsertInformationInDriverListView()
         {
-            DriverList.ItemsSource = allDriver;
+            DriverDataGrid.ItemsSource = allDriver;
         }
         private void InsertInformationInLocalityListView()
         {
-            LocalityList.ItemsSource = allLocality;
+            LocalityDataGrid.ItemsSource = allLocality;
         }
         private void InsertInformationInRouteListView()
         {
-            RouteList.ItemsSource = allRoute;
+            RouteDataGrid.ItemsSource = allRoute;
         }
         private void InsertInformationInStoppingOnTheRouteListView()
         {
-            StoppingOnTheRouteList.ItemsSource = allStoppingOnTheRoute;
+            StoppingOnTheRouteDataGrid.ItemsSource = allStoppingOnTheRoute;
         }
         private void InsertInformationInStopSequencesListView()
         {
-            StopSequencesList.ItemsSource = allStopSequences;
+            StopSequencesDataGrid.ItemsSource = allStopSequences;
         }
         private void InsertInformationInTicketListView()
         {
-            TicketList.ItemsSource = allTicket;
+            TicketDataGrid.ItemsSource = allTicket;
         }
         private void InsertInformationInTransportListView()
         {
-            TransportList.ItemsSource = allTransport;
+            TransportDataGrid.ItemsSource = allTransport;
         }
         private void InsertInformationInUserListView()
         {
-            UsersList.ItemsSource = allUser;
+            UsersDataGrid.ItemsSource = allUser;
         }
 
+        private int getSelectedRow(DataGrid dataGrid)
+        {
+            int index = -1;
+            if (dataGrid.SelectedItems.Count > 0 || dataGrid.SelectedCells.Count == 1)
+            {
+                // Проверка на кол - во выделенных элементов не нужна, ибо возвращается первый выделенный элемент
+                index = UsersDataGrid.Items.IndexOf(UsersDataGrid.SelectedItem);
+            }
+            return index;
+        }
+
+        private void CreateUserButton_Click(object sender, RoutedEventArgs e)
+        {
+            UserCUWindow CreateWindow = new UserCUWindow();
+
+            bool? result = CreateWindow.ShowDialog();
+            if (result == false)
+                return;
+            else
+            {
+                UserModel NewObject = new UserModel();
+
+                NewObject.FullName = CreateWindow.FullNameTextBox.Text;
+                NewObject.Login = CreateWindow.LoginTextBox.Text;
+                NewObject.Password = CreateWindow.PasswordTextBox.Text;
+                NewObject.Status = CreateWindow.StatusIntegerUpDown.Value;
+
+                DBComunication.User.Create(NewObject);
+                allUser = DBComunication.User.GetAll();
+                InsertInformationInUserListView();
+
+                MessageBox.Show("Новый объект добавлен");
+            }
+
+        }
+
+        private void UpdateUserButton_Click(object sender, RoutedEventArgs e)
+        {
+            int index = getSelectedRow(UsersDataGrid);
+            if (index != -1)
+            {
+
+                int id = 0;
+                UserModel MarkedRow = (UserModel)UsersDataGrid.Items[index];
+                bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                UserModel ph = allUser.Where(i => i.ID == id).FirstOrDefault();
+                if (ph != null)
+                {
+                    UserCUWindow UpdateWindow = new UserCUWindow();
+
+                    UpdateWindow.FullNameTextBox.Text = ph.FullName;
+                    UpdateWindow.LoginTextBox.Text = ph.Login;
+                    UpdateWindow.PasswordTextBox.Text = ph.Password;
+                    UpdateWindow.StatusIntegerUpDown.Value = ph.Status;
+
+                    bool? result = UpdateWindow.ShowDialog();
+                    if (result == false)
+                        return;
+                    else 
+                    {
+                        ph.FullName = UpdateWindow.FullNameTextBox.Text;
+                        ph.Login = UpdateWindow.LoginTextBox.Text;
+                        ph.Password = UpdateWindow.PasswordTextBox.Text;
+                        ph.Status = UpdateWindow.StatusIntegerUpDown.Value;
+
+                        DBComunication.User.Update(ph);
+                        allUser = DBComunication.User.GetAll();
+                        InsertInformationInUserListView();
+
+                        MessageBox.Show("Объект обновлен");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ни один объект не выбран!");
+            }
+        }
+
+        private void DeleteUserButton_Click(object sender, RoutedEventArgs e)
+        {
+            int index = getSelectedRow(UsersDataGrid);
+            if (index != -1)
+            {
+                int id = 0;
+                UserModel MarkedRow = (UserModel)UsersDataGrid.Items[index];
+                bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                DBComunication.User.Delete(id);
+                allUser = DBComunication.User.GetAll();
+                InsertInformationInUserListView();
+            }
+        }
     }
 
 }

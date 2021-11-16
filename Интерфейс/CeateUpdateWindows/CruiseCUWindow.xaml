@@ -95,7 +95,7 @@
         </Grid>
 
         <Grid Grid.Row="7" Margin="25">
-            <Button Background="#FFB46EB4" x:Name="AcceptButton">
+            <Button Background="#FFB46EB4" x:Name="AcceptButton" Click="AcceptButton_Click">
                 <Grid Margin="0">
                     <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Text="Подтвердить" Foreground="White"/>

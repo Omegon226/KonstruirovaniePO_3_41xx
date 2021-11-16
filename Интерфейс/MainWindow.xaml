@@ -195,33 +195,31 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
 
-                                <Button x:Name="CreateUserButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="CreateUserButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="CreateUserButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Create" Foreground="White"/>
                                     </Viewbox>
                                 </Button>
-                                <Button x:Name="UpdateUserButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="UpdateUserButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple" Click="UpdateUserButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Update" Foreground="White"/>
                                     </Viewbox>
                                 </Button>
-                                <Button x:Name="DeleteUserButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple">
+                                <Button x:Name="DeleteUserButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple" Click="DeleteUserButton_Click">
                                     <Viewbox>
                                         <TextBlock Text="Delete" Foreground="White"/>
                                     </Viewbox>
                                 </Button>
                             </Grid>
-                            <ListView Grid.Row="1" Name="UsersList">
-                                <ListView.View>
-                                    <GridView>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=ID}" Width="100">ID</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=FullName}" Width="100">ФИО</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Login}" Width="100">Логин</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Password}" Width="100">Пароль</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Status}" Width="100">Статус</GridViewColumn>
-                                    </GridView>
-                                </ListView.View>
-                            </ListView>
+                            <DataGrid Grid.Row="1" Name="UsersDataGrid" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn x:Name="UserIDColumn" Header="ID" Binding="{Binding Path=ID}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="UserFullNameColumn" Header="ФИО" Binding="{Binding Path=FullName}" Width="200"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="UserLoginColumn" Header="Логин" Binding="{Binding Path=Login}" Width="150"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="UserPasswordColumn" Header="Пароль" Binding="{Binding Path=Password}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="UserStatusColumn" Header="Статус" Binding="{Binding Path=Status}" Width="100"></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
                         </Grid>
                     </TabItem.Content>
                 </TabItem>
@@ -260,20 +258,18 @@
                                     </Viewbox>
                                 </Button>
                             </Grid>
-                            <ListView Grid.Row="1" Name="TicketList">
-                                <ListView.View>
-                                    <GridView>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=ID}" Width="100">ID</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=DateOfIssue}" Width="150">Дата выдачи билета</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=IdentificationInformation}" Width="150">Индент. информация</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=SeatNumberOnTheTransport}" Width="100">Ноиер места</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=FullName}" Width="100">ФИО</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=CruiseID}" Width="100">ID Поездки</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=UserID}" Width="100">ID Пользователя</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=RaceDepartureTime}" Width="160">Время отправки билета</GridViewColumn>
-                                    </GridView>
-                                </ListView.View>
-                            </ListView>
+                            <DataGrid Grid.Row="1" Name="TicketDataGrid" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn x:Name="TicketIDColumn" Header="ID" Binding="{Binding Path=ID}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="TicketDateOfIssueColumn" Header="Дата выдачи билета" Binding="{Binding Path=DateOfIssue}" Width="150"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="TicketIdentificationInformationColumn" Header="Индент. информация" Binding="{Binding Path=IdentificationInformation}" Width="150"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="TicketSeatNumberOnTheTransportColumn" Header="Номер места" Binding="{Binding Path=SeatNumberOnTheTransport}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="TicketFullNameColumn" Header="ФИО" Binding="{Binding Path=FullName}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="TicketCruiseIDColumn" Header="ID Поездки" Binding="{Binding Path=CruiseID}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="TicketUserIDColumn" Header="ID Пользователя" Binding="{Binding Path=UserID}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="TicketRaceDepartureTimeColumn" Header="Время отправки билета" Binding="{Binding Path=RaceDepartureTime}" Width="160"></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
                         </Grid>
                     </TabItem.Content>
                 </TabItem>
@@ -312,17 +308,15 @@
                                     </Viewbox>
                                 </Button>
                             </Grid>
-                            <ListView Grid.Row="1" Name="TransportList">
-                                <ListView.View>
-                                    <GridView>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=ID}" Width="100">ID</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=NumberOfSeats}" Width="150">Кол-во сидений</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=RegistrationNumber}" Width="150">Гос. номер</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Model}" Width="100">Марка</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Hidden}" Width="100">Скрытость</GridViewColumn>
-                                    </GridView>
-                                </ListView.View>
-                            </ListView>
+                            <DataGrid Grid.Row="1" Name="TransportDataGrid" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn x:Name="TransportIDColumn" Header="ID" Binding="{Binding Path=ID}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="TransportNumberOfSeatsColumn" Header="Кол-во сидений" Binding="{Binding Path=NumberOfSeats}" Width="150"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="TransportRegistrationNumberColumn" Header="Гос. номер" Binding="{Binding Path=RegistrationNumber}" Width="150"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="TransportModelColumn" Header="Марка" Binding="{Binding Path=Model}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="TransportHiddenColumn" Header="Скрытость" Binding="{Binding Path=Hidden}" Width="100"></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
                         </Grid>
                     </TabItem.Content>
                 </TabItem>
@@ -361,18 +355,16 @@
                                     </Viewbox>
                                 </Button>
                             </Grid>
-                            <ListView Grid.Row="1" Name="StopSequencesList">
-                                <ListView.View>
-                                    <GridView>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=ID}" Width="100">ID</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=IndexNumber}" Width="100">Номер остановки</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=StoppingID}" Width="100">ID Остановки</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=StopRouteID}" Width="100">ID Маршрута</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=TripPrice}" Width="150">Цена за остановку</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=TravelTimeToStop}" Width="150">Время до остановки</GridViewColumn>
-                                    </GridView>
-                                </ListView.View>
-                            </ListView>
+                            <DataGrid Grid.Row="1" Name="StopSequencesDataGrid" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn x:Name="StopSequencesIDColumn" Header="ID" Binding="{Binding Path=ID}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="StopSequencesIndexNumberColumn" Header="Номер остановки" Binding="{Binding Path=IndexNumber}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="StopSequencesStoppingIDColumn" Header="ID Остановки" Binding="{Binding Path=StoppingID}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="StopSequencesStopRouteIDColumn" Header="ID Маршрута" Binding="{Binding Path=StopRouteID}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="StopSequencesTripPriceColumn" Header="Цена за остановку" Binding="{Binding Path=TripPrice}" Width="150"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="StopSequencesTravelTimeToStopColumn" Header="Время до остановки" Binding="{Binding Path=TravelTimeToStop}" Width="150"></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
                         </Grid>
                     </TabItem.Content>
                 </TabItem>
@@ -411,14 +403,12 @@
                                     </Viewbox>
                                 </Button>
                             </Grid>
-                            <ListView Grid.Row="1" Name="StoppingOnTheRouteList">
-                                <ListView.View>
-                                    <GridView>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=ID}" Width="100">ID</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=StopLocalityID}" Width="150">ID Населённого пункта</GridViewColumn>
-                                    </GridView>
-                                </ListView.View>
-                            </ListView>
+                            <DataGrid Grid.Row="1" Name="StoppingOnTheRouteDataGrid" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn x:Name="StoppingOnTheRouteIDColumn" Header="ID" Binding="{Binding Path=ID}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="StoppingOnTheRouteStopLocalityIDColumn" Header="ID Населённого пункта" Binding="{Binding Path=StopLocalityID}" Width="150"></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
                         </Grid>
                     </TabItem.Content>
                 </TabItem>
@@ -457,15 +447,13 @@
                                     </Viewbox>
                                 </Button>
                             </Grid>
-                            <ListView Grid.Row="1" Name="RouteList">
-                                <ListView.View>
-                                    <GridView>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=ID}" Width="100">ID</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=TravelTimeInHours}" Width="150">Кол-во часов в поездке</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Hidden}" Width="100">Скрытость</GridViewColumn>
-                                    </GridView>
-                                </ListView.View>
-                            </ListView>
+                            <DataGrid Grid.Row="1" Name="RouteDataGrid" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn x:Name="RouteIDColumn" Header="ID" Binding="{Binding Path=ID}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="RouteTravelTimeInHoursColumn" Header="Кол-во часов в поездке" Binding="{Binding Path=TravelTimeInHours}" Width="150"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="RouteHiddenColumn" Header="Скрытость" Binding="{Binding Path=Hidden}" Width="100"></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
                         </Grid>
                     </TabItem.Content>
                 </TabItem>
@@ -504,15 +492,13 @@
                                     </Viewbox>
                                 </Button>
                             </Grid>
-                            <ListView Grid.Row="1" Name="LocalityList">
-                                <ListView.View>
-                                    <GridView>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=ID}" Width="100">ID</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Region}" Width="150">Номер области</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Name}" Width="180">Название населённого пункта</GridViewColumn>
-                                    </GridView>
-                                </ListView.View>
-                            </ListView>
+                            <DataGrid Grid.Row="1" Name="LocalityDataGrid" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn x:Name="LocalityIDColumn" Header="ID" Binding="{Binding Path=ID}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="LocalityRegionColumn" Header="Номер области" Binding="{Binding Path=Region}" Width="150"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="LocalityNameColumn" Header="Название населённого пункта" Binding="{Binding Path=Name}" Width="180"></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
                         </Grid>
                     </TabItem.Content>
                 </TabItem>
@@ -551,17 +537,15 @@
                                     </Viewbox>
                                 </Button>
                             </Grid>
-                            <ListView Grid.Row="1" Name="DriverList">
-                                <ListView.View>
-                                    <GridView>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=ID}" Width="100">ID</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=FullName}" Width="180">ФИО Водителя</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Experience}" Width="100">Опыт водителя</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Salary}" Width="100">Зарплата</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Hidden}" Width="100">Скрытость</GridViewColumn>
-                                    </GridView>
-                                </ListView.View>
-                            </ListView>
+                            <DataGrid Grid.Row="1" Name="DriverDataGrid" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn x:Name="DriverIDColumn" Header="ID" Binding="{Binding Path=ID}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="DriverFullNameColumn" Header="ФИО Водителя" Binding="{Binding Path=FullName}" Width="180"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="DriverExperienceColumn" Header="Опыт водителя" Binding="{Binding Path=Experience}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="DriverSalaryColumn" Header="Зарплата" Binding="{Binding Path=Salary}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="DriverHiddenColumn" Header="Скрытость" Binding="{Binding Path=Hidden}" Width="100"></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
                         </Grid>
                     </TabItem.Content>
                 </TabItem>
@@ -600,14 +584,12 @@
                                     </Viewbox>
                                 </Button>
                             </Grid>
-                            <ListView Grid.Row="1" Name="DayOfTheWeekList">
-                                <ListView.View>
-                                    <GridView>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=ID}" Width="100">ID</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=DayOfTheWeekName}" Width="180">День недели</GridViewColumn>
-                                    </GridView>
-                                </ListView.View>
-                            </ListView>
+                            <DataGrid Grid.Row="1" Name="DayOfTheWeekDataGrid" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn x:Name="DayOfTheWeekIDColumn" Header="ID" Binding="{Binding Path=ID}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="DayOfTheWeekDayOfTheWeekNameColumn" Header="День недели" Binding="{Binding Path=DayOfTheWeekName}" Width="180"></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
                         </Grid>
                     </TabItem.Content>
                 </TabItem>
@@ -646,18 +628,16 @@
                                     </Viewbox>
                                 </Button>
                             </Grid>
-                            <ListView Grid.Row="1" Name="CruiseList">
-                                <ListView.View>
-                                    <GridView>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=ID}" Width="100">ID</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=DayOfTheWeekCruiseID}" Width="100">ID Деня недели</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=RouteIDOfTheCruise}" Width="100">ID Маршрут</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=DriverIDOfTheCruise}" Width="100">ID Водителя</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=TransportIDOfTheCruise}" Width="100">ID Транспорта</GridViewColumn>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=StartTime}" Width="150">Время начала</GridViewColumn>
-                                    </GridView>
-                                </ListView.View>
-                            </ListView>
+                            <DataGrid Grid.Row="1" Name="CruiseDataGrid" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn x:Name="CruiseIDColumn" Header="ID" Binding="{Binding Path=ID}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="CruiseDayOfTheWeekCruiseIDColumn" Header="ID Деня недели" Binding="{Binding Path=DayOfTheWeekCruiseID}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="CruiseRouteIDOfTheCruiseColumn" Header="ID Маршрут" Binding="{Binding Path=RouteIDOfTheCruise}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="CruiseDriverIDOfTheCruiseColumn" Header="ID Водителя" Binding="{Binding Path=DriverIDOfTheCruise}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="CruiseTransportIDOfTheCruiseColumn" Header="ID Транспорта" Binding="{Binding Path=TransportIDOfTheCruise}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="CruiseStartTimeColumn" Header="Время начала" Binding="{Binding Path=StartTime}" Width="150"></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
                         </Grid>
                     </TabItem.Content>
                 </TabItem>
