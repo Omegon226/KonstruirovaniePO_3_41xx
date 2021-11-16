@@ -37,7 +37,7 @@
             </Grid.RowDefinitions>
 
             <Viewbox Grid.Row="0" HorizontalAlignment="Left" Margin="25,0,25,0">
-                <TextBlock Text="Полное имя" Foreground="White"/>
+                <TextBlock Text="Кол-во мест в транспорте" Foreground="White"/>
             </Viewbox>
             <Viewbox Grid.Row="1" Width="300" Height="50" Margin="5">
                 <xctk:IntegerUpDown x:Name="NumberOfSeatsIntegerUpDown" Value="10" Width="120"/>
@@ -52,7 +52,7 @@
             </Grid.RowDefinitions>
 
             <Viewbox Grid.Row="0" HorizontalAlignment="Left" Margin="25,0,25,0">
-                <TextBlock Text="Опыт" Foreground="White"/>
+                <TextBlock Text="Рег.Номер" Foreground="White"/>
             </Viewbox>
             <TextBox x:Name="RegistrationNumberTextBox" Grid.Row="1" Width="300" Height="50" Margin="5"/>
         </Grid>
@@ -65,9 +65,9 @@
             </Grid.RowDefinitions>
 
             <Viewbox Grid.Row="0" HorizontalAlignment="Left" Margin="25,0,25,0">
-                <TextBlock Text="Зарплата" Foreground="White"/>
+                <TextBlock Text="Марка транспорта" Foreground="White"/>
             </Viewbox>
-            <TextBox x:Name="ModelBox" Grid.Row="1" Width="300" Height="50" Margin="5"/>
+            <TextBox x:Name="ModelTextBox" Grid.Row="1" Width="300" Height="50" Margin="5"/>
         </Grid>
 
         <Grid Grid.Row="5" Margin="10">

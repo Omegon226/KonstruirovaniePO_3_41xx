@@ -268,8 +268,6 @@ namespace Интерфейс
         // CRUD Для Ticket
         private void CreateTicketButton_Click(object sender, RoutedEventArgs e)
         {
-            var c = allUser;
-
             TicketCUWindow CreateWindow = new TicketCUWindow();
             CreateWindow.CruiseIDComboBox.ItemsSource = allCruise;
             CreateWindow.CruiseIDComboBox.DisplayMemberPath = "ID";
@@ -367,7 +365,7 @@ namespace Интерфейс
             if (index != -1)
             {
                 int id = 0;
-                UserModel MarkedRow = (UserModel)DataGridForDeleteOperation.Items[index];
+                TicketModel MarkedRow = (TicketModel)DataGridForDeleteOperation.Items[index];
                 bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
                 if (converted == false)
                     return;
@@ -381,11 +379,73 @@ namespace Интерфейс
         // CRUD Для Transport
         private void CreateTransportButton_Click(object sender, RoutedEventArgs e)
         {
+            TransportCUWindow CreateWindow = new TransportCUWindow();
 
+            bool? result = CreateWindow.ShowDialog();
+            if (result == false)
+                return;
+            else
+            {
+                TransportModel NewObject = new TransportModel();
+
+                NewObject.NumberOfSeats = CreateWindow.NumberOfSeatsIntegerUpDown.Value;
+                NewObject.RegistrationNumber = CreateWindow.RegistrationNumberTextBox.Text;
+                NewObject.Model = CreateWindow.ModelTextBox.Text;
+                NewObject.Hidden = CreateWindow.HiddenCheckBox.IsChecked;
+               
+                DBComunication.Transport.Create(NewObject);
+                allTransport = DBComunication.Transport.GetAll();
+                InsertInformationInTransportDataGrid();
+
+                MessageBox.Show("Новый объект добавлен");
+            }
         }
         private void UpdateTransportButton_Click(object sender, RoutedEventArgs e)
         {
+            DataGrid DataGridForUpdateOperation = TransportDataGrid;
 
+            int index = getSelectedRow(DataGridForUpdateOperation);
+            if (index != -1)
+            {
+
+                int id = 0;
+                TransportModel MarkedRow = (TransportModel)DataGridForUpdateOperation.Items[index];
+                bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                TransportModel ph = allTransport.Where(i => i.ID == id).FirstOrDefault();
+                if (ph != null)
+                {
+                    TransportCUWindow UpdateWindow = new TransportCUWindow();
+
+                    UpdateWindow.NumberOfSeatsIntegerUpDown.Value = ph.NumberOfSeats;
+                    UpdateWindow.RegistrationNumberTextBox.Text = ph.RegistrationNumber;
+                    UpdateWindow.ModelTextBox.Text = ph.Model;
+                    UpdateWindow.HiddenCheckBox.IsChecked = ph.Hidden;
+
+                    bool? result = UpdateWindow.ShowDialog();
+                    if (result == false)
+                        return;
+                    else
+                    {
+                        ph.NumberOfSeats = UpdateWindow.NumberOfSeatsIntegerUpDown.Value;
+                        ph.RegistrationNumber = UpdateWindow.RegistrationNumberTextBox.Text;
+                        ph.Model = UpdateWindow.ModelTextBox.Text;
+                        ph.Hidden = UpdateWindow.HiddenCheckBox.IsChecked;
+
+                        DBComunication.Transport.Update(ph);
+                        allTransport = DBComunication.Transport.GetAll();
+                        InsertInformationInTransportDataGrid();
+
+                        MessageBox.Show("Объект обновлен");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ни один объект не выбран!");
+            }
         }
         private void DeleteTransportButton_Click(object sender, RoutedEventArgs e)
         {
@@ -395,7 +455,7 @@ namespace Интерфейс
             if (index != -1)
             {
                 int id = 0;
-                UserModel MarkedRow = (UserModel)DataGridForDeleteOperation.Items[index];
+                TransportModel MarkedRow = (TransportModel)DataGridForDeleteOperation.Items[index];
                 bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
                 if (converted == false)
                     return;
@@ -409,11 +469,88 @@ namespace Интерфейс
         // CRUD Для StopSequences
         private void CreateStopSequencesButton_Click(object sender, RoutedEventArgs e)
         {
+            StopSequencesCUWindow CreateWindow = new StopSequencesCUWindow();
+            CreateWindow.StoppingIDComboBox.ItemsSource = allStoppingOnTheRoute;
+            CreateWindow.StoppingIDComboBox.DisplayMemberPath = "ID";
+            CreateWindow.StoppingIDComboBox.SelectedValuePath = "ID"; 
+            CreateWindow.StopRouteIDComboBox.ItemsSource = allUser;
+            CreateWindow.StopRouteIDComboBox.DisplayMemberPath = "FullName";
+            CreateWindow.StopRouteIDComboBox.SelectedValuePath = "ID";
 
+            bool? result = CreateWindow.ShowDialog();
+            if (result == false)
+                return;
+            else
+            {
+                StopSequencesModel NewObject = new StopSequencesModel();
+
+                NewObject.IndexNumber = CreateWindow.IndexNumberIntegerUpDown.Value;
+                NewObject.StoppingID = (int)CreateWindow.StoppingIDComboBox.SelectedValue;
+                NewObject.StopRouteID = (int)CreateWindow.StopRouteIDComboBox.SelectedValue;
+                NewObject.TripPrice = float.Parse(CreateWindow.TripPriceTextBox.Text);
+                NewObject.TravelTimeToStop = TimeSpan.Parse(CreateWindow.TravelTimeToStopTextBox.Text);
+
+                DBComunication.StopSequences.Create(NewObject);
+                allStopSequences = DBComunication.StopSequences.GetAll();
+                InsertInformationInStopSequencesDataGrid();
+
+                MessageBox.Show("Новый объект добавлен");
+            }
         }
         private void UpdateStopSequencesButton_Click(object sender, RoutedEventArgs e)
         {
+            DataGrid DataGridForUpdateOperation = StopSequencesDataGrid;
 
+            int index = getSelectedRow(DataGridForUpdateOperation);
+            if (index != -1)
+            {
+
+                int id = 0;
+                StopSequencesModel MarkedRow = (StopSequencesModel)DataGridForUpdateOperation.Items[index];
+                bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                StopSequencesModel ph = allStopSequences.Where(i => i.ID == id).FirstOrDefault();
+                if (ph != null)
+                {
+                    StopSequencesCUWindow UpdateWindow = new StopSequencesCUWindow();
+                    UpdateWindow.StoppingIDComboBox.ItemsSource = allStoppingOnTheRoute;
+                    UpdateWindow.StoppingIDComboBox.DisplayMemberPath = "ID";
+                    UpdateWindow.StoppingIDComboBox.SelectedValuePath = "ID";
+                    UpdateWindow.StopRouteIDComboBox.ItemsSource = allUser;
+                    UpdateWindow.StopRouteIDComboBox.DisplayMemberPath = "FullName";
+                    UpdateWindow.StopRouteIDComboBox.SelectedValuePath = "ID";
+
+                    UpdateWindow.IndexNumberIntegerUpDown.Value = ph.IndexNumber;
+                    UpdateWindow.StoppingIDComboBox.SelectedValue = ph.StoppingID;
+                    UpdateWindow.StopRouteIDComboBox.SelectedValue = ph.StopRouteID;
+                    UpdateWindow.TripPriceTextBox.Text = ph.TripPrice.ToString();
+                    UpdateWindow.TravelTimeToStopTextBox.Text = ph.TravelTimeToStop.ToString();
+
+                    bool? result = UpdateWindow.ShowDialog();
+                    if (result == false)
+                        return;
+                    else
+                    {
+                        ph.IndexNumber = UpdateWindow.IndexNumberIntegerUpDown.Value;
+                        ph.StoppingID = (int)UpdateWindow.StoppingIDComboBox.SelectedValue;
+                        ph.StopRouteID = (int)UpdateWindow.StopRouteIDComboBox.SelectedValue;
+                        ph.TripPrice = float.Parse(UpdateWindow.TripPriceTextBox.Text);
+                        ph.TravelTimeToStop = TimeSpan.Parse(UpdateWindow.TravelTimeToStopTextBox.Text);
+
+                        DBComunication.StopSequences.Update(ph);
+                        allStopSequences = DBComunication.StopSequences.GetAll();
+                        InsertInformationInStopSequencesDataGrid();
+
+                        MessageBox.Show("Объект обновлен");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ни один объект не выбран!");
+            }
         }
         private void DeleteStopSequencesButton_Click(object sender, RoutedEventArgs e)
         {
@@ -423,13 +560,13 @@ namespace Интерфейс
             if (index != -1)
             {
                 int id = 0;
-                UserModel MarkedRow = (UserModel)DataGridForDeleteOperation.Items[index];
+                StopSequencesModel MarkedRow = (StopSequencesModel)DataGridForDeleteOperation.Items[index];
                 bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
                 if (converted == false)
                     return;
 
-                DBComunication.User.Delete(id);
-                allUser = DBComunication.User.GetAll();
+                DBComunication.StopSequences.Delete(id);
+                allStopSequences = DBComunication.StopSequences.GetAll();
                 InsertInformationInStopSequencesDataGrid();
             }
         }
@@ -437,11 +574,70 @@ namespace Интерфейс
         // CRUD Для StoppingOnTheRoute
         private void CreateStoppingOnTheRouteButton_Click(object sender, RoutedEventArgs e)
         {
+            StoppingOnTheRouteCUWindow CreateWindow = new StoppingOnTheRouteCUWindow();
+            CreateWindow.StopLocalityIDComboBox.ItemsSource = allLocality;
+            CreateWindow.StopLocalityIDComboBox.DisplayMemberPath = "Name";
+            CreateWindow.StopLocalityIDComboBox.SelectedValuePath = "ID";
 
+            bool? result = CreateWindow.ShowDialog();
+            if (result == false)
+                return;
+            else
+            {
+                StoppingOnTheRouteModel NewObject = new StoppingOnTheRouteModel();
+
+                NewObject.StopLocalityID = (int)CreateWindow.StopLocalityIDComboBox.SelectedValue;
+
+                DBComunication.StoppingOnTheRoute.Create(NewObject);
+                allStoppingOnTheRoute = DBComunication.StoppingOnTheRoute.GetAll();
+                InsertInformationInStoppingOnTheRouteDataGrid();
+
+                MessageBox.Show("Новый объект добавлен");
+            }
         }
         private void UpdateStoppingOnTheRouteButton_Click(object sender, RoutedEventArgs e)
         {
+            DataGrid DataGridForUpdateOperation = StoppingOnTheRouteDataGrid;
 
+            int index = getSelectedRow(DataGridForUpdateOperation);
+            if (index != -1)
+            {
+
+                int id = 0;
+                StoppingOnTheRouteModel MarkedRow = (StoppingOnTheRouteModel)DataGridForUpdateOperation.Items[index];
+                bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                StoppingOnTheRouteModel ph = allStoppingOnTheRoute.Where(i => i.ID == id).FirstOrDefault();
+                if (ph != null)
+                {
+                    StoppingOnTheRouteCUWindow UpdateWindow = new StoppingOnTheRouteCUWindow();
+                    UpdateWindow.StopLocalityIDComboBox.ItemsSource = allLocality;
+                    UpdateWindow.StopLocalityIDComboBox.DisplayMemberPath = "Name";
+                    UpdateWindow.StopLocalityIDComboBox.SelectedValuePath = "ID";
+
+                    UpdateWindow.StopLocalityIDComboBox.SelectedValue = ph.StopLocalityID;
+
+                    bool? result = UpdateWindow.ShowDialog();
+                    if (result == false)
+                        return;
+                    else
+                    {
+                        ph.StopLocalityID = (int)UpdateWindow.StopLocalityIDComboBox.SelectedValue;
+
+                        DBComunication.StoppingOnTheRoute.Update(ph);
+                        allStoppingOnTheRoute = DBComunication.StoppingOnTheRoute.GetAll();
+                        InsertInformationInStoppingOnTheRouteDataGrid();
+
+                        MessageBox.Show("Объект обновлен");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ни один объект не выбран!");
+            }
         }
         private void DeleteStoppingOnTheRouteButton_Click(object sender, RoutedEventArgs e)
         {
@@ -451,13 +647,13 @@ namespace Интерфейс
             if (index != -1)
             {
                 int id = 0;
-                UserModel MarkedRow = (UserModel)DataGridForDeleteOperation.Items[index];
+                StoppingOnTheRouteModel MarkedRow = (StoppingOnTheRouteModel)DataGridForDeleteOperation.Items[index];
                 bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
                 if (converted == false)
                     return;
 
-                DBComunication.User.Delete(id);
-                allUser = DBComunication.User.GetAll();
+                DBComunication.StoppingOnTheRoute.Delete(id);
+                allStoppingOnTheRoute = DBComunication.StoppingOnTheRoute.GetAll();
                 InsertInformationInStoppingOnTheRouteDataGrid();
             }
         }
@@ -479,13 +675,13 @@ namespace Интерфейс
             if (index != -1)
             {
                 int id = 0;
-                UserModel MarkedRow = (UserModel)DataGridForDeleteOperation.Items[index];
+                RouteModel MarkedRow = (RouteModel)DataGridForDeleteOperation.Items[index];
                 bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
                 if (converted == false)
                     return;
 
-                DBComunication.User.Delete(id);
-                allUser = DBComunication.User.GetAll();
+                DBComunication.Route.Delete(id);
+                allRoute = DBComunication.Route.GetAll();
                 InsertInformationInRouteDataGrid();
             }
         }
@@ -507,13 +703,13 @@ namespace Интерфейс
             if (index != -1)
             {
                 int id = 0;
-                UserModel MarkedRow = (UserModel)DataGridForDeleteOperation.Items[index];
+                LocalityModel MarkedRow = (LocalityModel)DataGridForDeleteOperation.Items[index];
                 bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
                 if (converted == false)
                     return;
 
-                DBComunication.User.Delete(id);
-                allUser = DBComunication.User.GetAll();
+                DBComunication.Locality.Delete(id);
+                allLocality = DBComunication.Locality.GetAll();
                 InsertInformationInLocalityDataGrid();
             }
         }
@@ -535,13 +731,13 @@ namespace Интерфейс
             if (index != -1)
             {
                 int id = 0;
-                UserModel MarkedRow = (UserModel)DataGridForDeleteOperation.Items[index];
+                DriverModel MarkedRow = (DriverModel)DataGridForDeleteOperation.Items[index];
                 bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
                 if (converted == false)
                     return;
 
-                DBComunication.User.Delete(id);
-                allUser = DBComunication.User.GetAll();
+                DBComunication.Driver.Delete(id);
+                allDriver = DBComunication.Driver.GetAll();
                 InsertInformationInDriverDataGrid();
             }
         }
@@ -563,13 +759,13 @@ namespace Интерфейс
             if (index != -1)
             {
                 int id = 0;
-                UserModel MarkedRow = (UserModel)DataGridForDeleteOperation.Items[index];
+                DayOfTheWeekModel MarkedRow = (DayOfTheWeekModel)DataGridForDeleteOperation.Items[index];
                 bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
                 if (converted == false)
                     return;
 
-                DBComunication.User.Delete(id);
-                allUser = DBComunication.User.GetAll();
+                DBComunication.DayOfTheWeek.Delete(id);
+                allDayOfTheWeek = DBComunication.DayOfTheWeek.GetAll();
                 InsertInformationInDayOfTheWeekDataGrid();
             }
         }
@@ -591,13 +787,13 @@ namespace Интерфейс
             if (index != -1)
             {
                 int id = 0;
-                UserModel MarkedRow = (UserModel)DataGridForDeleteOperation.Items[index];
+                CruiseModel MarkedRow = (CruiseModel)DataGridForDeleteOperation.Items[index];
                 bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
                 if (converted == false)
                     return;
 
-                DBComunication.User.Delete(id);
-                allUser = DBComunication.User.GetAll();
+                DBComunication.Cruise.Delete(id);
+                allCruise = DBComunication.Cruise.GetAll();
                 InsertInformationInCruiseDataGrid();
             }
         }
