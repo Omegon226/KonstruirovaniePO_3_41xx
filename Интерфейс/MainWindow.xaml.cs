@@ -43,6 +43,119 @@ namespace Интерфейс
             InitializeComponent();
             LoadAllInformationFromDataBase();
             InsertInformationInListViews();
+
+            FindeRouteGrid.Visibility = Visibility.Visible;
+            CreateReportsGrid.Visibility = Visibility.Hidden;
+            CreateChartsGrid.Visibility = Visibility.Hidden;
+
+            CheckUserPrivileges();
+        }
+
+        private void CheckUserPrivileges()
+        {
+            if (StatusLevelOfUser == 0)
+            {
+                FindeRouteTabOpenButton.Visibility = Visibility.Visible;
+                CreateReportsTabOpenButton.Visibility = Visibility.Hidden;
+                CreateChartsTabOpenButton.Visibility = Visibility.Hidden;
+
+                if ((CreateReportsGrid.Visibility == Visibility.Visible) || (CreateChartsGrid.Visibility == Visibility.Visible))
+                {
+                    ReturnToFindeRouteGrid();
+                }
+
+                return;
+            }
+            if (StatusLevelOfUser == 1)
+            {
+                FindeRouteTabOpenButton.Visibility = Visibility.Visible;
+                CreateReportsTabOpenButton.Visibility = Visibility.Hidden;
+                CreateChartsTabOpenButton.Visibility = Visibility.Hidden;
+
+                if ((CreateReportsGrid.Visibility == Visibility.Visible) || (CreateChartsGrid.Visibility == Visibility.Visible))
+                {
+                    ReturnToFindeRouteGrid();
+                }
+
+                return;
+            }
+            if (StatusLevelOfUser == 2)
+            {
+                FindeRouteTabOpenButton.Visibility = Visibility.Visible;
+                CreateReportsTabOpenButton.Visibility = Visibility.Visible;
+                CreateChartsTabOpenButton.Visibility = Visibility.Visible;
+                return;
+            }
+        }
+        private void ReturnToFindeRouteGrid()
+        {
+            FindeRouteGrid.Visibility = Visibility.Visible;
+            CreateReportsGrid.Visibility = Visibility.Hidden;
+            CreateChartsGrid.Visibility = Visibility.Hidden;
+        }
+
+        private void AuthorisetionButton_Click(object sender, RoutedEventArgs e)
+        {
+            EnterAvtovokzalSystemWindow AuthorizationWindow = new EnterAvtovokzalSystemWindow();
+
+            bool? result = AuthorizationWindow.ShowDialog();
+            if (result == false)
+                return;
+            else
+            {
+                UserModel AuthorizedUser = new UserModel();
+
+                AuthorizedUser.Login = AuthorizationWindow.LoginTextBox.Text;
+                AuthorizedUser.Password = AuthorizationWindow.PasswordTextBox.Text;
+
+                FindeSameUser(AuthorizedUser);
+                CheckUserPrivileges();
+            }
+        }
+        private void FindeSameUser(UserModel UserToFinde)
+        {
+            for (int i = 0; i < allUser.Count; ++i)
+            {
+                if ((UserToFinde.Login == allUser[i].Login) || (UserToFinde.Password == allUser[i].Password))
+                {
+                    StatusLevelOfUser = (int)allUser[i].Status;
+                    AuthorisetionButton.Visibility = Visibility.Hidden;
+                    DeauthorisetionButton.Visibility = Visibility.Visible;
+                    MessageBox.Show("Вход в систему осуществлён!");
+                    return;
+                }
+            }
+            MessageBox.Show("Похоже такого пользователя нет...");
+        }
+
+        private void DeauthorisetionButton_Click(object sender, RoutedEventArgs e)
+        {
+            StatusLevelOfUser = 0;
+            AuthorisetionButton.Visibility = Visibility.Visible;
+            DeauthorisetionButton.Visibility = Visibility.Hidden;
+            MessageBox.Show("Вы вышли из системы");
+            CheckUserPrivileges();
+        }
+
+        private void FindeRouteTabOpenButton_Click(object sender, RoutedEventArgs e)
+        {
+            FindeRouteGrid.Visibility = Visibility.Visible;
+            CreateReportsGrid.Visibility = Visibility.Hidden;
+            CreateChartsGrid.Visibility = Visibility.Hidden;
+        }
+
+        private void CreateReportsTabOpenButton_Click(object sender, RoutedEventArgs e)
+        {
+            FindeRouteGrid.Visibility = Visibility.Hidden;
+            CreateReportsGrid.Visibility = Visibility.Visible;
+            CreateChartsGrid.Visibility = Visibility.Hidden;
+        }
+
+        private void CreateChartsTabOpenButton_Click(object sender, RoutedEventArgs e)
+        {
+            FindeRouteGrid.Visibility = Visibility.Hidden;
+            CreateReportsGrid.Visibility = Visibility.Hidden;
+            CreateChartsGrid.Visibility = Visibility.Visible;
         }
 
         #region --- Подгрузка информации в переменные эмулирующие таблицы
@@ -1114,7 +1227,11 @@ namespace Интерфейс
             }
         }
 
+
+
+
         #endregion
+
 
 
 

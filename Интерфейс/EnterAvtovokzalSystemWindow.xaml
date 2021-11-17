@@ -36,7 +36,7 @@
             <Viewbox Grid.Row="0" HorizontalAlignment="Left" Margin="25,0,0,0">
                 <TextBlock Text="Логин" Foreground="White"/>
             </Viewbox>
-            <TextBox x:Name="LoginTextBox" Grid.Row="1" Width="230" Height="50" Margin="5"/>
+            <TextBox x:Name="LoginTextBox" Text="Omegon" Grid.Row="1" Width="230" Height="50" Margin="5"/>
         </Grid>
         
         <Grid Grid.Row="3" Margin="10">
@@ -49,11 +49,11 @@
             <Viewbox Grid.Row="0" HorizontalAlignment="Left" Margin="25,0,0,0">
                 <TextBlock Text="Пароль" Foreground="White"/>
             </Viewbox>
-            <TextBox x:Name="PasswordTextBox" Grid.Row="1" Width="230" Height="50" Margin="5"/>
+            <TextBox x:Name="PasswordTextBox" Text="123" Grid.Row="1" Width="230" Height="50" Margin="5"/>
         </Grid>
 
         <Grid Grid.Row="4" Margin="25">
-            <Button Background="#FFB46EB4" x:Name="AcceptButton">
+            <Button Background="#FFB46EB4" x:Name="AcceptButton" Click="AcceptButton_Click">
                 <Grid Margin="0">
                     <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Text="Войти" Foreground="White"/>
