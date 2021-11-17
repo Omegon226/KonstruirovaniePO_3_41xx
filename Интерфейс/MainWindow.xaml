@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Интерфейс"
+        xmlns:local="clr-namespace:Интерфейс" 
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="MainWindow" MinWidth="1100" MinHeight="800" Width="1100" Height="800" MaxWidth="2200" MaxHeight="1600">
     <Grid Background="#FF440D44">
@@ -27,22 +28,22 @@
                 <TextBlock Grid.Column="0" Text="Автовокзал" Foreground="White" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Viewbox>
 
-            <Button x:Name="FindeRouteTabOpenButton" Grid.Column="1" Margin="5" Background="Purple" Click="FindeRouteTabOpenButton_Click">
-                <Grid Margin="0,-10,0,0">
+            <Button x:Name="FindeRouteTabOpenButton" Grid.Column="1" Margin="10" Background="Purple" Click="FindeRouteTabOpenButton_Click">
+                <Grid Margin="5,-5,5,0">
                     <Viewbox MinHeight="120" MaxHeight="200">
                         <TextBlock Text="Найти поездку" Foreground="White"/>
                     </Viewbox>
                 </Grid>
             </Button>
-            <Button x:Name="CreateReportsTabOpenButton" Grid.Column="2" Margin="5" Background="Purple" Click="CreateReportsTabOpenButton_Click">
-                <Grid Margin="0,0,0,0">
+            <Button x:Name="CreateReportsTabOpenButton" Grid.Column="2" Margin="10" Background="Purple" Click="CreateReportsTabOpenButton_Click">
+                <Grid Margin="5,0,5,0">
                     <Viewbox MinHeight="120" MaxHeight="200">
                         <TextBlock Text="Посмотреть отчёты" Foreground="White"/>
                     </Viewbox>
                 </Grid>
             </Button>
-            <Button x:Name="CreateChartsTabOpenButton" Grid.Column="3" Margin="5" Background="Purple" Click="CreateChartsTabOpenButton_Click">
-                <Grid Margin="0,0,0,0">
+            <Button x:Name="CreateChartsTabOpenButton" Grid.Column="3" Margin="10" Background="Purple" Click="CreateChartsTabOpenButton_Click">
+                <Grid Margin="5,0,5,0">
                     <Viewbox MinHeight="120" MaxHeight="200">
                         <TextBlock Text="Построить графики" Foreground="White"/>
                     </Viewbox>
@@ -64,7 +65,7 @@
             </Button>
         </Grid>
 
-        <Grid Grid.Row="1" x:Name="FindeRouteGrid" Visibility="Visible">
+        <Grid Grid.Row="1" x:Name="FindeRouteGrid" Visibility="Hidden">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.3*"/>
@@ -180,7 +181,7 @@
             </Grid>
         </Grid>
 
-        <Grid Grid.Row="1" x:Name="CreateReportsGrid" Visibility="Hidden">
+        <Grid Grid.Row="1" x:Name="CreateReportsGrid" Visibility="Visible">
 
             <TabControl x:Name="TabControlForCRUD" Background="#FF440D44">
 
@@ -648,6 +649,148 @@
                                     <DataGridTextColumn x:Name="CruiseTransportIDOfTheCruiseColumn" Header="ID Транспорта" Binding="{Binding Path=TransportIDOfTheCruise}" Width="100"></DataGridTextColumn>
                                     <DataGridTextColumn x:Name="CruiseStartTimeColumn" Header="Время начала" Binding="{Binding Path=StartTime}" Width="150"></DataGridTextColumn>
                                 </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </TabItem.Content>
+                </TabItem>
+
+                <TabItem x:Name="Report1Tab">
+                    <TabItem.Header>
+                        <TextBlock Margin="3">Отчёт 1</TextBlock>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.1*"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1.5*"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="Report1Button" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="Report1Button_Click">
+                                    <Viewbox Margin="5,0,5,0">
+                                        <TextBlock Text="Найти маршрут по конечной остановке" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+
+                                <Viewbox Grid.Column="1" Margin="9">
+                                    <TextBlock Text="Пункт конца поездки :" Foreground="White"/>
+                                </Viewbox>
+
+                                <Viewbox Grid.Column="2" Margin="5">
+                                    <ComboBox x:Name="Report1LastStoppingComboBox" Width="150" Margin="5"/>
+                                </Viewbox>
+
+                            </Grid>
+                            <DataGrid Grid.Row="1" Name="Report1DataGrid">
+                                
+                            </DataGrid>
+                        </Grid>
+                    </TabItem.Content>
+                </TabItem>
+
+                <TabItem x:Name="Report2Tab">
+                    <TabItem.Header>
+                        <TextBlock Margin="3">Отчёт 2</TextBlock>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.1*"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1.7*"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="Report2Button" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="Report2Button_Click">
+                                    <Viewbox Margin="5,0,5,0">
+                                        <TextBlock Text="Поиск пейса по времени в пути маршрута" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+
+                                <Viewbox Grid.Column="1" Margin="9">
+                                    <TextBlock Text="Время поедки в часах :" Foreground="White"/>
+                                </Viewbox>
+
+                                <Viewbox Grid.Column="2">
+                                    <xctk:IntegerUpDown x:Name="Report2AmountOfHoursIntegerUpDown" Width="150" Margin="5" Value="3"/>
+                                </Viewbox>
+                                
+                            </Grid>
+                            <DataGrid Grid.Row="1" Name="Report2DataGrid">
+
+                            </DataGrid>
+                        </Grid>
+                    </TabItem.Content>
+                </TabItem>
+
+                <TabItem x:Name="Report3Tab">
+                    <TabItem.Header>
+                        <TextBlock Margin="3">Отчёт 3</TextBlock>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.1*"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1.9*"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button x:Name="Report3Button" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="Report3Button_Click">
+                                    <Viewbox Margin="5,0,5,0">
+                                        <TextBlock Text="Поиск рейса по начальным и конеынм остановкам" Foreground="White"/>
+                                    </Viewbox>
+                                </Button>
+
+                                <Grid Grid.Column="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <Viewbox Grid.Row="0">
+                                        <TextBlock Text="Пункт начала поездки" Foreground="White"/>
+                                    </Viewbox>
+
+                                    <Viewbox Grid.Row="1">
+                                        <ComboBox x:Name="Report3StartingLocationComboBox" Width="250" Margin="5"/>
+                                    </Viewbox>
+                                </Grid>
+
+                                <Grid Grid.Column="2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <Viewbox Grid.Row="0">
+                                        <TextBlock Text="Пункт конца поездки" Foreground="White"/>
+                                    </Viewbox>
+
+                                    <Viewbox Grid.Row="1">
+                                        <ComboBox x:Name="Report3LastLocationComboBox" Width="250" Margin="5"/>
+                                    </Viewbox>
+                                </Grid>
+                                
+                            </Grid>
+                            <DataGrid Grid.Row="1" Name="Report3DataGrid">
+
                             </DataGrid>
                         </Grid>
                     </TabItem.Content>

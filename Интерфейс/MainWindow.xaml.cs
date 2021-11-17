@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BLL.Models;
 using BLL.DBInteraction;
+using BLL.Services;
 using Интерфейс.CeateUpdateWindows;
 
 namespace Интерфейс
@@ -40,12 +41,10 @@ namespace Интерфейс
 
         public MainWindow()
         {
-            //var date = new DateTime(2021, 4, 5, 12, 9, 4);
-            //var time = new TimeSpan(11, 2, 4);
-
             InitializeComponent();
             LoadAllInformationFromDataBase();
-            InsertInformationInListViews();
+            InsertInformationInDataGrids();
+            InsertInformationInReportsComboBoxes();
 
             FindeRouteGrid.Visibility = Visibility.Visible;
             CreateReportsGrid.Visibility = Visibility.Hidden;
@@ -227,7 +226,7 @@ namespace Интерфейс
 
         #region --- Подгрузка информации в таблицы для администрирования
 
-        private void InsertInformationInListViews()
+        private void InsertInformationInDataGrids()
         {
             InsertInformationInCruiseDataGrid();
             InsertInformationInDayOfTheWeekDataGrid();
@@ -279,6 +278,29 @@ namespace Интерфейс
         private void InsertInformationInUserDataGrid()
         {
             UsersDataGrid.ItemsSource = allUser;
+        }
+
+        private void InsertInformationInReportsComboBoxes()
+        {
+            InsertInformationInReport1ComboBoxes();
+            InsertInformationInReport3ComboBoxes();
+        }
+
+        private void InsertInformationInReport1ComboBoxes()
+        {
+            Report1LastStoppingComboBox.ItemsSource = allLocality;
+            Report1LastStoppingComboBox.DisplayMemberPath = "Name";
+            Report1LastStoppingComboBox.SelectedValuePath = "ID";
+        }
+        private void InsertInformationInReport3ComboBoxes()
+        {
+            Report3StartingLocationComboBox.ItemsSource = allLocality;
+            Report3StartingLocationComboBox.DisplayMemberPath = "Name";
+            Report3StartingLocationComboBox.SelectedValuePath = "ID";
+
+            Report3LastLocationComboBox.ItemsSource = allLocality;
+            Report3LastLocationComboBox.DisplayMemberPath = "Name";
+            Report3LastLocationComboBox.SelectedValuePath = "ID";
         }
 
         #endregion
@@ -1316,8 +1338,20 @@ namespace Интерфейс
             }
         }
 
+        private void Report1Button_Click(object sender, RoutedEventArgs e)
+        {
+            Report1DataGrid.ItemsSource = FindeRoute.StoredProcedureExecute2((int)Report1LastStoppingComboBox.SelectedValue);
+        }
 
+        private void Report2Button_Click(object sender, RoutedEventArgs e)
+        {
+            Report2DataGrid.ItemsSource = FindeCruise.StoredProcedureExecute((int)Report2AmountOfHoursIntegerUpDown.Value);
+        }
 
+        private void Report3Button_Click(object sender, RoutedEventArgs e)
+        {
+            Report3DataGrid.ItemsSource = FindeRoute.StoredProcedureExecute1((int)Report3StartingLocationComboBox.SelectedValue, (int)Report3LastLocationComboBox.SelectedValue);
+        }
 
 
         #endregion
