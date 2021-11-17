@@ -575,17 +575,21 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
 
-                                <Button x:Name="CreateDayOfTheWeekButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="CreateDayOfTheWeekButton_Click">
+                                <Viewbox Grid.ColumnSpan="3" Margin="25,0,25,0">
+                                    <TextBlock Text="С этой таблицей нельзя взаимодействовать, ибо информация в ней константная" Foreground="White"/>
+                                </Viewbox>
+
+                                <Button x:Name="CreateDayOfTheWeekButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="CreateDayOfTheWeekButton_Click" Visibility="Hidden">
                                     <Viewbox>
                                         <TextBlock Text="Create" Foreground="White"/>
                                     </Viewbox>
                                 </Button>
-                                <Button x:Name="UpdateDayOfTheWeekButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple" Click="UpdateDayOfTheWeekButton_Click">
+                                <Button x:Name="UpdateDayOfTheWeekButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple" Click="UpdateDayOfTheWeekButton_Click" Visibility="Hidden">
                                     <Viewbox>
                                         <TextBlock Text="Update" Foreground="White"/>
                                     </Viewbox>
                                 </Button>
-                                <Button x:Name="DeleteDayOfTheWeekButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple" Click="DeleteDayOfTheWeekButton_Click">
+                                <Button x:Name="DeleteDayOfTheWeekButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple" Click="DeleteDayOfTheWeekButton_Click" Visibility="Hidden">
                                     <Viewbox>
                                         <TextBlock Text="Delete" Foreground="White"/>
                                     </Viewbox>

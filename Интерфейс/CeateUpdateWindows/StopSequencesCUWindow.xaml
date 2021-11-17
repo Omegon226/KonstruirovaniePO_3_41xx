@@ -61,14 +61,14 @@
             <ComboBox x:Name="StoppingIDComboBox" Grid.Row="1" Width="300" Height="25" Margin="5"/>
         </Grid>
 
-        <Grid Grid.Row="4" Grid.ColumnSpan="2" Margin="10">
+        <Grid Grid.Row="3" Grid.Column="1" Margin="10">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.7*"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Viewbox Grid.Row="0" HorizontalAlignment="Left" Margin="155,0,125,0">
+            <Viewbox Grid.Row="0" HorizontalAlignment="Left" Margin="25,0,25,0">
                 <TextBlock Text="Маршрут" Foreground="White"/>
             </Viewbox>
             <ComboBox x:Name="StopRouteIDComboBox" Grid.Row="1" Width="300" Height="25" Margin="5"/>
@@ -87,17 +87,56 @@
             <TextBox x:Name="TripPriceTextBox" Grid.Row="1" Width="300" Height="25" Margin="5"/>
         </Grid>
 
-        <Grid Grid.Row="3" Grid.Column="1" Margin="10">
+        <Grid Grid.Row="4" Grid.ColumnSpan="2" Margin="10">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.7*"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Viewbox Grid.Row="0" HorizontalAlignment="Left" Margin="25,0,25,0">
+            <Viewbox Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="25,0,25,0">
                 <TextBlock Text="Время за остановку" Foreground="White"/>
             </Viewbox>
-            <TextBox x:Name="TravelTimeToStopTextBox" Grid.Row="1" Width="300" Height="25" Margin="5"/>
+
+            <Grid Grid.Row="1" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Viewbox Grid.Row="0" HorizontalAlignment="Center">
+                    <TextBlock Text="Часы" Foreground="White"/>
+                </Viewbox>
+                <TextBox x:Name="TravelTimeToStopHoursTextBox" Grid.Row="1" Width="300" Height="25" Margin="5" Text="11"/>
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Viewbox Grid.Row="0" HorizontalAlignment="Center">
+                    <TextBlock Text="Минуты" Foreground="White"/>
+                </Viewbox>
+                <TextBox x:Name="TravelTimeToStopMinutesTextBox" Grid.Row="1" Width="300" Height="25" Margin="5" Text="11"/>
+            </Grid>
+            <Grid Grid.Row="1" Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Viewbox Grid.Row="0" HorizontalAlignment="Center">
+                    <TextBlock Text="Секунды" Foreground="White"/>
+                </Viewbox>
+                <TextBox x:Name="TravelTimeToStopSecondsTextBox" Grid.Row="1" Width="300" Height="25" Margin="5" Text="11"/>
+            </Grid>
         </Grid>
 
         <Grid Grid.Row="7" Grid.ColumnSpan="2" Margin="10">

@@ -647,8 +647,8 @@ namespace Интерфейс
             CreateWindow.StoppingIDComboBox.ItemsSource = allStoppingOnTheRoute;
             CreateWindow.StoppingIDComboBox.DisplayMemberPath = "ID";
             CreateWindow.StoppingIDComboBox.SelectedValuePath = "ID"; 
-            CreateWindow.StopRouteIDComboBox.ItemsSource = allUser;
-            CreateWindow.StopRouteIDComboBox.DisplayMemberPath = "FullName";
+            CreateWindow.StopRouteIDComboBox.ItemsSource = allRoute;
+            CreateWindow.StopRouteIDComboBox.DisplayMemberPath = "ID";
             CreateWindow.StopRouteIDComboBox.SelectedValuePath = "ID";
 
             bool? result = CreateWindow.ShowDialog();
@@ -662,7 +662,11 @@ namespace Интерфейс
                 NewObject.StoppingID = (int)CreateWindow.StoppingIDComboBox.SelectedValue;
                 NewObject.StopRouteID = (int)CreateWindow.StopRouteIDComboBox.SelectedValue;
                 NewObject.TripPrice = float.Parse(CreateWindow.TripPriceTextBox.Text);
-                NewObject.TravelTimeToStop = TimeSpan.Parse(CreateWindow.TravelTimeToStopTextBox.Text);
+
+                int Hours = Int32.Parse(CreateWindow.TravelTimeToStopHoursTextBox.Text);
+                int Minutes = Int32.Parse(CreateWindow.TravelTimeToStopMinutesTextBox.Text);
+                int Seconds = Int32.Parse(CreateWindow.TravelTimeToStopSecondsTextBox.Text);
+                NewObject.TravelTimeToStop = new TimeSpan(Hours, Minutes, Seconds);
 
                 DBComunication.StopSequences.Create(NewObject);
                 allStopSequences = DBComunication.StopSequences.GetAll();
@@ -692,15 +696,21 @@ namespace Интерфейс
                     UpdateWindow.StoppingIDComboBox.ItemsSource = allStoppingOnTheRoute;
                     UpdateWindow.StoppingIDComboBox.DisplayMemberPath = "ID";
                     UpdateWindow.StoppingIDComboBox.SelectedValuePath = "ID";
-                    UpdateWindow.StopRouteIDComboBox.ItemsSource = allUser;
-                    UpdateWindow.StopRouteIDComboBox.DisplayMemberPath = "FullName";
+                    UpdateWindow.StopRouteIDComboBox.ItemsSource = allRoute;
+                    UpdateWindow.StopRouteIDComboBox.DisplayMemberPath = "ID";
                     UpdateWindow.StopRouteIDComboBox.SelectedValuePath = "ID";
 
                     UpdateWindow.IndexNumberIntegerUpDown.Value = ph.IndexNumber;
                     UpdateWindow.StoppingIDComboBox.SelectedValue = ph.StoppingID;
                     UpdateWindow.StopRouteIDComboBox.SelectedValue = ph.StopRouteID;
                     UpdateWindow.TripPriceTextBox.Text = ph.TripPrice.ToString();
-                    UpdateWindow.TravelTimeToStopTextBox.Text = ph.TravelTimeToStop.ToString();
+
+                    int Hours = ph.TravelTimeToStop.Value.Hours;
+                    int Minutes = ph.TravelTimeToStop.Value.Minutes;
+                    int Seconds = ph.TravelTimeToStop.Value.Seconds;
+                    UpdateWindow.TravelTimeToStopHoursTextBox.Text = Hours.ToString();
+                    UpdateWindow.TravelTimeToStopMinutesTextBox.Text = Minutes.ToString();
+                    UpdateWindow.TravelTimeToStopSecondsTextBox.Text = Seconds.ToString();
 
                     bool? result = UpdateWindow.ShowDialog();
                     if (result == false)
@@ -711,7 +721,11 @@ namespace Интерфейс
                         ph.StoppingID = (int)UpdateWindow.StoppingIDComboBox.SelectedValue;
                         ph.StopRouteID = (int)UpdateWindow.StopRouteIDComboBox.SelectedValue;
                         ph.TripPrice = float.Parse(UpdateWindow.TripPriceTextBox.Text);
-                        ph.TravelTimeToStop = TimeSpan.Parse(UpdateWindow.TravelTimeToStopTextBox.Text);
+
+                        Hours = Int32.Parse(UpdateWindow.TravelTimeToStopHoursTextBox.Text);
+                        Minutes = Int32.Parse(UpdateWindow.TravelTimeToStopMinutesTextBox.Text);
+                        Seconds = Int32.Parse(UpdateWindow.TravelTimeToStopSecondsTextBox.Text);
+                        ph.TravelTimeToStop = new TimeSpan(Hours, Minutes, Seconds);
 
                         DBComunication.StopSequences.Update(ph);
                         allStopSequences = DBComunication.StopSequences.GetAll();
@@ -1199,7 +1213,11 @@ namespace Интерфейс
                 NewObject.RouteIDOfTheCruise = (int)CreateWindow.RouteIDOfTheCruiseComboBox.SelectedValue;
                 NewObject.DriverIDOfTheCruise = (int)CreateWindow.DayOfTheWeekIDComboBox.SelectedValue;
                 NewObject.TransportIDOfTheCruise = (int)CreateWindow.TransportIDOfTheCruiseComboBox.SelectedValue;
-                NewObject.StartTime = TimeSpan.Parse(CreateWindow.StartTimeTextBox.Text);
+
+                int Hours = Int32.Parse(CreateWindow.StartTimeHoursTextBox.Text);
+                int Minutes = Int32.Parse(CreateWindow.StartTimeMinutesTextBox.Text);
+                int Seconds = Int32.Parse(CreateWindow.StartTimeSecondsTextBox.Text);
+                NewObject.StartTime = new TimeSpan(Hours, Minutes, Seconds);
 
                 DBComunication.Cruise.Create(NewObject);
                 allCruise = DBComunication.Cruise.GetAll();
@@ -1243,7 +1261,13 @@ namespace Интерфейс
                     UpdateWindow.RouteIDOfTheCruiseComboBox.SelectedValue = ph.RouteIDOfTheCruise;
                     UpdateWindow.DriverIDOfTheCruiseComboBox.SelectedValue = ph.DriverIDOfTheCruise;
                     UpdateWindow.TransportIDOfTheCruiseComboBox.SelectedValue = ph.TransportIDOfTheCruise;
-                    UpdateWindow.StartTimeTextBox.Text = ph.StartTime.ToString();
+
+                    int Hours = ph.StartTime.Value.Hours;
+                    int Minutes = ph.StartTime.Value.Minutes;
+                    int Seconds = ph.StartTime.Value.Seconds;
+                    UpdateWindow.StartTimeHoursTextBox.Text = Hours.ToString();
+                    UpdateWindow.StartTimeMinutesTextBox.Text = Minutes.ToString();
+                    UpdateWindow.StartTimeSecondsTextBox.Text = Seconds.ToString();
 
                     bool? result = UpdateWindow.ShowDialog();
                     if (result == false)
@@ -1254,7 +1278,11 @@ namespace Интерфейс
                         ph.RouteIDOfTheCruise = (int)UpdateWindow.RouteIDOfTheCruiseComboBox.SelectedValue;
                         ph.DriverIDOfTheCruise = (int)UpdateWindow.DriverIDOfTheCruiseComboBox.SelectedValue;
                         ph.TransportIDOfTheCruise = (int)UpdateWindow.TransportIDOfTheCruiseComboBox.SelectedValue;
-                        ph.StartTime = TimeSpan.Parse(UpdateWindow.StartTimeTextBox.Text);
+
+                        Hours = Int32.Parse(UpdateWindow.StartTimeHoursTextBox.Text);
+                        Minutes = Int32.Parse(UpdateWindow.StartTimeMinutesTextBox.Text);
+                        Seconds = Int32.Parse(UpdateWindow.StartTimeSecondsTextBox.Text);
+                        ph.StartTime = new TimeSpan(Hours, Minutes, Seconds);
 
                         DBComunication.Cruise.Update(ph);
                         allCruise = DBComunication.Cruise.GetAll();
