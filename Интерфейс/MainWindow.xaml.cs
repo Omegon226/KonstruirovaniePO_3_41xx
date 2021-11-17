@@ -161,7 +161,7 @@ namespace Интерфейс
 
         #endregion
 
-
+        #region --- Функции для работы с Отчётами и CRUD Администратора
 
         private int getSelectedRow(DataGrid dataGrid)
         {
@@ -661,11 +661,67 @@ namespace Интерфейс
         // CRUD Для RouteButton
         private void CreateRouteButton_Click(object sender, RoutedEventArgs e)
         {
+            RouteCUWindow CreateWindow = new RouteCUWindow();
 
+            bool? result = CreateWindow.ShowDialog();
+            if (result == false)
+                return;
+            else
+            {
+                RouteModel NewObject = new RouteModel();
+
+                NewObject.TravelTimeInHours = CreateWindow.TravelTimeInHoursIntegerUpDown.Value;
+                NewObject.Hidden = CreateWindow.HiddenCheckBox.IsChecked;
+
+                DBComunication.Route.Create(NewObject);
+                allRoute = DBComunication.Route.GetAll();
+                InsertInformationInRouteDataGrid();
+
+                MessageBox.Show("Новый объект добавлен");
+            }
         }
         private void UpdateRouteButton_Click(object sender, RoutedEventArgs e)
         {
+            DataGrid DataGridForUpdateOperation = RouteDataGrid;
 
+            int index = getSelectedRow(DataGridForUpdateOperation);
+            if (index != -1)
+            {
+
+                int id = 0;
+                RouteModel MarkedRow = (RouteModel)DataGridForUpdateOperation.Items[index];
+                bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                RouteModel ph = allRoute.Where(i => i.ID == id).FirstOrDefault();
+                if (ph != null)
+                {
+                    RouteCUWindow UpdateWindow = new RouteCUWindow();
+
+                    UpdateWindow.TravelTimeInHoursIntegerUpDown.Value = ph.TravelTimeInHours;
+                    UpdateWindow.HiddenCheckBox.IsChecked = ph.Hidden;
+
+                    bool? result = UpdateWindow.ShowDialog();
+                    if (result == false)
+                        return;
+                    else
+                    {
+                        ph.TravelTimeInHours = UpdateWindow.TravelTimeInHoursIntegerUpDown.Value;
+                        ph.Hidden = UpdateWindow.HiddenCheckBox.IsChecked;
+
+                        DBComunication.Route.Update(ph);
+                        allRoute = DBComunication.Route.GetAll();
+                        InsertInformationInRouteDataGrid();
+
+                        MessageBox.Show("Объект обновлен");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ни один объект не выбран!");
+            }
         }
         private void DeleteRouteButton_Click(object sender, RoutedEventArgs e)
         {
@@ -689,11 +745,67 @@ namespace Интерфейс
         // CRUD Для Locality
         private void CreateLocalityButton_Click(object sender, RoutedEventArgs e)
         {
+            LocalityCUWindow CreateWindow = new LocalityCUWindow();
 
+            bool? result = CreateWindow.ShowDialog();
+            if (result == false)
+                return;
+            else
+            {
+                LocalityModel NewObject = new LocalityModel();
+
+                NewObject.Region = CreateWindow.RegionTextBox.Text;
+                NewObject.Name = CreateWindow.NameTextBox.Text;
+
+                DBComunication.Locality.Create(NewObject);
+                allLocality = DBComunication.Locality.GetAll();
+                InsertInformationInLocalityDataGrid();
+
+                MessageBox.Show("Новый объект добавлен");
+            }
         }
         private void UpdateLocalityButton_Click(object sender, RoutedEventArgs e)
         {
+            DataGrid DataGridForUpdateOperation = LocalityDataGrid;
 
+            int index = getSelectedRow(DataGridForUpdateOperation);
+            if (index != -1)
+            {
+
+                int id = 0;
+                LocalityModel MarkedRow = (LocalityModel)DataGridForUpdateOperation.Items[index];
+                bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                LocalityModel ph = allLocality.Where(i => i.ID == id).FirstOrDefault();
+                if (ph != null)
+                {
+                    LocalityCUWindow UpdateWindow = new LocalityCUWindow();
+
+                    UpdateWindow.RegionTextBox.Text = ph.Region;
+                    UpdateWindow.NameTextBox.Text = ph.Name;
+
+                    bool? result = UpdateWindow.ShowDialog();
+                    if (result == false)
+                        return;
+                    else
+                    {
+                        ph.Region = UpdateWindow.RegionTextBox.Text;
+                        ph.Name = UpdateWindow.NameTextBox.Text;
+
+                        DBComunication.Locality.Update(ph);
+                        allLocality = DBComunication.Locality.GetAll();
+                        InsertInformationInLocalityDataGrid();
+
+                        MessageBox.Show("Объект обновлен");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ни один объект не выбран!");
+            }
         }
         private void DeleteLocalityButton_Click(object sender, RoutedEventArgs e)
         {
@@ -717,11 +829,73 @@ namespace Интерфейс
         // CRUD Для Driver
         private void CreateDriverButton_Click(object sender, RoutedEventArgs e)
         {
+            DriverCUWindow CreateWindow = new DriverCUWindow();
 
+            bool? result = CreateWindow.ShowDialog();
+            if (result == false)
+                return;
+            else
+            {
+                DriverModel NewObject = new DriverModel();
+
+                NewObject.FullName = CreateWindow.FullNameTextBox.Text;
+                NewObject.Experience = Int32.Parse(CreateWindow.ExperienceTextBox.Text);
+                NewObject.Salary = Int32.Parse(CreateWindow.SalaryTextBox.Text);
+                NewObject.Hidden = CreateWindow.HiddenCheckBox.IsChecked;
+
+                DBComunication.Driver.Create(NewObject);
+                allDriver = DBComunication.Driver.GetAll();
+                InsertInformationInDriverDataGrid();
+
+                MessageBox.Show("Новый объект добавлен");
+            }
         }
         private void UpdateDriverButton_Click(object sender, RoutedEventArgs e)
         {
+            DataGrid DataGridForUpdateOperation = DriverDataGrid;
 
+            int index = getSelectedRow(DataGridForUpdateOperation);
+            if (index != -1)
+            {
+
+                int id = 0;
+                DriverModel MarkedRow = (DriverModel)DataGridForUpdateOperation.Items[index];
+                bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                DriverModel ph = allDriver.Where(i => i.ID == id).FirstOrDefault();
+                if (ph != null)
+                {
+                    DriverCUWindow UpdateWindow = new DriverCUWindow();
+
+                    UpdateWindow.FullNameTextBox.Text = ph.FullName;
+                    UpdateWindow.ExperienceTextBox.Text = ph.Experience.ToString();
+                    UpdateWindow.SalaryTextBox.Text = ph.Salary.ToString();
+                    UpdateWindow.HiddenCheckBox.IsChecked = ph.Hidden;
+
+                    bool? result = UpdateWindow.ShowDialog();
+                    if (result == false)
+                        return;
+                    else
+                    {
+                        ph.FullName = UpdateWindow.FullNameTextBox.Text;
+                        ph.Experience = Int32.Parse(UpdateWindow.ExperienceTextBox.Text);
+                        ph.Salary = Int32.Parse(UpdateWindow.SalaryTextBox.Text);
+                        ph.Hidden = UpdateWindow.HiddenCheckBox.IsChecked;
+
+                        DBComunication.Driver.Update(ph);
+                        allDriver = DBComunication.Driver.GetAll();
+                        InsertInformationInDriverDataGrid();
+
+                        MessageBox.Show("Объект обновлен");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ни один объект не выбран!");
+            }
         }
         private void DeleteDriverButton_Click(object sender, RoutedEventArgs e)
         {
@@ -745,11 +919,64 @@ namespace Интерфейс
         // CRUD Для DayOfTheWeek
         private void CreateDayOfTheWeekButton_Click(object sender, RoutedEventArgs e)
         {
+            DayOfTheWeekCUWindow CreateWindow = new DayOfTheWeekCUWindow();
 
+            bool? result = CreateWindow.ShowDialog();
+            if (result == false)
+                return;
+            else
+            {
+                DayOfTheWeekModel NewObject = new DayOfTheWeekModel();
+
+                NewObject.DayOfTheWeekName = CreateWindow.DayOfTheWeekNameTextBox.Text;
+
+                DBComunication.DayOfTheWeek.Create(NewObject);
+                allDayOfTheWeek = DBComunication.DayOfTheWeek.GetAll();
+                InsertInformationInDayOfTheWeekDataGrid();
+
+                MessageBox.Show("Новый объект добавлен");
+            }
         }
         private void UpdateDayOfTheWeekButton_Click(object sender, RoutedEventArgs e)
         {
+            DataGrid DataGridForUpdateOperation = DayOfTheWeekDataGrid;
 
+            int index = getSelectedRow(DataGridForUpdateOperation);
+            if (index != -1)
+            {
+
+                int id = 0;
+                DayOfTheWeekModel MarkedRow = (DayOfTheWeekModel)DataGridForUpdateOperation.Items[index];
+                bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                DayOfTheWeekModel ph = allDayOfTheWeek.Where(i => i.ID == id).FirstOrDefault();
+                if (ph != null)
+                {
+                    DayOfTheWeekCUWindow UpdateWindow = new DayOfTheWeekCUWindow();
+
+                    UpdateWindow.DayOfTheWeekNameTextBox.Text = ph.DayOfTheWeekName;
+
+                    bool? result = UpdateWindow.ShowDialog();
+                    if (result == false)
+                        return;
+                    else
+                    {
+                        ph.DayOfTheWeekName = UpdateWindow.DayOfTheWeekNameTextBox.Text;
+
+                        DBComunication.DayOfTheWeek.Update(ph);
+                        allDayOfTheWeek = DBComunication.DayOfTheWeek.GetAll();
+                        InsertInformationInDayOfTheWeekDataGrid();
+
+                        MessageBox.Show("Объект обновлен");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ни один объект не выбран!");
+            }
         }
         private void DeleteDayOfTheWeekButton_Click(object sender, RoutedEventArgs e)
         {
@@ -773,11 +1000,100 @@ namespace Интерфейс
         // CRUD Для Cruise
         private void CreateCruiseButton_Click(object sender, RoutedEventArgs e)
         {
+            CruiseCUWindow CreateWindow = new CruiseCUWindow();
+            CreateWindow.DayOfTheWeekIDComboBox.ItemsSource = allDayOfTheWeek;
+            CreateWindow.DayOfTheWeekIDComboBox.DisplayMemberPath = "DayOfTheWeekName";
+            CreateWindow.DayOfTheWeekIDComboBox.SelectedValuePath = "ID";
+            CreateWindow.RouteIDOfTheCruiseComboBox.ItemsSource = allRoute;
+            CreateWindow.RouteIDOfTheCruiseComboBox.DisplayMemberPath = "ID";
+            CreateWindow.RouteIDOfTheCruiseComboBox.SelectedValuePath = "ID";
+            CreateWindow.DriverIDOfTheCruiseComboBox.ItemsSource = allDriver;
+            CreateWindow.DriverIDOfTheCruiseComboBox.DisplayMemberPath = "FullName";
+            CreateWindow.DriverIDOfTheCruiseComboBox.SelectedValuePath = "ID";
+            CreateWindow.TransportIDOfTheCruiseComboBox.ItemsSource = allTransport;
+            CreateWindow.TransportIDOfTheCruiseComboBox.DisplayMemberPath = "RegistrationNumber";
+            CreateWindow.TransportIDOfTheCruiseComboBox.SelectedValuePath = "ID";
 
+            bool? result = CreateWindow.ShowDialog();
+            if (result == false)
+                return;
+            else
+            {
+                CruiseModel NewObject = new CruiseModel();
+
+                NewObject.DayOfTheWeekCruiseID = (int)CreateWindow.DayOfTheWeekIDComboBox.SelectedValue;
+                NewObject.RouteIDOfTheCruise = (int)CreateWindow.RouteIDOfTheCruiseComboBox.SelectedValue;
+                NewObject.DriverIDOfTheCruise = (int)CreateWindow.DayOfTheWeekIDComboBox.SelectedValue;
+                NewObject.TransportIDOfTheCruise = (int)CreateWindow.TransportIDOfTheCruiseComboBox.SelectedValue;
+                NewObject.StartTime = TimeSpan.Parse(CreateWindow.StartTimeTextBox.Text);
+
+                DBComunication.Cruise.Create(NewObject);
+                allCruise = DBComunication.Cruise.GetAll();
+                InsertInformationInCruiseDataGrid();
+
+                MessageBox.Show("Новый объект добавлен");
+            }
         }
         private void UpdateCruiseButton_Click(object sender, RoutedEventArgs e)
         {
+            DataGrid DataGridForUpdateOperation = CruiseDataGrid;
 
+            int index = getSelectedRow(DataGridForUpdateOperation);
+            if (index != -1)
+            {
+
+                int id = 0;
+                CruiseModel MarkedRow = (CruiseModel)DataGridForUpdateOperation.Items[index];
+                bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
+                if (converted == false)
+                    return;
+
+                CruiseModel ph = allCruise.Where(i => i.ID == id).FirstOrDefault();
+                if (ph != null)
+                {
+                    CruiseCUWindow UpdateWindow = new CruiseCUWindow();
+                    UpdateWindow.DayOfTheWeekIDComboBox.ItemsSource = allDayOfTheWeek;
+                    UpdateWindow.DayOfTheWeekIDComboBox.DisplayMemberPath = "DayOfTheWeekName";
+                    UpdateWindow.DayOfTheWeekIDComboBox.SelectedValuePath = "ID";
+                    UpdateWindow.RouteIDOfTheCruiseComboBox.ItemsSource = allRoute;
+                    UpdateWindow.RouteIDOfTheCruiseComboBox.DisplayMemberPath = "ID";
+                    UpdateWindow.RouteIDOfTheCruiseComboBox.SelectedValuePath = "ID";
+                    UpdateWindow.DriverIDOfTheCruiseComboBox.ItemsSource = allDriver;
+                    UpdateWindow.DriverIDOfTheCruiseComboBox.DisplayMemberPath = "FullName";
+                    UpdateWindow.DriverIDOfTheCruiseComboBox.SelectedValuePath = "ID";
+                    UpdateWindow.TransportIDOfTheCruiseComboBox.ItemsSource = allTransport;
+                    UpdateWindow.TransportIDOfTheCruiseComboBox.DisplayMemberPath = "RegistrationNumber";
+                    UpdateWindow.TransportIDOfTheCruiseComboBox.SelectedValuePath = "ID";
+
+                    UpdateWindow.DayOfTheWeekIDComboBox.SelectedValue = ph.DayOfTheWeekCruiseID;
+                    UpdateWindow.RouteIDOfTheCruiseComboBox.SelectedValue = ph.RouteIDOfTheCruise;
+                    UpdateWindow.DriverIDOfTheCruiseComboBox.SelectedValue = ph.DriverIDOfTheCruise;
+                    UpdateWindow.TransportIDOfTheCruiseComboBox.SelectedValue = ph.TransportIDOfTheCruise;
+                    UpdateWindow.StartTimeTextBox.Text = ph.StartTime.ToString();
+
+                    bool? result = UpdateWindow.ShowDialog();
+                    if (result == false)
+                        return;
+                    else
+                    {
+                        ph.DayOfTheWeekCruiseID = (int)UpdateWindow.DayOfTheWeekIDComboBox.SelectedValue;
+                        ph.RouteIDOfTheCruise = (int)UpdateWindow.RouteIDOfTheCruiseComboBox.SelectedValue;
+                        ph.DriverIDOfTheCruise = (int)UpdateWindow.DriverIDOfTheCruiseComboBox.SelectedValue;
+                        ph.TransportIDOfTheCruise = (int)UpdateWindow.TransportIDOfTheCruiseComboBox.SelectedValue;
+                        ph.StartTime = TimeSpan.Parse(UpdateWindow.StartTimeTextBox.Text);
+
+                        DBComunication.Cruise.Update(ph);
+                        allCruise = DBComunication.Cruise.GetAll();
+                        InsertInformationInCruiseDataGrid();
+
+                        MessageBox.Show("Объект обновлен");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ни один объект не выбран!");
+            }
         }
         private void DeleteCruiseButton_Click(object sender, RoutedEventArgs e)
         {
@@ -797,5 +1113,11 @@ namespace Интерфейс
                 InsertInformationInCruiseDataGrid();
             }
         }
+
+        #endregion
+
+
+
+
     }
 }
