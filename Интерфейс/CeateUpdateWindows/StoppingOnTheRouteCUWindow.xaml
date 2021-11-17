@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Интерфейс.CeateUpdateWindows"
         mc:Ignorable="d"
-        Title="StoppingOnTheRouteCUWindow" Height="350" Width="400">
+        Title="StoppingOnTheRouteCUWindow" Height="250" Width="400">
     <Grid Background="#FF440D44">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="0.1*"/>
-            <RowDefinition Height="0.6*"/>
+            <RowDefinition Height="0.8*"/>
             <RowDefinition/>
             <RowDefinition Height="0.7*"/>
         </Grid.RowDefinitions>
@@ -35,10 +35,10 @@
             <Viewbox Grid.Row="0" HorizontalAlignment="Left" Margin="25,0,25,0">
                 <TextBlock Text="Населённый пункт остановки" Foreground="White"/>
             </Viewbox>
-            <ComboBox x:Name="StopLocalityIDComboBox" Grid.Row="1" Width="300" Height="50" Margin="5"/>
+            <ComboBox x:Name="StopLocalityIDComboBox" Grid.Row="1" Width="300" Height="25" Margin="5"/>
         </Grid>
 
-        <Grid Grid.Row="3" Margin="25">
+        <Grid Grid.Row="3" Margin="10">
             <Button Background="#FFB46EB4" x:Name="AcceptButton" Click="AcceptButton_Click">
                 <Grid Margin="0">
                     <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center">

@@ -171,7 +171,7 @@
                         <RowDefinition Height="0.3*"/>
                     </Grid.RowDefinitions>
 
-                    <Button x:Name="FindeRouteButton" Grid.Column="1" Grid.Row="1" Background="#FFB46EB4">
+                    <Button x:Name="FindeRouteButton" Grid.Column="1" Grid.Row="1" Background="#FFB46EB4" Click="FindeRouteButton_Click">
                         <Viewbox>
                             <TextBlock Margin="7.5" Text="Найти маршрут" Foreground="White"/>
                         </Viewbox>
@@ -274,7 +274,7 @@
                                     <DataGridTextColumn x:Name="TicketFullNameColumn" Header="ФИО" Binding="{Binding Path=FullName}" Width="180"></DataGridTextColumn>
                                     <DataGridTextColumn x:Name="TicketCruiseIDColumn" Header="ID Поездки" Binding="{Binding Path=CruiseID}" Width="100"></DataGridTextColumn>
                                     <DataGridTextColumn x:Name="TicketUserIDColumn" Header="ID Пользователя" Binding="{Binding Path=UserID}" Width="100"></DataGridTextColumn>
-                                    <DataGridTextColumn x:Name="TicketRaceDepartureTimeColumn" Header="Время отправки билета" Binding="{Binding Path=RaceDepartureTime}" Width="160"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="TicketRaceDepartureTimeColumn" Header="Время отправки рейса" Binding="{Binding Path=RaceDepartureTime}" Width="160"></DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>

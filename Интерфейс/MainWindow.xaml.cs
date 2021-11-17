@@ -40,6 +40,9 @@ namespace Интерфейс
 
         public MainWindow()
         {
+            //var date = new DateTime(2021, 4, 5, 12, 9, 4);
+            //var time = new TimeSpan(11, 2, 4);
+
             InitializeComponent();
             LoadAllInformationFromDataBase();
             InsertInformationInListViews();
@@ -156,6 +159,12 @@ namespace Интерфейс
             FindeRouteGrid.Visibility = Visibility.Hidden;
             CreateReportsGrid.Visibility = Visibility.Hidden;
             CreateChartsGrid.Visibility = Visibility.Visible;
+        }
+
+        private void FindeRouteButton_Click(object sender, RoutedEventArgs e)
+        {
+            SelectCruiseWindow d = new SelectCruiseWindow();
+            d.Show();
         }
 
         #region --- Подгрузка информации в переменные эмулирующие таблицы
@@ -396,13 +405,27 @@ namespace Интерфейс
             {
                 TicketModel NewObject = new TicketModel();
 
-                NewObject.DateOfIssue = DateTime.Parse(CreateWindow.DateOfIssueTextBox.Text);
+                int Year = Int32.Parse(CreateWindow.DateOfIssueYearParametrTextBox.Text);
+                int Month = Int32.Parse(CreateWindow.DateOfIssueMonthParametrTextBox.Text);
+                int Day = Int32.Parse(CreateWindow.DateOfIssueDayParametrTextBox.Text);
+                int Hour = Int32.Parse(CreateWindow.DateOfIssueHourParametrTextBox.Text);
+                int Minute = Int32.Parse(CreateWindow.DateOfIssueMinuteParametrTextBox.Text);
+                int Second = Int32.Parse(CreateWindow.DateOfIssueSecondParametrTextBox.Text);
+                NewObject.DateOfIssue = new DateTime(Year, Month, Day, Hour, Minute, Second);
+
                 NewObject.IdentificationInformation = CreateWindow.IndentificationInformationTextBox.Text;
                 NewObject.SeatNumberOnTheTransport = CreateWindow.SeatNumberOnTheTransportIntegerUpDown.Value;
                 NewObject.FullName = CreateWindow.FullNameTextBox.Text;
                 NewObject.CruiseID = (int)CreateWindow.CruiseIDComboBox.SelectedValue;
                 NewObject.UserID = (int)CreateWindow.UserIDComboBox.SelectedValue;
-                NewObject.RaceDepartureTime = DateTime.Parse(CreateWindow.RaceDepartureTimeTextBox.Text);
+
+                Year = Int32.Parse(CreateWindow.RaceDepartureTimeYearParametrTextBox.Text);
+                Month = Int32.Parse(CreateWindow.RaceDepartureTimeMonthParametrTextBox.Text);
+                Day = Int32.Parse(CreateWindow.RaceDepartureTimeDayParametrTextBox.Text);
+                Hour = Int32.Parse(CreateWindow.RaceDepartureTimeHourParametrTextBox.Text);
+                Minute = Int32.Parse(CreateWindow.RaceDepartureTimeMinuteParametrTextBox.Text);
+                Second = Int32.Parse(CreateWindow.RaceDepartureTimeSecondParametrTextBox.Text);
+                NewObject.RaceDepartureTime = new DateTime(Year, Month, Day, Hour, Minute, Second);
 
                 DBComunication.Ticket.Create(NewObject);
                 allTicket = DBComunication.Ticket.GetAll();
@@ -436,26 +459,64 @@ namespace Интерфейс
                     UpdateWindow.UserIDComboBox.DisplayMemberPath = "FullName";
                     UpdateWindow.UserIDComboBox.SelectedValuePath = "ID";
 
-                    UpdateWindow.DateOfIssueTextBox.Text = ph.DateOfIssue.ToString();
+                    int Year = ph.DateOfIssue.Value.Year;
+                    int Month = ph.DateOfIssue.Value.Month;
+                    int Day = ph.DateOfIssue.Value.Day;
+                    int Hour = ph.DateOfIssue.Value.Hour;
+                    int Minute = ph.DateOfIssue.Value.Minute;
+                    int Second = ph.DateOfIssue.Value.Second;
+                    UpdateWindow.DateOfIssueYearParametrTextBox.Text = Year.ToString();
+                    UpdateWindow.DateOfIssueMonthParametrTextBox.Text = Month.ToString();
+                    UpdateWindow.DateOfIssueDayParametrTextBox.Text = Day.ToString();
+                    UpdateWindow.DateOfIssueHourParametrTextBox.Text = Hour.ToString();
+                    UpdateWindow.DateOfIssueMinuteParametrTextBox.Text = Minute.ToString();
+                    UpdateWindow.DateOfIssueSecondParametrTextBox.Text = Second.ToString();
+
                     UpdateWindow.IndentificationInformationTextBox.Text = ph.IdentificationInformation;
                     UpdateWindow.SeatNumberOnTheTransportIntegerUpDown.Value = ph.SeatNumberOnTheTransport;
                     UpdateWindow.FullNameTextBox.Text = ph.FullName;
                     UpdateWindow.CruiseIDComboBox.SelectedValue = ph.CruiseID;
                     UpdateWindow.UserIDComboBox.SelectedValue = ph.UserID;
-                    UpdateWindow.RaceDepartureTimeTextBox.Text = ph.RaceDepartureTime.ToString();
+
+                    Year = ph.RaceDepartureTime.Value.Year;
+                    Month = ph.RaceDepartureTime.Value.Month;
+                    Day = ph.RaceDepartureTime.Value.Day;
+                    Hour = ph.RaceDepartureTime.Value.Hour;
+                    Minute = ph.RaceDepartureTime.Value.Minute;
+                    Second = ph.RaceDepartureTime.Value.Second;
+                    UpdateWindow.RaceDepartureTimeYearParametrTextBox.Text = Year.ToString();
+                    UpdateWindow.RaceDepartureTimeMonthParametrTextBox.Text = Month.ToString();
+                    UpdateWindow.RaceDepartureTimeDayParametrTextBox.Text = Day.ToString();
+                    UpdateWindow.RaceDepartureTimeHourParametrTextBox.Text = Hour.ToString();
+                    UpdateWindow.RaceDepartureTimeMinuteParametrTextBox.Text = Minute.ToString();
+                    UpdateWindow.RaceDepartureTimeSecondParametrTextBox.Text = Second.ToString();
 
                     bool? result = UpdateWindow.ShowDialog();
                     if (result == false)
                         return;
                     else
                     {
-                        ph.DateOfIssue = DateTime.Parse(UpdateWindow.DateOfIssueTextBox.Text);
+                        Year = Int32.Parse(UpdateWindow.DateOfIssueYearParametrTextBox.Text);
+                        Month = Int32.Parse(UpdateWindow.DateOfIssueMonthParametrTextBox.Text);
+                        Day = Int32.Parse(UpdateWindow.DateOfIssueDayParametrTextBox.Text);
+                        Hour = Int32.Parse(UpdateWindow.DateOfIssueHourParametrTextBox.Text);
+                        Minute = Int32.Parse(UpdateWindow.DateOfIssueMinuteParametrTextBox.Text);
+                        Second = Int32.Parse(UpdateWindow.DateOfIssueSecondParametrTextBox.Text);
+                        ph.DateOfIssue = new DateTime(Year, Month, Day, Hour, Minute, Second);
+
                         ph.IdentificationInformation = UpdateWindow.IndentificationInformationTextBox.Text;
                         ph.SeatNumberOnTheTransport = UpdateWindow.SeatNumberOnTheTransportIntegerUpDown.Value;
                         ph.FullName = UpdateWindow.FullNameTextBox.Text;
                         ph.CruiseID = (int)UpdateWindow.CruiseIDComboBox.SelectedValue;
                         ph.UserID = (int)UpdateWindow.UserIDComboBox.SelectedValue;
-                        ph.RaceDepartureTime = DateTime.Parse(UpdateWindow.RaceDepartureTimeTextBox.Text);
+
+                        Year = Int32.Parse(UpdateWindow.RaceDepartureTimeYearParametrTextBox.Text);
+                        Month = Int32.Parse(UpdateWindow.RaceDepartureTimeMonthParametrTextBox.Text);
+                        Day = Int32.Parse(UpdateWindow.RaceDepartureTimeDayParametrTextBox.Text);
+                        Hour = Int32.Parse(UpdateWindow.RaceDepartureTimeHourParametrTextBox.Text);
+                        Minute = Int32.Parse(UpdateWindow.RaceDepartureTimeMinuteParametrTextBox.Text);
+                        Second = Int32.Parse(UpdateWindow.RaceDepartureTimeSecondParametrTextBox.Text);
+                        ph.RaceDepartureTime = new DateTime(Year, Month, Day, Hour, Minute, Second);
 
                         DBComunication.Ticket.Update(ph);
                         allTicket = DBComunication.Ticket.GetAll();
@@ -1230,9 +1291,8 @@ namespace Интерфейс
 
 
 
+
         #endregion
-
-
 
 
 

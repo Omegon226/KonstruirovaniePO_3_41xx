@@ -6,7 +6,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:Интерфейс.CeateUpdateWindows"
         mc:Ignorable="d"
-        Title="TransportCUWindow" Height="700" Width="400">
+        Title="TransportCUWindow" Height="500" Width="400">
     <Grid Background="#FF440D44">
 
         <Grid.RowDefinitions>
@@ -39,7 +39,7 @@
             <Viewbox Grid.Row="0" HorizontalAlignment="Left" Margin="25,0,25,0">
                 <TextBlock Text="Кол-во мест в транспорте" Foreground="White"/>
             </Viewbox>
-            <Viewbox Grid.Row="1" Width="300" Height="50" Margin="5">
+            <Viewbox Grid.Row="1" Width="300" Height="25" Margin="5">
                 <xctk:IntegerUpDown x:Name="NumberOfSeatsIntegerUpDown" Value="10" Width="120"/>
             </Viewbox>
         </Grid>
@@ -54,7 +54,7 @@
             <Viewbox Grid.Row="0" HorizontalAlignment="Left" Margin="25,0,25,0">
                 <TextBlock Text="Рег.Номер" Foreground="White"/>
             </Viewbox>
-            <TextBox x:Name="RegistrationNumberTextBox" Grid.Row="1" Width="300" Height="50" Margin="5"/>
+            <TextBox x:Name="RegistrationNumberTextBox" Grid.Row="1" Width="300" Height="25" Margin="5"/>
         </Grid>
 
         <Grid Grid.Row="4" Margin="10">
@@ -67,7 +67,7 @@
             <Viewbox Grid.Row="0" HorizontalAlignment="Left" Margin="25,0,25,0">
                 <TextBlock Text="Марка транспорта" Foreground="White"/>
             </Viewbox>
-            <TextBox x:Name="ModelTextBox" Grid.Row="1" Width="300" Height="50" Margin="5"/>
+            <TextBox x:Name="ModelTextBox" Grid.Row="1" Width="300" Height="25" Margin="5"/>
         </Grid>
 
         <Grid Grid.Row="5" Margin="10">
@@ -83,7 +83,7 @@
             <CheckBox x:Name="HiddenCheckBox" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>
 
-        <Grid Grid.Row="6" Margin="25">
+        <Grid Grid.Row="6" Margin="10">
             <Button Background="#FFB46EB4" x:Name="AcceptButton" Click="AcceptButton_Click">
                 <Grid Margin="0">
                     <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center">
