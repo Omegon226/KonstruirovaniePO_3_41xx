@@ -844,13 +844,116 @@
                                 </lvc:CartesianChart.AxisX>
                             </lvc:CartesianChart>
 
-                            <DataGrid Grid.Row="1" Grid.Column="2" Margin="15" Name="DriverForChartsDataGrid" AutoGenerateColumns="False" Background="#FF440D44">
+                            <DataGrid Grid.Row="1" Grid.Column="2" Margin="15" Name="DriverForChartDependenceOfSalaryOnLengthOfServiceDataGrid" AutoGenerateColumns="False" Background="#FF440D44">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn x:Name="DriverForChartsFullNameColumn" Header="ФИО Водителя" Binding="{Binding Path=FullName}" Width="180"></DataGridTextColumn>
                                     <DataGridTextColumn x:Name="DriverForChartsExperienceColumn" Header="Опыт водителя" Binding="{Binding Path=Experience}" Width="100"></DataGridTextColumn>
                                     <DataGridTextColumn x:Name="DriverForChartsSalaryColumn" Header="Зарплата" Binding="{Binding Path=Salary}" Width="100"></DataGridTextColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
+                        </Grid>
+                    </TabItem.Content>
+                </TabItem>
+
+                <TabItem x:Name="ChartDriversSalaryTabItem">
+                    <TabItem.Header>
+                        <TextBlock Margin="3">Зарплата водителей</TextBlock>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.3*"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.1*"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Button x:Name="UpdateChartDriversSalaryTabItemButton" Background="Purple" Margin="3" Click="UpdateChartDriversSalaryTabItemButton_Click">
+                                <Viewbox Margin="5">
+                                    <TextBlock Text="Обновить" Foreground="White"/>
+                                </Viewbox>
+                            </Button>
+
+                            <Grid Grid.Column="1" Grid.ColumnSpan="2">
+                                <Viewbox Margin="5">
+                                    <TextBlock Text="Информация о зарплатах водителей" Foreground="White"/>
+                                </Viewbox>
+                            </Grid>
+
+                            <lvc:CartesianChart Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Background="White" Margin="15" x:Name="ChartDriversSalary" LegendLocation="Top" >
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis x:Name="ChartDriversSalaryeXAx" Title="Salaris" LabelFormatter="{Binding Formatter}"></lvc:Axis>
+                                </lvc:CartesianChart.AxisY>
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis x:Name="ChartDriversSalaryYAx" Title="Drivers" Labels="{Binding Labels}"></lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
+                            </lvc:CartesianChart>
+
+                            <DataGrid Grid.Row="1" Grid.Column="2" Margin="15" Name="ChartDriversSalaryDataGrid" AutoGenerateColumns="False" Background="#FF440D44">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn x:Name="ChartDriversSalaryDataGridFullNameColumn" Header="ФИО Водителя" Binding="{Binding Path=FullName}" Width="180"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="ChartDriversSalaryDataGridExperienceColumn" Header="Опыт водителя" Binding="{Binding Path=Experience}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="ChartDriversSalaryDataGridSalaryColumn" Header="Зарплата" Binding="{Binding Path=Salary}" Width="100"></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </TabItem.Content>
+                </TabItem>
+
+                <TabItem x:Name="ChartUsersStatusesCountTabItem">
+                    <TabItem.Header>
+                        <TextBlock Margin="3">Количество статусов пользователей</TextBlock>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.3*"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="1.5*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.1*"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Button x:Name="UpdateChartUsersStatusesCountTabItemButton" Background="Purple" Margin="3" Click="UpdateChartUsersStatusesCountTabItemButton_Click">
+                                <Viewbox Margin="5">
+                                    <TextBlock Text="Обновить" Foreground="White"/>
+                                </Viewbox>
+                            </Button>
+
+                            <Grid Grid.Column="1" Grid.ColumnSpan="2">
+                                <Viewbox Margin="5">
+                                    <TextBlock Text="Количество обычных пользователей и администраторов" Foreground="White"/>
+                                </Viewbox>
+                            </Grid>
+
+                            <lvc:CartesianChart Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Background="White" Margin="15" x:Name="ChartUsersStatusesCount" LegendLocation="Top" >
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis x:Name="ChartUsersStatusesCountXAx" Title="Count" LabelFormatter="{Binding Formatter}"></lvc:Axis>
+                                </lvc:CartesianChart.AxisY>
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis x:Name="ChartUsersStatusesCountYAx" Title="StatusType" Labels="{Binding Labels}"></lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
+                            </lvc:CartesianChart>
+
+                            <DataGrid Grid.Row="1" Grid.Column="2" Margin="15" Name="UsersStatusesCountDataGrid" AutoGenerateColumns="False" Background="#FF440D44">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn x:Name="UsersStatusesCountDataGridIDColumn" Header="ID" Binding="{Binding Path=ID}" Width="40"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="UsersStatusesCountDataGridFullNameColumn" Header="ФИО" Binding="{Binding Path=FullName}" Width="200"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="UsersStatusesCountDataGridLoginColumn" Header="Логин" Binding="{Binding Path=Login}" Width="150"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="UsersStatusesCountDataGridPasswordColumn" Header="Пароль" Binding="{Binding Path=Password}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="UsersStatusesCountDataGridStatusColumn" Header="Статус" Binding="{Binding Path=Status}" Width="45"></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
                         </Grid>
                     </TabItem.Content>
                 </TabItem>

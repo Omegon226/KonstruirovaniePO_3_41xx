@@ -7,26 +7,22 @@ using System.Threading.Tasks;
 
 namespace BLL.Services
 {
-    public class FindeDriver
+    public class FindeUsersStatusesCount
     {
         public class StoredProcedureResult
         {
-            public string FullName { get; set; }
-            public int Experience { get; set; }
-            public int Salary { get; set; }
+            public int Status { get; set; }
         }
 
         public static List<StoredProcedureResult> StoredProcedureExecute()
         {
             AvtovokzalDBContext DBContext = new AvtovokzalDBContext();
-            var result = DBContext.Database.SqlQuery<StoredProcedureResult>("SP_GetDriversInformationForChart").ToList();
+            var result = DBContext.Database.SqlQuery<StoredProcedureResult>("SP_GetUsersStatusCount").ToList();
 
-            var data = result.GroupBy(i => new { i.FullName, i.Experience, i.Salary })
+            var data = result.GroupBy(i => new { i.Status })
                 .Select(i => new StoredProcedureResult
                 {
-                    FullName = i.Key.FullName,
-                    Experience = i.Key.Experience,
-                    Salary = i.Key.Salary,
+                    Status = i.Key.Status
                 }).ToList();
 
             return (data);

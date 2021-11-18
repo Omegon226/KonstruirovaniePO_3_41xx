@@ -1366,23 +1366,49 @@ namespace Интерфейс
 
         private void UpdateChartDependenceOfSalaryOnLengthOfServiceTabItemButton_Click(object sender, RoutedEventArgs e)
         {
-            DriversForChartDependenceOfSalaryOnLengthOfService = FindeDriver.StoredProcedureExecute();
-            InsertInformationInDriverForChartsDataGrid();
-            BuildChartDependenceOfSalaryOnLengthOfService();
+            UpdateAllChartsInfo();
         }
+        private void UpdateChartDriversSalaryTabItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateAllChartsInfo();
+        }
+        private void UpdateChartUsersStatusesCountTabItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateAllChartsInfo();
+        }
+        private void UpdateAllChartsInfo()
+        {
+            DriversForChartDependenceOfSalaryOnLengthOfService = FindeDriver.StoredProcedureExecute();
+            InsertInformationInChartsTab();
+            BuildCharts();
+        }
+        private void UpdateDriverChartInfo()
+        {
+            DriversForChartDependenceOfSalaryOnLengthOfService = FindeDriver.StoredProcedureExecute();
+            InsertDriversInformationForChartsDataGrid();
+        }
+
 
         private void InsertInformationInChartsTab()
         {
-            InsertInformationInDriverForChartsDataGrid();
+            InsertDriversInformationForChartsDataGrid();
+            InsertUsersInformationForChartsDataGrid();
         }
-        private void InsertInformationInDriverForChartsDataGrid()
+        private void InsertDriversInformationForChartsDataGrid()
         {
-            DriverForChartsDataGrid.ItemsSource = DriversForChartDependenceOfSalaryOnLengthOfService;
+            DriverForChartDependenceOfSalaryOnLengthOfServiceDataGrid.ItemsSource = DriversForChartDependenceOfSalaryOnLengthOfService;
+            ChartDriversSalaryDataGrid.ItemsSource = DriversForChartDependenceOfSalaryOnLengthOfService;
+        }
+        private void InsertUsersInformationForChartsDataGrid()
+        {
+            UsersStatusesCountDataGrid.ItemsSource = allUser;
         }
 
         private void BuildCharts()
         {
             BuildChartDependenceOfSalaryOnLengthOfService();
+            BuildChartDriversSalary();
+            BuildChartUsersStatusCount();
         }
 
         private void BuildChartDependenceOfSalaryOnLengthOfService()
@@ -1408,7 +1434,7 @@ namespace Интерфейс
                 DriversForChartDependenceOfSalaryOnLengthOfService.RemoveAt(index);
             }
 
-            UpdateDriversForCharInfo();
+            UpdateDriverChartInfo();
 
             for (int i = 0; i < DriversForChart.Count; ++i)
             {
@@ -1434,11 +1460,68 @@ namespace Интерфейс
             ChartDependenceOfSalaryOnLengthOfServiceXAx.LabelFormatter = YFormatter;
             ChartDependenceOfSalaryOnLengthOfServiceYAx.Labels = Labels;
         }
-        private void UpdateDriversForCharInfo()
+
+        private void BuildChartDriversSalary()
         {
-            DriversForChartDependenceOfSalaryOnLengthOfService = FindeDriver.StoredProcedureExecute();
-            InsertInformationInDriverForChartsDataGrid();
+            List<FindeDriver.StoredProcedureResult> DriversForChart = DriversForChartDependenceOfSalaryOnLengthOfService;
+            ChartValues<int> Salarys = new ChartValues<int>();
+            string[] Labels = new string[DriversForChartDependenceOfSalaryOnLengthOfService.Count];
+
+            UpdateDriverChartInfo();
+
+            for (int i = 0; i < DriversForChart.Count; ++i)
+            {
+                Salarys.Add(DriversForChart[i].Salary);
+            }
+            for (int i = 0; i < DriversForChart.Count; ++i)
+            {
+                Labels[i] = DriversForChart[i].FullName;
+            }
+
+            SeriesCollection SeriesCollection = new SeriesCollection
+            {
+                new ColumnSeries
+                {
+                    Title = "Зарплата водителей",
+                    Values = Salarys
+                }
+            };
+
+            Func<double, string> Formatter = value => value.ToString("C");
+
+            ChartDriversSalary.Series = SeriesCollection;
+            ChartDriversSalaryeXAx.LabelFormatter = Formatter;
+            ChartDriversSalaryYAx.Labels = Labels;
         }
+
+
+        private void BuildChartUsersStatusCount()
+        {
+            List<FindeUsersStatusesCount.StoredProcedureResult> ResultOfSP = FindeUsersStatusesCount.StoredProcedureExecute();
+            ChartValues<int> CountOfStatuses = new ChartValues<int>();
+            string[] Labels = { "Обычные пользователи", "Администраторы" };
+
+            for (int i = 0; i < ResultOfSP.Count; ++i)
+            {
+                CountOfStatuses.Add(ResultOfSP[i].Status);
+            }
+
+            SeriesCollection SeriesCollection = new SeriesCollection
+            {
+                new ColumnSeries
+                {
+                    Title = "Кол-во пользователей",
+                    Values = CountOfStatuses
+                }
+            };
+
+            Func<double, string> Formatter = value => value.ToString("N");
+
+            ChartUsersStatusesCount.Series = SeriesCollection;
+            ChartUsersStatusesCountXAx.LabelFormatter = Formatter;
+            ChartUsersStatusesCountYAx.Labels = Labels;
+        }
+
 
         #endregion
     }

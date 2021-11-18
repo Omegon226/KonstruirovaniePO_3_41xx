@@ -76,6 +76,7 @@
     <Compile Include="Services\FindeCruise.cs" />
     <Compile Include="Services\FindeDriver.cs" />
     <Compile Include="Services\FindeRoute.cs" />
+    <Compile Include="Services\FindeUsersStatusesCount.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
