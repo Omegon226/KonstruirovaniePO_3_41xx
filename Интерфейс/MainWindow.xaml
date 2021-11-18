@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Интерфейс" 
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
         Title="MainWindow" MinWidth="1100" MinHeight="800" Width="1100" Height="800" MaxWidth="2200" MaxHeight="1600">
     <Grid Background="#FF440D44">
@@ -181,7 +182,7 @@
             </Grid>
         </Grid>
 
-        <Grid Grid.Row="1" x:Name="CreateReportsGrid" Visibility="Visible">
+        <Grid Grid.Row="1" x:Name="CreateReportsGrid" Visibility="Hidden">
 
             <TabControl x:Name="TabControlForCRUD" Background="#FF440D44">
 
@@ -800,7 +801,64 @@
                  
         </Grid>
 
-        <Grid Grid.Row="1" x:Name="CreateChartsGrid" Visibility="Hidden">
+        <Grid Grid.Row="1" x:Name="CreateChartsGrid" Visibility="Visible">
+
+            <TabControl x:Name="TabControlForCharts" Background="#FF440D44">
+
+                <TabItem x:Name="ChartDependenceOfSalaryOnLengthOfServiceTabItem">
+                    <TabItem.Header>
+                        <TextBlock Margin="3">Зависимость зарплаты от стажа</TextBlock>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.3*"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.1*"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Button x:Name="UpdateChartDependenceOfSalaryOnLengthOfServiceTabItemButton" Background="Purple" Margin="3" Click="UpdateChartDependenceOfSalaryOnLengthOfServiceTabItemButton_Click">
+                                <Viewbox Margin="5">
+                                    <TextBlock Text="Обновить" Foreground="White"/>
+                                </Viewbox>
+                            </Button>
+
+                            <Grid Grid.Column="1" Grid.ColumnSpan="2">
+                                <Viewbox Margin="5">
+                                    <TextBlock Text="Информация о зависисмости зарплаты водителя от его стажа" Foreground="White"/>
+                                </Viewbox>
+                            </Grid>
+
+                            <lvc:CartesianChart Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Background="White" Margin="15" x:Name="ChartDependenceOfSalaryOnLengthOfService" LegendLocation="Top" >
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis x:Name="ChartDependenceOfSalaryOnLengthOfServiceXAx" Title="Salaris" LabelFormatter="{Binding YFormatter}"></lvc:Axis>
+                                </lvc:CartesianChart.AxisY>
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis x:Name="ChartDependenceOfSalaryOnLengthOfServiceYAx" Title="Drivers" Labels="{Binding Labels}"></lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
+                            </lvc:CartesianChart>
+
+                            <DataGrid Grid.Row="1" Grid.Column="2" Margin="15" Name="DriverForChartsDataGrid" AutoGenerateColumns="False" Background="#FF440D44">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn x:Name="DriverForChartsFullNameColumn" Header="ФИО Водителя" Binding="{Binding Path=FullName}" Width="180"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="DriverForChartsExperienceColumn" Header="Опыт водителя" Binding="{Binding Path=Experience}" Width="100"></DataGridTextColumn>
+                                    <DataGridTextColumn x:Name="DriverForChartsSalaryColumn" Header="Зарплата" Binding="{Binding Path=Salary}" Width="100"></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </TabItem.Content>
+                </TabItem>
+
+
+
+
+            </TabControl>
 
         </Grid>
     </Grid>

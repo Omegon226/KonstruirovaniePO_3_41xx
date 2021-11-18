@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using LiveCharts;
+using LiveCharts.Wpf;
 using BLL.Models;
 using BLL.DBInteraction;
 using BLL.Services;
@@ -43,8 +45,10 @@ namespace Интерфейс
         {
             InitializeComponent();
             LoadAllInformationFromDataBase();
-            InsertInformationInDataGrids();
+            InsertInformationInCRUDDataGrids();
             InsertInformationInReportsComboBoxes();
+            InsertInformationInChartsTab();
+            BuildCharts();
 
             FindeRouteGrid.Visibility = Visibility.Visible;
             CreateReportsGrid.Visibility = Visibility.Hidden;
@@ -226,7 +230,7 @@ namespace Интерфейс
 
         #region --- Подгрузка информации в таблицы для администрирования
 
-        private void InsertInformationInDataGrids()
+        private void InsertInformationInCRUDDataGrids()
         {
             InsertInformationInCruiseDataGrid();
             InsertInformationInDayOfTheWeekDataGrid();
@@ -1356,7 +1360,86 @@ namespace Интерфейс
 
         #endregion
 
+        #region --- Функции для постройки и отображения графиков
 
+        private List<FindeDriver.StoredProcedureResult> DriversForChartDependenceOfSalaryOnLengthOfService = FindeDriver.StoredProcedureExecute();
 
+        private void UpdateChartDependenceOfSalaryOnLengthOfServiceTabItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            DriversForChartDependenceOfSalaryOnLengthOfService = FindeDriver.StoredProcedureExecute();
+            InsertInformationInDriverForChartsDataGrid();
+            BuildChartDependenceOfSalaryOnLengthOfService();
+        }
+
+        private void InsertInformationInChartsTab()
+        {
+            InsertInformationInDriverForChartsDataGrid();
+        }
+        private void InsertInformationInDriverForChartsDataGrid()
+        {
+            DriverForChartsDataGrid.ItemsSource = DriversForChartDependenceOfSalaryOnLengthOfService;
+        }
+
+        private void BuildCharts()
+        {
+            BuildChartDependenceOfSalaryOnLengthOfService();
+        }
+
+        private void BuildChartDependenceOfSalaryOnLengthOfService()
+        {
+            List<FindeDriver.StoredProcedureResult> DriversForChart = new List<FindeDriver.StoredProcedureResult>();
+            ChartValues<int> Salarys = new ChartValues<int>();
+            string[] Labels = new string[DriversForChartDependenceOfSalaryOnLengthOfService.Count];
+
+            int countOfDrivers = DriversForChartDependenceOfSalaryOnLengthOfService.Count;
+            for (int i = 0; i < countOfDrivers; i++)
+            {
+                int minExperience = int.MaxValue;
+                int index = 0;
+                for (int j = 0; j < DriversForChartDependenceOfSalaryOnLengthOfService.Count; j++)
+                {
+                    if (DriversForChartDependenceOfSalaryOnLengthOfService[j].Experience < minExperience)
+                    {
+                        minExperience = DriversForChartDependenceOfSalaryOnLengthOfService[j].Experience;
+                        index = j;
+                    }
+                }
+                DriversForChart.Add(DriversForChartDependenceOfSalaryOnLengthOfService[index]);
+                DriversForChartDependenceOfSalaryOnLengthOfService.RemoveAt(index);
+            }
+
+            UpdateDriversForCharInfo();
+
+            for (int i = 0; i < DriversForChart.Count; ++i)
+            {
+                Salarys.Add(DriversForChart[i].Salary);
+            }
+            for (int i = 0; i < DriversForChart.Count; ++i)
+            {
+                Labels[i] = DriversForChart[i].Experience.ToString()+ "Года/Лет Стажа " + DriversForChart[i].FullName;
+            }
+
+            SeriesCollection SeriesCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "Зависимость зарплаты от стажа работы",
+                    Values = Salarys
+                }
+            };
+
+            Func<double, string> YFormatter = value => value.ToString("C");
+
+            ChartDependenceOfSalaryOnLengthOfService.Series = SeriesCollection;
+            ChartDependenceOfSalaryOnLengthOfServiceXAx.LabelFormatter = YFormatter;
+            ChartDependenceOfSalaryOnLengthOfServiceYAx.Labels = Labels;
+        }
+        private void UpdateDriversForCharInfo()
+        {
+            DriversForChartDependenceOfSalaryOnLengthOfService = FindeDriver.StoredProcedureExecute();
+            InsertInformationInDriverForChartsDataGrid();
+        }
+
+        #endregion
     }
 }
