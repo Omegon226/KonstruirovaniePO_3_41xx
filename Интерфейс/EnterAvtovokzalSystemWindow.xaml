@@ -49,7 +49,7 @@
             <Viewbox Grid.Row="0" HorizontalAlignment="Left" Margin="25,0,0,0">
                 <TextBlock Text="Пароль" Foreground="White"/>
             </Viewbox>
-            <TextBox x:Name="PasswordTextBox" Text="123" Grid.Row="1" Width="230" Height="50" Margin="5"/>
+            <PasswordBox x:Name="PasswordTextBox" Password="123" Grid.Row="1" Width="230" Height="50" Margin="5"/>
         </Grid>
 
         <Grid Grid.Row="4" Margin="25">

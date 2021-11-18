@@ -831,7 +831,7 @@
 
                             <Grid Grid.Column="1" Grid.ColumnSpan="2">
                                 <Viewbox Margin="5">
-                                    <TextBlock Text="Информация о зависисмости зарплаты водителя от его стажа" Foreground="White"/>
+                                    <TextBlock Text="Информация о зависимости зарплаты водителя от его стажа" Foreground="White"/>
                                 </Viewbox>
                             </Grid>
 
@@ -958,8 +958,91 @@
                     </TabItem.Content>
                 </TabItem>
 
+                <TabItem x:Name="ChartAmountOfCreatedCruisesOnTheRouteTabItem">
+                    <TabItem.Header>
+                        <TextBlock Margin="3">Количество рейсов на маршрут</TextBlock>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Grid>
 
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.3*"/>
 
+                                <ColumnDefinition Width="1.5*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.1*"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Button x:Name="UpdateChartAmountOfCreatedCruisesOnTheRouteTabItemButton" Background="Purple" Margin="3" Click="UpdateChartAmountOfCreatedCruisesOnTheRouteTabItemButton_Click">
+                                <Viewbox Margin="5">
+                                    <TextBlock Text="Обновить" Foreground="White"/>
+                                </Viewbox>
+                            </Button>
+
+                            <Grid Grid.Column="1" Grid.ColumnSpan="2">
+                                <Viewbox Margin="5">
+                                    <TextBlock Text="Количество существующих рейсов на определённый маршрут" Foreground="White"/>
+                                </Viewbox>
+                            </Grid>
+
+                            <lvc:CartesianChart Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Background="White" Margin="15" x:Name="ChartAmountOfCreatedCruisesOnTheRoute" LegendLocation="Top" >
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis x:Name="ChartAmountOfCreatedCruisesOnTheRouteXAx" Title="Count" LabelFormatter="{Binding Formatter}"></lvc:Axis>
+                                </lvc:CartesianChart.AxisY>
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis x:Name="ChartAmountOfCreatedCruisesOnTheRouteYAx" Title="Route ID" Labels="{Binding Labels}"></lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
+                            </lvc:CartesianChart>
+
+                        </Grid>
+                    </TabItem.Content>
+                </TabItem>
+
+                <TabItem x:Name="ChartAmountOfStoppingOnTheRouteTabItem">
+                    <TabItem.Header>
+                        <TextBlock Margin="3">Количество остановок на Рейс</TextBlock>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.3*"/>
+
+                                <ColumnDefinition Width="1.5*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.1*"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Button x:Name="UpdateChartAmountOfStoppingOnTheRouteTabItemButton" Background="Purple" Margin="3" Click="UpdateChartAmountOfStoppingOnTheRouteTabItemButton_Click">
+                                <Viewbox Margin="5">
+                                    <TextBlock Text="Обновить" Foreground="White"/>
+                                </Viewbox>
+                            </Button>
+
+                            <Grid Grid.Column="1" Grid.ColumnSpan="2">
+                                <Viewbox Margin="5">
+                                    <TextBlock Text="Количество остановок на определённый маршрут" Foreground="White"/>
+                                </Viewbox>
+                            </Grid>
+
+                            <lvc:CartesianChart Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Background="White" Margin="15" x:Name="ChartAmountOfStoppingOnTheRoute" LegendLocation="Top" >
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis x:Name="ChartAmountOfStoppingOnTheRouteXAx" Title="Count" LabelFormatter="{Binding Formatter}"></lvc:Axis>
+                                </lvc:CartesianChart.AxisY>
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis x:Name="ChartAmountOfStoppingOnTheRouteYAx" Title="Route ID" Labels="{Binding Labels}"></lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
+                            </lvc:CartesianChart>
+
+                        </Grid>
+                    </TabItem.Content>
+                </TabItem>
 
             </TabControl>
 

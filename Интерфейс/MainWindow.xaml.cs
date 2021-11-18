@@ -112,7 +112,7 @@ namespace Интерфейс
                 UserModel AuthorizedUser = new UserModel();
 
                 AuthorizedUser.Login = AuthorizationWindow.LoginTextBox.Text;
-                AuthorizedUser.Password = AuthorizationWindow.PasswordTextBox.Text;
+                AuthorizedUser.Password = AuthorizationWindow.PasswordTextBox.Password;
 
                 FindeSameUser(AuthorizedUser);
                 CheckUserPrivileges();
@@ -122,12 +122,21 @@ namespace Интерфейс
         {
             for (int i = 0; i < allUser.Count; ++i)
             {
-                if ((UserToFinde.Login == allUser[i].Login) || (UserToFinde.Password == allUser[i].Password))
+                if ((UserToFinde.Login == allUser[i].Login) && (UserToFinde.Password == allUser[i].Password))
                 {
                     StatusLevelOfUser = (int)allUser[i].Status;
                     AuthorisetionButton.Visibility = Visibility.Hidden;
                     DeauthorisetionButton.Visibility = Visibility.Visible;
-                    MessageBox.Show("Вход в систему осуществлён!");
+                    
+                    if (allUser[i].Status == 1)
+                    {
+                        MessageBox.Show("Вход в систему осуществлён! Вы являетесь пользователем.");
+                    }
+                    if (allUser[i].Status == 2)
+                    {
+                        MessageBox.Show("Вход в систему осуществлён! Вы являетесь администратором.");
+                    }
+
                     return;
                 }
             }
@@ -1376,16 +1385,20 @@ namespace Интерфейс
         {
             UpdateAllChartsInfo();
         }
+        private void UpdateChartAmountOfCreatedCruisesOnTheRouteTabItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateAllChartsInfo();
+        }
+        private void UpdateChartAmountOfStoppingOnTheRouteTabItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateAllChartsInfo();
+        }
+
         private void UpdateAllChartsInfo()
         {
             DriversForChartDependenceOfSalaryOnLengthOfService = FindeDriver.StoredProcedureExecute();
             InsertInformationInChartsTab();
             BuildCharts();
-        }
-        private void UpdateDriverChartInfo()
-        {
-            DriversForChartDependenceOfSalaryOnLengthOfService = FindeDriver.StoredProcedureExecute();
-            InsertDriversInformationForChartsDataGrid();
         }
 
 
@@ -1409,6 +1422,14 @@ namespace Интерфейс
             BuildChartDependenceOfSalaryOnLengthOfService();
             BuildChartDriversSalary();
             BuildChartUsersStatusCount();
+            BuildChartAmountOfCreatedCruisesOnTheRoute();
+            BuildChartAmountOfStoppingOnTheRoute();
+        }
+
+        private void UpdateDriverChartInfo()
+        {
+            DriversForChartDependenceOfSalaryOnLengthOfService = FindeDriver.StoredProcedureExecute();
+            InsertDriversInformationForChartsDataGrid();
         }
 
         private void BuildChartDependenceOfSalaryOnLengthOfService()
@@ -1494,7 +1515,6 @@ namespace Интерфейс
             ChartDriversSalaryYAx.Labels = Labels;
         }
 
-
         private void BuildChartUsersStatusCount()
         {
             List<FindeUsersStatusesCount.StoredProcedureResult> ResultOfSP = FindeUsersStatusesCount.StoredProcedureExecute();
@@ -1521,7 +1541,68 @@ namespace Интерфейс
             ChartUsersStatusesCountXAx.LabelFormatter = Formatter;
             ChartUsersStatusesCountYAx.Labels = Labels;
         }
+            
+        private void BuildChartAmountOfCreatedCruisesOnTheRoute()
+        {
+            List<FindeAmountOfCruiseOnTheRoute.StoredProcedureResult> ResultOfSP = FindeAmountOfCruiseOnTheRoute.StoredProcedureExecute();
+            ChartValues<int> CountOfCruises = new ChartValues<int>();
+            string[] Labels = new string[ResultOfSP.Count];
 
+            for (int i = 0; i < ResultOfSP.Count; ++i)
+            {
+                CountOfCruises.Add(ResultOfSP[i].AmountOfCruises);
+            }
+            for (int i = 0; i < ResultOfSP.Count; ++i)
+            {
+                Labels[i] = "ID Маршрута = " + ResultOfSP[i].IDOfRoute.ToString();
+            }
+
+            SeriesCollection SeriesCollection = new SeriesCollection
+            {
+                new ColumnSeries
+                {
+                    Title = "Кол-во рейсов",
+                    Values = CountOfCruises
+                }
+            };
+
+            Func<double, string> Formatter = value => value.ToString("N");
+
+            ChartAmountOfCreatedCruisesOnTheRoute.Series = SeriesCollection;
+            ChartAmountOfCreatedCruisesOnTheRouteXAx.LabelFormatter = Formatter;
+            ChartAmountOfCreatedCruisesOnTheRouteYAx.Labels = Labels;
+        }
+
+        private void BuildChartAmountOfStoppingOnTheRoute()
+        {
+            List<FindeAmountOfStoppingOnTheRoute.StoredProcedureResult> ResultOfSP = FindeAmountOfStoppingOnTheRoute.StoredProcedureExecute();
+            ChartValues<int> CountOfCruises = new ChartValues<int>();
+            string[] Labels = new string[ResultOfSP.Count];
+
+            for (int i = 0; i < ResultOfSP.Count; ++i)
+            {
+                CountOfCruises.Add(ResultOfSP[i].AmountOfStoppings);
+            }
+            for (int i = 0; i < ResultOfSP.Count; ++i)
+            {
+                Labels[i] = "ID Маршрута = " + ResultOfSP[i].RouteID.ToString();
+            }
+
+            SeriesCollection SeriesCollection = new SeriesCollection
+            {
+                new ColumnSeries
+                {
+                    Title = "Кол-во остановок",
+                    Values = CountOfCruises
+                }
+            };
+
+            Func<double, string> Formatter = value => value.ToString("N");
+
+            ChartAmountOfStoppingOnTheRoute.Series = SeriesCollection;
+            ChartAmountOfStoppingOnTheRouteXAx.LabelFormatter = Formatter;
+            ChartAmountOfStoppingOnTheRouteYAx.Labels = Labels;
+        }
 
         #endregion
     }
