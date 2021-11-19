@@ -41,10 +41,28 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Viewbox Grid.Row="0" HorizontalAlignment="Left" Margin="165,0,165,0">
-                <TextBlock Text="ФИО" Foreground="White"/>
+            <Viewbox Grid.Row="0" HorizontalAlignment="Left" Margin="25,0,25,0">
+                <TextBlock Text="Фамилия Имя Отчество (Отчества может не быть)" Foreground="White"/>
             </Viewbox>
-            <TextBox x:Name="FullNameTextBox" Grid.Row="1" Width="500" Height="25" Margin="5"/>
+
+            <Grid  Grid.Row="1">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Viewbox Grid.Column="0">
+                    <TextBox x:Name="SurnameTextBox" Grid.Row="1" Width="200" Height="25" Margin="5"/>
+                </Viewbox>
+                <Viewbox Grid.Column="1">
+                    <TextBox x:Name="NameTextBox" Grid.Row="1" Width="200" Height="25" Margin="5"/>
+                </Viewbox>
+                <Viewbox Grid.Column="2">
+                    <TextBox x:Name="PatronymicTextBox" Grid.Row="1" Width="200" Height="25" Margin="5"/>
+                </Viewbox>
+            </Grid>
         </Grid>
 
         <Grid Grid.Row="3" Margin="10">
@@ -57,7 +75,9 @@
             <Viewbox Grid.Row="0" HorizontalAlignment="Left" Margin="25,0,25,0">
                 <TextBlock Text="Индентификационная информация" Foreground="White"/>
             </Viewbox>
-            <TextBox x:Name="IndentificationInformationTextBox" Grid.Row="1" Width="300" Height="25" Margin="5"/>
+            <Viewbox Grid.Row="1">
+                <TextBox x:Name="IndentificationInformationTextBox" Width="250" Height="25" Margin="5"/>
+            </Viewbox>
         </Grid>
 
         <Grid Grid.Row="4" Margin="10">
@@ -70,8 +90,8 @@
             <Viewbox Grid.Row="0" HorizontalAlignment="Left" Margin="25,0,25,0">
                 <TextBlock Text="Номер выбранного сиденья" Foreground="White"/>
             </Viewbox>
-            <Viewbox Grid.Row="1" Width="300" Height="25" Margin="5">
-                <xctk:IntegerUpDown x:Name="SeatNumberOnTheTransportIntegerUpDown" Value="1" Width="120"/>
+            <Viewbox Grid.Row="1">
+                <xctk:IntegerUpDown x:Name="SeatNumberOnTheTransportIntegerUpDown" Value="1" Width="120" Margin="5"/>
             </Viewbox>
         </Grid>
 
@@ -85,7 +105,9 @@
             <Viewbox Grid.Row="0" HorizontalAlignment="Left" Margin="25,0,25,0">
                 <TextBlock Text="Круиз" Foreground="White"/>
             </Viewbox>
-            <ComboBox x:Name="CruiseIDComboBox" Grid.Row="1" Width="300" Height="25" Margin="5"/>
+            <Viewbox Grid.Row="1">
+                <ComboBox x:Name="CruiseIDComboBox" Width="250" Height="25" Margin="5"/>
+            </Viewbox>
         </Grid>
 
         <Grid Grid.Row="4" Grid.Column="1" Margin="10">
@@ -98,7 +120,9 @@
             <Viewbox Grid.Row="0" HorizontalAlignment="Left" Margin="25,0,25,0">
                 <TextBlock Text="Пользователь" Foreground="White"/>
             </Viewbox>
-            <ComboBox x:Name="UserIDComboBox" Grid.Row="1" Width="300" Height="25" Margin="5"/>
+            <Viewbox Grid.Row="1">
+                <ComboBox x:Name="UserIDComboBox" Width="250" Height="25" Margin="5"/>
+            </Viewbox>
         </Grid>
 
         <Grid Grid.Row="5" Grid.ColumnSpan="2" Margin="10">
@@ -130,7 +154,9 @@
                 <Viewbox Grid.Row="0" Margin="3">
                     <TextBlock Text="Год" Foreground="White"/>
                 </Viewbox>
-                <TextBox x:Name="RaceDepartureTimeYearParametrTextBox" Grid.Row="1" Margin="5" Text="2021"/>
+                <Viewbox Grid.Row="1">
+                    <TextBox x:Name="RaceDepartureTimeYearParametrTextBox" Margin="5" Width="100" Text="2021"/>
+                </Viewbox>
             </Grid>
 
             <Grid Grid.Row="1" Grid.Column="1">
@@ -142,7 +168,9 @@
                 <Viewbox Grid.Row="0" Margin="3">
                     <TextBlock Text="Месяца (числом)" Foreground="White"/>
                 </Viewbox>
-                <TextBox x:Name="RaceDepartureTimeMonthParametrTextBox" Grid.Row="1" Margin="5" Text="11"/>
+                <Viewbox Grid.Row="1">
+                    <TextBox x:Name="RaceDepartureTimeMonthParametrTextBox" Margin="5" Width="100" Text="11"/>
+                </Viewbox>
             </Grid>
 
             <Grid Grid.Row="1" Grid.Column="2">
@@ -154,7 +182,9 @@
                 <Viewbox Grid.Row="0" Margin="3">
                     <TextBlock Text="Число" Foreground="White"/>
                 </Viewbox>
-                <TextBox x:Name="RaceDepartureTimeDayParametrTextBox" Grid.Row="1" Margin="5" Text="17"/>
+                <Viewbox Grid.Row="1">
+                    <TextBox x:Name="RaceDepartureTimeDayParametrTextBox" Margin="5" Width="100" Text="19"/>
+                </Viewbox>
             </Grid>
 
             <Grid Grid.Row="1" Grid.Column="3">
@@ -166,7 +196,9 @@
                 <Viewbox Grid.Row="0" Margin="3">
                     <TextBlock Text="Час" Foreground="White"/>
                 </Viewbox>
-                <TextBox x:Name="RaceDepartureTimeHourParametrTextBox" Grid.Row="1" Margin="5" Text="16"/>
+                <Viewbox Grid.Row="1">
+                    <TextBox x:Name="RaceDepartureTimeHourParametrTextBox" Margin="5" Width="100" Text="15"/>
+                </Viewbox>
             </Grid>
 
             <Grid Grid.Row="1" Grid.Column="4">
@@ -178,7 +210,9 @@
                 <Viewbox Grid.Row="0" Margin="3">
                     <TextBlock Text="Минуты" Foreground="White"/>
                 </Viewbox>
-                <TextBox x:Name="RaceDepartureTimeMinuteParametrTextBox" Grid.Row="1" Margin="5" Text="54"/>
+                <Viewbox Grid.Row="1">
+                    <TextBox x:Name="RaceDepartureTimeMinuteParametrTextBox" Margin="5" Width="100" Text="55"/>
+                </Viewbox>
             </Grid>
 
             <Grid Grid.Row="1" Grid.Column="5">
@@ -190,7 +224,9 @@
                 <Viewbox Grid.Row="0" Margin="3">
                     <TextBlock Text="Секунды" Foreground="White"/>
                 </Viewbox>
-                <TextBox x:Name="RaceDepartureTimeSecondParametrTextBox" Grid.Row="1" Margin="5" Text="29"/>
+                <Viewbox Grid.Row="1">
+                    <TextBox x:Name="RaceDepartureTimeSecondParametrTextBox" Margin="5" Width="100" Text="23"/>
+                </Viewbox>
             </Grid>
         </Grid>
 
@@ -223,7 +259,9 @@
                 <Viewbox Grid.Row="0" Margin="3">
                     <TextBlock Text="Год" Foreground="White"/>
                 </Viewbox>
-                <TextBox x:Name="DateOfIssueYearParametrTextBox" Grid.Row="1" Margin="5" Text="2021"/>
+                <Viewbox Grid.Row="1">
+                    <TextBox x:Name="DateOfIssueYearParametrTextBox" Margin="5" Width="100" Text="2021"/>
+                </Viewbox>
             </Grid>
 
             <Grid Grid.Row="1" Grid.Column="1">
@@ -235,7 +273,9 @@
                 <Viewbox Grid.Row="0" Margin="3">
                     <TextBlock Text="Месяца (числом)" Foreground="White"/>
                 </Viewbox>
-                <TextBox x:Name="DateOfIssueMonthParametrTextBox" Grid.Row="1" Margin="5" Text="11"/>
+                <Viewbox Grid.Row="1">
+                    <TextBox x:Name="DateOfIssueMonthParametrTextBox" Margin="5" Width="100" Text="11"/>
+                </Viewbox>
             </Grid>
 
             <Grid Grid.Row="1" Grid.Column="2">
@@ -247,7 +287,9 @@
                 <Viewbox Grid.Row="0" Margin="3">
                     <TextBlock Text="Число" Foreground="White"/>
                 </Viewbox>
-                <TextBox x:Name="DateOfIssueDayParametrTextBox" Grid.Row="1" Margin="5" Text="17"/>
+                <Viewbox Grid.Row="1">
+                    <TextBox x:Name="DateOfIssueDayParametrTextBox" Margin="5" Width="100" Text="19"/>
+                </Viewbox>
             </Grid>
 
             <Grid Grid.Row="1" Grid.Column="3">
@@ -259,7 +301,9 @@
                 <Viewbox Grid.Row="0" Margin="3">
                     <TextBlock Text="Час" Foreground="White"/>
                 </Viewbox>
-                <TextBox x:Name="DateOfIssueHourParametrTextBox" Grid.Row="1" Margin="5" Text="15"/>
+                <Viewbox Grid.Row="1">
+                    <TextBox x:Name="DateOfIssueHourParametrTextBox" Margin="5" Width="100" Text="12"/>
+                </Viewbox>
             </Grid>
 
             <Grid Grid.Row="1" Grid.Column="4">
@@ -271,7 +315,9 @@
                 <Viewbox Grid.Row="0" Margin="3">
                     <TextBlock Text="Минуты" Foreground="White"/>
                 </Viewbox>
-                <TextBox x:Name="DateOfIssueMinuteParametrTextBox" Grid.Row="1" Margin="5" Text="44"/>
+                <Viewbox Grid.Row="1">
+                    <TextBox x:Name="DateOfIssueMinuteParametrTextBox" Margin="5" Width="100" Text="30"/>
+                </Viewbox>
             </Grid>
 
             <Grid Grid.Row="1" Grid.Column="5">
@@ -283,7 +329,9 @@
                 <Viewbox Grid.Row="0" Margin="3">
                     <TextBlock Text="Секунды" Foreground="White"/>
                 </Viewbox>
-                <TextBox x:Name="DateOfIssueSecondParametrTextBox" Grid.Row="1" Margin="5" Text="26"/>
+                <Viewbox Grid.Row="1">
+                    <TextBox x:Name="DateOfIssueSecondParametrTextBox" Margin="5" Width="100" Text="30"/>
+                </Viewbox>
             </Grid>
         </Grid>
 

@@ -98,9 +98,6 @@
     <Compile Include="CeateUpdateWindows\CruiseCUWindow.xaml.cs">
       <DependentUpon>CruiseCUWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CeateUpdateWindows\DayOfTheWeekCUWindow.xaml.cs">
-      <DependentUpon>DayOfTheWeekCUWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="CeateUpdateWindows\DriverCUWindow.xaml.cs">
       <DependentUpon>DriverCUWindow.xaml</DependentUpon>
     </Compile>
@@ -135,10 +132,6 @@
       <DependentUpon>SelectCruiseWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="CeateUpdateWindows\CruiseCUWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="CeateUpdateWindows\DayOfTheWeekCUWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

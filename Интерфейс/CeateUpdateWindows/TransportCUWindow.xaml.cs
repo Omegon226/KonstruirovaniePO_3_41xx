@@ -26,7 +26,46 @@ namespace Интерфейс.CeateUpdateWindows
 
         private void AcceptButton_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = true;
+            bool SuccessOfRegistrationNumberParse = RegistrationNumberTextBox.Text.All(Char.IsLetterOrDigit);
+            bool SuccessOfModelParse = ModelTextBox.Text.All(Char.IsLetterOrDigit);
+
+            if (SuccessOfRegistrationNumberParse && SuccessOfModelParse)
+            {
+                bool CorectnessOfRegistrationNumber = ValidationOfRegistrationNumber();
+                bool CorectnessOfAmountOfSeats = ValidationOfAmountOfSeats();
+
+                if (CorectnessOfRegistrationNumber && CorectnessOfAmountOfSeats)
+                {
+                    DialogResult = true;
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show("Значение регистрационного номера или кол-во мест слишком большое неверно! Измените их");
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Видимо какое то поле имеет неправильный формат ввода");
+                return;
+            }
+        }
+        private bool ValidationOfRegistrationNumber()
+        {
+            if ((RegistrationNumberTextBox.Text.Length >= 6) && (RegistrationNumberTextBox.Text.Length <= 9))
+            {
+                return (true);
+            }
+            return (false);
+        }
+        private bool ValidationOfAmountOfSeats()
+        {
+            if ((NumberOfSeatsIntegerUpDown.Value > 0) && (NumberOfSeatsIntegerUpDown.Value <= 200))
+            {
+                return (true);
+            }
+            return (false);
         }
     }
 }

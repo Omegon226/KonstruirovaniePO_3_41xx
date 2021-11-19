@@ -26,7 +26,52 @@ namespace Интерфейс.CeateUpdateWindows
 
         private void AcceptButton_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = true;
+            int Experience = 0;
+            int Salary = 0;
+    
+            bool SuccessOfSurnameParse = SurnameTextBox.Text.All(Char.IsLetter);
+            bool SuccessOfNameParse = NameTextBox.Text.All(Char.IsLetter);
+            bool SuccessOfPatronomicParse = PatronymicTextBox.Text.All(Char.IsLetter);
+            bool SuccessOfHoursParse = Int32.TryParse(ExperienceTextBox.Text, out Experience);
+            bool SuccessOfMinutesParse = Int32.TryParse(SalaryTextBox.Text, out Salary);
+
+            if (SuccessOfSurnameParse && SuccessOfNameParse && SuccessOfPatronomicParse && SuccessOfHoursParse && SuccessOfMinutesParse)
+            {
+                bool CorectnessOfExperienceNumber = ValidationOfExperience(Experience);
+                bool CorectnessOfSalaryNumber = ValidationOfSalary(Salary);
+
+                if (CorectnessOfExperienceNumber && CorectnessOfSalaryNumber)
+                {
+                    DialogResult = true;
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show("Значения опыта или зарплаты неверны! Измените их");
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Видимо какое то поле имеет неправильный формат ввода");
+                return;
+            }
+        }
+        private bool ValidationOfExperience(int Experience)
+        {
+            if (Experience <= int.MaxValue)
+            {
+                return (true);
+            }
+            return (false);
+        }
+        private bool ValidationOfSalary(int Salary)
+        {
+            if (Salary <= int.MaxValue)
+            {
+                return (true);
+            }
+            return (false);
         }
     }
 }

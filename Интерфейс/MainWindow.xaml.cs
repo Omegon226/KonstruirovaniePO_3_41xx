@@ -343,10 +343,17 @@ namespace Интерфейс
             {
                 UserModel NewObject = new UserModel();
 
-                NewObject.FullName = CreateWindow.FullNameTextBox.Text;
+                NewObject.FullName = CreateWindow.SurnameTextBox.Text + " " + CreateWindow.NameTextBox.Text + " " + CreateWindow.PatronymicTextBox.Text;
                 NewObject.Login = CreateWindow.LoginTextBox.Text;
                 NewObject.Password = CreateWindow.PasswordTextBox.Text;
-                NewObject.Status = CreateWindow.StatusIntegerUpDown.Value;
+                if (CreateWindow.StatusUserRadioButton.IsChecked == true)
+                {
+                    NewObject.Status = 1;
+                }
+                if (CreateWindow.StatusAdministratorRadioButton.IsChecked == true)
+                {
+                    NewObject.Status = 2;
+                }
 
                 DBComunication.User.Create(NewObject);
                 allUser = DBComunication.User.GetAll();
@@ -375,20 +382,54 @@ namespace Интерфейс
                 {
                     UserCUWindow UpdateWindow = new UserCUWindow();
 
-                    UpdateWindow.FullNameTextBox.Text = ph.FullName;
+                    string[] FullName = ph.FullName.Split(' ');
+
+                    if (FullName.Length == 1)
+                    {
+                        UpdateWindow.SurnameTextBox.Text = FullName[0];
+                    }
+                    if (FullName.Length == 2)
+                    {
+                        UpdateWindow.SurnameTextBox.Text = FullName[0];
+                        UpdateWindow.NameTextBox.Text = FullName[1];
+                    }
+                    if (FullName.Length == 3)
+                    {
+                        UpdateWindow.SurnameTextBox.Text = FullName[0];
+                        UpdateWindow.NameTextBox.Text = FullName[1];
+                        UpdateWindow.PatronymicTextBox.Text = FullName[2];
+                    }
+
                     UpdateWindow.LoginTextBox.Text = ph.Login;
                     UpdateWindow.PasswordTextBox.Text = ph.Password;
-                    UpdateWindow.StatusIntegerUpDown.Value = ph.Status;
+
+                    if (ph.Status == 1)
+                    {
+                        UpdateWindow.StatusUserRadioButton.IsChecked = true;
+                        UpdateWindow.StatusAdministratorRadioButton.IsChecked = false;
+                    }
+                    if (ph.Status == 2)
+                    {
+                        UpdateWindow.StatusUserRadioButton.IsChecked = false;
+                        UpdateWindow.StatusAdministratorRadioButton.IsChecked = true;
+                    }
 
                     bool? result = UpdateWindow.ShowDialog();
                     if (result == false)
                         return;
                     else 
                     {
-                        ph.FullName = UpdateWindow.FullNameTextBox.Text;
+                        ph.FullName = UpdateWindow.SurnameTextBox.Text + " " + UpdateWindow.NameTextBox.Text + " " + UpdateWindow.PatronymicTextBox.Text;
                         ph.Login = UpdateWindow.LoginTextBox.Text;
                         ph.Password = UpdateWindow.PasswordTextBox.Text;
-                        ph.Status = UpdateWindow.StatusIntegerUpDown.Value;
+                        if (UpdateWindow.StatusUserRadioButton.IsChecked == true)
+                        {
+                            ph.Status = 1;
+                        }
+                        if (UpdateWindow.StatusAdministratorRadioButton.IsChecked == true)
+                        {
+                            ph.Status = 2;
+                        }
 
                         DBComunication.User.Update(ph);
                         allUser = DBComunication.User.GetAll();
@@ -450,7 +491,7 @@ namespace Интерфейс
 
                 NewObject.IdentificationInformation = CreateWindow.IndentificationInformationTextBox.Text;
                 NewObject.SeatNumberOnTheTransport = CreateWindow.SeatNumberOnTheTransportIntegerUpDown.Value;
-                NewObject.FullName = CreateWindow.FullNameTextBox.Text;
+                NewObject.FullName = CreateWindow.SurnameTextBox.Text + " " + CreateWindow.NameTextBox.Text + " " + CreateWindow.PatronymicTextBox.Text;
                 NewObject.CruiseID = (int)CreateWindow.CruiseIDComboBox.SelectedValue;
                 NewObject.UserID = (int)CreateWindow.UserIDComboBox.SelectedValue;
 
@@ -509,7 +550,25 @@ namespace Интерфейс
 
                     UpdateWindow.IndentificationInformationTextBox.Text = ph.IdentificationInformation;
                     UpdateWindow.SeatNumberOnTheTransportIntegerUpDown.Value = ph.SeatNumberOnTheTransport;
-                    UpdateWindow.FullNameTextBox.Text = ph.FullName;
+
+                    string[] FullName = ph.FullName.Split(' ');
+
+                    if (FullName.Length == 1)
+                    {
+                        UpdateWindow.SurnameTextBox.Text = FullName[0];
+                    }
+                    if (FullName.Length == 2)
+                    {
+                        UpdateWindow.SurnameTextBox.Text = FullName[0];
+                        UpdateWindow.NameTextBox.Text = FullName[1];
+                    }
+                    if (FullName.Length == 3)
+                    {
+                        UpdateWindow.SurnameTextBox.Text = FullName[0];
+                        UpdateWindow.NameTextBox.Text = FullName[1];
+                        UpdateWindow.PatronymicTextBox.Text = FullName[2];
+                    }
+
                     UpdateWindow.CruiseIDComboBox.SelectedValue = ph.CruiseID;
                     UpdateWindow.UserIDComboBox.SelectedValue = ph.UserID;
 
@@ -541,7 +600,7 @@ namespace Интерфейс
 
                         ph.IdentificationInformation = UpdateWindow.IndentificationInformationTextBox.Text;
                         ph.SeatNumberOnTheTransport = UpdateWindow.SeatNumberOnTheTransportIntegerUpDown.Value;
-                        ph.FullName = UpdateWindow.FullNameTextBox.Text;
+                        ph.FullName = UpdateWindow.SurnameTextBox.Text + " " + UpdateWindow.NameTextBox.Text + " " + UpdateWindow.PatronymicTextBox.Text;
                         ph.CruiseID = (int)UpdateWindow.CruiseIDComboBox.SelectedValue;
                         ph.UserID = (int)UpdateWindow.UserIDComboBox.SelectedValue;
 
@@ -600,8 +659,15 @@ namespace Интерфейс
                 NewObject.NumberOfSeats = CreateWindow.NumberOfSeatsIntegerUpDown.Value;
                 NewObject.RegistrationNumber = CreateWindow.RegistrationNumberTextBox.Text;
                 NewObject.Model = CreateWindow.ModelTextBox.Text;
-                NewObject.Hidden = CreateWindow.HiddenCheckBox.IsChecked;
-               
+                if (CreateWindow.HiddenNoRadioButton.IsChecked == true)
+                {
+                    NewObject.Hidden = false;
+                }
+                if (CreateWindow.HiddenYesRadioButton.IsChecked == true)
+                {
+                    NewObject.Hidden = true;
+                }
+
                 DBComunication.Transport.Create(NewObject);
                 allTransport = DBComunication.Transport.GetAll();
                 InsertInformationInTransportDataGrid();
@@ -631,7 +697,16 @@ namespace Интерфейс
                     UpdateWindow.NumberOfSeatsIntegerUpDown.Value = ph.NumberOfSeats;
                     UpdateWindow.RegistrationNumberTextBox.Text = ph.RegistrationNumber;
                     UpdateWindow.ModelTextBox.Text = ph.Model;
-                    UpdateWindow.HiddenCheckBox.IsChecked = ph.Hidden;
+                    if (ph.Hidden == false)
+                    {
+                        UpdateWindow.HiddenNoRadioButton.IsChecked = true;
+                        UpdateWindow.HiddenYesRadioButton.IsChecked = false;
+                    }
+                    else
+                    {
+                        UpdateWindow.HiddenNoRadioButton.IsChecked = false;
+                        UpdateWindow.HiddenYesRadioButton.IsChecked = true;
+                    }
 
                     bool? result = UpdateWindow.ShowDialog();
                     if (result == false)
@@ -641,7 +716,14 @@ namespace Интерфейс
                         ph.NumberOfSeats = UpdateWindow.NumberOfSeatsIntegerUpDown.Value;
                         ph.RegistrationNumber = UpdateWindow.RegistrationNumberTextBox.Text;
                         ph.Model = UpdateWindow.ModelTextBox.Text;
-                        ph.Hidden = UpdateWindow.HiddenCheckBox.IsChecked;
+                        if (UpdateWindow.HiddenNoRadioButton.IsChecked == true)
+                        {
+                            ph.Hidden = false;
+                        }
+                        if (UpdateWindow.HiddenYesRadioButton.IsChecked == true)
+                        {
+                            ph.Hidden = true;
+                        }
 
                         DBComunication.Transport.Update(ph);
                         allTransport = DBComunication.Transport.GetAll();
@@ -678,7 +760,7 @@ namespace Интерфейс
         // CRUD Для StopSequences
         private void CreateStopSequencesButton_Click(object sender, RoutedEventArgs e)
         {
-            StopSequencesCUWindow CreateWindow = new StopSequencesCUWindow();
+            StopSequencesCUWindow CreateWindow = new StopSequencesCUWindow(allLocality, allStoppingOnTheRoute);
             CreateWindow.StoppingIDComboBox.ItemsSource = allStoppingOnTheRoute;
             CreateWindow.StoppingIDComboBox.DisplayMemberPath = "ID";
             CreateWindow.StoppingIDComboBox.SelectedValuePath = "ID"; 
@@ -727,7 +809,7 @@ namespace Интерфейс
                 StopSequencesModel ph = allStopSequences.Where(i => i.ID == id).FirstOrDefault();
                 if (ph != null)
                 {
-                    StopSequencesCUWindow UpdateWindow = new StopSequencesCUWindow();
+                    StopSequencesCUWindow UpdateWindow = new StopSequencesCUWindow(allLocality, allStoppingOnTheRoute);
                     UpdateWindow.StoppingIDComboBox.ItemsSource = allStoppingOnTheRoute;
                     UpdateWindow.StoppingIDComboBox.DisplayMemberPath = "ID";
                     UpdateWindow.StoppingIDComboBox.SelectedValuePath = "ID";
@@ -894,7 +976,14 @@ namespace Интерфейс
                 RouteModel NewObject = new RouteModel();
 
                 NewObject.TravelTimeInHours = CreateWindow.TravelTimeInHoursIntegerUpDown.Value;
-                NewObject.Hidden = CreateWindow.HiddenCheckBox.IsChecked;
+                if (CreateWindow.HiddenNoRadioButton.IsChecked == true)
+                {
+                    NewObject.Hidden = false;
+                }
+                if (CreateWindow.HiddenYesRadioButton.IsChecked == true)
+                {
+                    NewObject.Hidden = true;
+                }
 
                 DBComunication.Route.Create(NewObject);
                 allRoute = DBComunication.Route.GetAll();
@@ -923,7 +1012,16 @@ namespace Интерфейс
                     RouteCUWindow UpdateWindow = new RouteCUWindow();
 
                     UpdateWindow.TravelTimeInHoursIntegerUpDown.Value = ph.TravelTimeInHours;
-                    UpdateWindow.HiddenCheckBox.IsChecked = ph.Hidden;
+                    if (ph.Hidden == false)
+                    {
+                        UpdateWindow.HiddenNoRadioButton.IsChecked = true;
+                        UpdateWindow.HiddenYesRadioButton.IsChecked = false;
+                    }
+                    else
+                    {
+                        UpdateWindow.HiddenNoRadioButton.IsChecked = false;
+                        UpdateWindow.HiddenYesRadioButton.IsChecked = true;
+                    }
 
                     bool? result = UpdateWindow.ShowDialog();
                     if (result == false)
@@ -931,7 +1029,14 @@ namespace Интерфейс
                     else
                     {
                         ph.TravelTimeInHours = UpdateWindow.TravelTimeInHoursIntegerUpDown.Value;
-                        ph.Hidden = UpdateWindow.HiddenCheckBox.IsChecked;
+                        if (UpdateWindow.HiddenNoRadioButton.IsChecked == true)
+                        {
+                            ph.Hidden = false;
+                        }
+                        if (UpdateWindow.HiddenYesRadioButton.IsChecked == true)
+                        {
+                            ph.Hidden = true;
+                        }
 
                         DBComunication.Route.Update(ph);
                         allRoute = DBComunication.Route.GetAll();
@@ -1061,10 +1166,17 @@ namespace Интерфейс
             {
                 DriverModel NewObject = new DriverModel();
 
-                NewObject.FullName = CreateWindow.FullNameTextBox.Text;
+                NewObject.FullName = CreateWindow.SurnameTextBox.Text + " " + CreateWindow.NameTextBox.Text + " " + CreateWindow.PatronymicTextBox.Text;
                 NewObject.Experience = Int32.Parse(CreateWindow.ExperienceTextBox.Text);
                 NewObject.Salary = Int32.Parse(CreateWindow.SalaryTextBox.Text);
-                NewObject.Hidden = CreateWindow.HiddenCheckBox.IsChecked;
+                if (CreateWindow.HiddenNoRadioButton.IsChecked == true)
+                {
+                    NewObject.Hidden = false;
+                }
+                if (CreateWindow.HiddenYesRadioButton.IsChecked == true)
+                {
+                    NewObject.Hidden = true;
+                }
 
                 DBComunication.Driver.Create(NewObject);
                 allDriver = DBComunication.Driver.GetAll();
@@ -1092,20 +1204,54 @@ namespace Интерфейс
                 {
                     DriverCUWindow UpdateWindow = new DriverCUWindow();
 
-                    UpdateWindow.FullNameTextBox.Text = ph.FullName;
+                    string[] FullName = ph.FullName.Split(' ');
+
+                    if (FullName.Length == 1)
+                    {
+                        UpdateWindow.SurnameTextBox.Text = FullName[0];
+                    }
+                    if (FullName.Length == 2)
+                    {
+                        UpdateWindow.SurnameTextBox.Text = FullName[0];
+                        UpdateWindow.NameTextBox.Text = FullName[1];
+                    }
+                    if (FullName.Length == 3)
+                    {
+                        UpdateWindow.SurnameTextBox.Text = FullName[0];
+                        UpdateWindow.NameTextBox.Text = FullName[1];
+                        UpdateWindow.PatronymicTextBox.Text = FullName[2];
+                    }
+
                     UpdateWindow.ExperienceTextBox.Text = ph.Experience.ToString();
                     UpdateWindow.SalaryTextBox.Text = ph.Salary.ToString();
-                    UpdateWindow.HiddenCheckBox.IsChecked = ph.Hidden;
+
+                    if (ph.Hidden == false)
+                    {
+                        UpdateWindow.HiddenNoRadioButton.IsChecked = true;
+                        UpdateWindow.HiddenYesRadioButton.IsChecked = false;
+                    }
+                    else
+                    {
+                        UpdateWindow.HiddenNoRadioButton.IsChecked = false;
+                        UpdateWindow.HiddenYesRadioButton.IsChecked = true;
+                    }
 
                     bool? result = UpdateWindow.ShowDialog();
                     if (result == false)
                         return;
                     else
                     {
-                        ph.FullName = UpdateWindow.FullNameTextBox.Text;
+                        ph.FullName = UpdateWindow.SurnameTextBox.Text + " " + UpdateWindow.NameTextBox.Text + " " + UpdateWindow.PatronymicTextBox.Text;
                         ph.Experience = Int32.Parse(UpdateWindow.ExperienceTextBox.Text);
                         ph.Salary = Int32.Parse(UpdateWindow.SalaryTextBox.Text);
-                        ph.Hidden = UpdateWindow.HiddenCheckBox.IsChecked;
+                        if (UpdateWindow.HiddenNoRadioButton.IsChecked == true)
+                        {
+                            ph.Hidden = false;
+                        }
+                        if (UpdateWindow.HiddenYesRadioButton.IsChecked == true)
+                        {
+                            ph.Hidden = true;
+                        }
 
                         DBComunication.Driver.Update(ph);
                         allDriver = DBComunication.Driver.GetAll();
@@ -1140,84 +1286,18 @@ namespace Интерфейс
         }
 
         // CRUD Для DayOfTheWeek
+        // Функционал был удалён, т.к. константные значения в таблицах нельзя изменять
         private void CreateDayOfTheWeekButton_Click(object sender, RoutedEventArgs e)
         {
-            DayOfTheWeekCUWindow CreateWindow = new DayOfTheWeekCUWindow();
 
-            bool? result = CreateWindow.ShowDialog();
-            if (result == false)
-                return;
-            else
-            {
-                DayOfTheWeekModel NewObject = new DayOfTheWeekModel();
-
-                NewObject.DayOfTheWeekName = CreateWindow.DayOfTheWeekNameTextBox.Text;
-
-                DBComunication.DayOfTheWeek.Create(NewObject);
-                allDayOfTheWeek = DBComunication.DayOfTheWeek.GetAll();
-                InsertInformationInDayOfTheWeekDataGrid();
-
-                MessageBox.Show("Новый объект добавлен");
-            }
         }
         private void UpdateDayOfTheWeekButton_Click(object sender, RoutedEventArgs e)
         {
-            DataGrid DataGridForUpdateOperation = DayOfTheWeekDataGrid;
 
-            int index = getSelectedRow(DataGridForUpdateOperation);
-            if (index != -1)
-            {
-
-                int id = 0;
-                DayOfTheWeekModel MarkedRow = (DayOfTheWeekModel)DataGridForUpdateOperation.Items[index];
-                bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
-                if (converted == false)
-                    return;
-
-                DayOfTheWeekModel ph = allDayOfTheWeek.Where(i => i.ID == id).FirstOrDefault();
-                if (ph != null)
-                {
-                    DayOfTheWeekCUWindow UpdateWindow = new DayOfTheWeekCUWindow();
-
-                    UpdateWindow.DayOfTheWeekNameTextBox.Text = ph.DayOfTheWeekName;
-
-                    bool? result = UpdateWindow.ShowDialog();
-                    if (result == false)
-                        return;
-                    else
-                    {
-                        ph.DayOfTheWeekName = UpdateWindow.DayOfTheWeekNameTextBox.Text;
-
-                        DBComunication.DayOfTheWeek.Update(ph);
-                        allDayOfTheWeek = DBComunication.DayOfTheWeek.GetAll();
-                        InsertInformationInDayOfTheWeekDataGrid();
-
-                        MessageBox.Show("Объект обновлен");
-                    }
-                }
-            }
-            else
-            {
-                MessageBox.Show("Ни один объект не выбран!");
-            }
         }
         private void DeleteDayOfTheWeekButton_Click(object sender, RoutedEventArgs e)
         {
-            DataGrid DataGridForDeleteOperation = DayOfTheWeekDataGrid;
-            int index = getSelectedRow(DataGridForDeleteOperation);
 
-            if (index != -1)
-            {
-                int id = 0;
-                DayOfTheWeekModel MarkedRow = (DayOfTheWeekModel)DataGridForDeleteOperation.Items[index];
-                bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
-                if (converted == false)
-                    return;
-
-                DBComunication.DayOfTheWeek.Delete(id);
-                allDayOfTheWeek = DBComunication.DayOfTheWeek.GetAll();
-                InsertInformationInDayOfTheWeekDataGrid();
-            }
         }
 
         // CRUD Для Cruise

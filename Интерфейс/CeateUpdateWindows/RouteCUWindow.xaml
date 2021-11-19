@@ -35,7 +35,7 @@
             </Grid.RowDefinitions>
 
             <Viewbox Grid.Row="0" HorizontalAlignment="Left" Margin="25,0,25,0">
-                <TextBlock Text="Время в пути" Foreground="White"/>
+                <TextBlock Text="Время в пути (Измеряется в часах)" Foreground="White"/>
             </Viewbox>
             <Viewbox Grid.Row="1" Width="300" Height="25" Margin="5">
                 <xctk:IntegerUpDown x:Name="TravelTimeInHoursIntegerUpDown" Value="10" Width="120"/>
@@ -52,7 +52,28 @@
             <Viewbox Grid.Row="0" HorizontalAlignment="Left" Margin="25,0,25,0">
                 <TextBlock Text="Скрытость (Да или Нет)" Foreground="White"/>
             </Viewbox>
-            <CheckBox x:Name="HiddenCheckBox" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Viewbox Grid.Column="0" Margin="5" HorizontalAlignment="Right">
+                    <RadioButton x:Name="HiddenYesRadioButton" GroupName="Hidden"/>
+                </Viewbox>
+                <Viewbox Grid.Column="1" Margin="5" HorizontalAlignment="Left">
+                    <TextBlock Text="Да" Foreground="White"/>
+                </Viewbox>
+                <Viewbox Grid.Column="2" Margin="5" HorizontalAlignment="Right">
+                    <RadioButton x:Name="HiddenNoRadioButton" GroupName="Hidden" IsChecked="True"/>
+                </Viewbox>
+                <Viewbox Grid.Column="3" Margin="5" HorizontalAlignment="Left">
+                    <TextBlock Text="Нет" Foreground="White"/>
+                </Viewbox>
+            </Grid>
         </Grid>
 
         <Grid Grid.Row="4" Margin="10">

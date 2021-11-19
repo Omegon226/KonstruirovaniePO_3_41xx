@@ -11,7 +11,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="0.1*"/>
             <RowDefinition Height="0.8*"/>
-            <RowDefinition/>
+            <RowDefinition Height="1.2*"/>
             <RowDefinition/>
             <RowDefinition Height="0.7*"/>
         </Grid.RowDefinitions>
@@ -30,13 +30,19 @@
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.7*"/>
+                <RowDefinition Height="0.5*"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-
+            
             <Viewbox Grid.Row="0" HorizontalAlignment="Left" Margin="25,0,25,0">
                 <TextBlock Text="Номер(а) региона" Foreground="White"/>
             </Viewbox>
-            <TextBox x:Name="RegionTextBox" Grid.Row="1" Width="300" Height="25" Margin="5"/>
+            <Viewbox Grid.Row="1" HorizontalAlignment="Center">
+                <TextBlock Text="Если номеров несколько, то вводите через запятую" Foreground="White"/>
+            </Viewbox>
+            <Viewbox Grid.Row="2">
+                <TextBox x:Name="RegionTextBox" Width="300" Height="25" Margin="5"/>
+            </Viewbox>
         </Grid>
 
         <Grid Grid.Row="3" Margin="10">
@@ -49,7 +55,9 @@
             <Viewbox Grid.Row="0" HorizontalAlignment="Left" Margin="25,0,25,0">
                 <TextBlock Text="Название населённого пункта" Foreground="White"/>
             </Viewbox>
-            <TextBox x:Name="NameTextBox" Grid.Row="1" Width="300" Height="25" Margin="5"/>
+            <Viewbox Grid.Row="1">
+                <TextBox x:Name="NameTextBox" Width="300" Height="25" Margin="5"/>
+            </Viewbox>
         </Grid>
 
         <Grid Grid.Row="4" Margin="10">

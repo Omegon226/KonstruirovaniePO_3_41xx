@@ -26,7 +26,49 @@ namespace Интерфейс.CeateUpdateWindows
 
         private void AcceptButton_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = true;
+            bool SuccessOfSurnameParse = SurnameTextBox.Text.All(Char.IsLetter);
+            bool SuccessOfNameParse = NameTextBox.Text.All(Char.IsLetter);
+            bool SuccessOfPatronomicParse = PatronymicTextBox.Text.All(Char.IsLetter);
+            bool SuccessOfLoginParse = LoginTextBox.Text.All(Char.IsLetterOrDigit);
+            bool SuccessOfPasswordParse = PasswordTextBox.Text.All(Char.IsLetterOrDigit);
+
+            if (SuccessOfSurnameParse && SuccessOfNameParse && SuccessOfPatronomicParse && SuccessOfLoginParse && SuccessOfPasswordParse)
+            {
+                bool CorectnessOfLogin = ValidationOfLogin();
+                bool CorectnessOfPassword = ValidationOfPassword();
+
+                if (CorectnessOfLogin && CorectnessOfPassword)
+                {
+                    DialogResult = true;
+                    return;
+                }
+                else
+                {
+                    MessageBox.Show("Значения логина или пароля неверны! Измените их");
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Видимо какое то поле имеет неправильный формат ввода");
+                return;
+            }
+        }
+        private bool ValidationOfLogin()
+        {
+            if (LoginTextBox.Text.Contains(' '))
+            {
+                return (false);
+            }
+            return (true);
+        }
+        private bool ValidationOfPassword()
+        {
+            if (PasswordTextBox.Text.Contains(' '))
+            {
+                return (false);
+            }
+            return (true);
         }
     }
 }
