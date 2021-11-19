@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Интерфейс"
         mc:Ignorable="d"
-        Title="OrderTicketWindow" Height="350" Width="800">
+        Title="OrderTicketWindow" Height="350" Width="800" ResizeMode="NoResize">
     <Grid Background="#FF440D44">
 
         <Grid.ColumnDefinitions>
@@ -21,31 +21,46 @@
 
         <Grid Grid.Row="0" Grid.Column="0">
             <TextBlock Text="Фамилия" Margin="15" FontSize="16" Foreground="White"/>
-            <TextBox x:Name="SurnameTextBox" Width="230" Height="50" Margin="0,15,0,0"/>
+            <Viewbox Margin="10">
+                <TextBox x:Name="SurnameTextBox" Width="80" Margin="0,15,0,0"/>
+            </Viewbox>
         </Grid>
         <Grid Grid.Row="0" Grid.Column="1">
             <TextBlock Text="Имя" Margin="15" FontSize="16" Foreground="White"/>
-            <TextBox x:Name="NameTextBox" Width="230" Height="50" Margin="0,15,0,0"/>
+            <Viewbox Margin="10">
+                <TextBox x:Name="NameTextBox" Width="80" Margin="0,15,0,0"/>
+            </Viewbox>
         </Grid>
         <Grid Grid.Row="0" Grid.Column="2">
             <TextBlock Text="Отчетсов" Margin="15" FontSize="16" Foreground="White"/>
-            <TextBox x:Name="PatronymicTextBox" Width="230" Height="50" Margin="0,15,0,0"/>
+            <Viewbox Margin="10">
+                <TextBox x:Name="PatronymicTextBox" Width="80" Margin="0,15,0,0"/>
+            </Viewbox>
         </Grid>
         <Grid Grid.Row="1" Grid.ColumnSpan="2">
             <TextBlock Text="Тип документа" Margin="45,15,15,15" FontSize="16" Foreground="White"/>
-            <ComboBox x:Name="DocumentTypeComboBox" Width="430" Height="50" Margin="0,15,0,0"/>
+            <Viewbox Margin="25">
+                <ComboBox x:Name="DocumentTypeComboBox" Width="250" Height="20" Margin="0,15,0,0"/>
+            </Viewbox>
         </Grid>
         <Grid Grid.Row="1" Grid.Column="2">
-            <TextBlock Text="Номер Документа" Margin="15" FontSize="16" Foreground="White"/>
-            <TextBox x:Name="DocumentInfoTextBox" Width="230" Height="50" Margin="0,15,0,0"/>
+            <TextBlock Text="Серия и Номер Документа" Margin="15" FontSize="16" Foreground="White"/>
+            <Viewbox Margin="10">
+                <TextBox x:Name="DocumentInfoTextBox" Width="80" Margin="0,15,0,0"/>
+            </Viewbox>
         </Grid>
         <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
             <TextBlock Text="Место посадки" Margin="40" FontSize="16" Foreground="White"/>
-            <ComboBox x:Name="FreeSeatsComboBox" Width="230" Height="50" Margin="50,0,0,0"/>
+            <Viewbox Margin="35">
+                <ComboBox x:Name="FreeSeatsComboBox" Width="130" Margin="35,0,0,0" />
+            </Viewbox>
         </Grid>
         <Grid Grid.Row="2" Grid.Column="2">
-            <Button x:Name="AcceptButton" Width="200" Height="70" Content="Заказать билет" FontSize="25"/>
+            <Button x:Name="AcceptButton" Width="200" Height="70" FontSize="25" Background="#FFB46EB4">
+                <Viewbox Margin="0,-5,0,0">
+                    <TextBlock Margin="5" Text="Заказать билет" Foreground="White"/>
+                </Viewbox>
+            </Button>
         </Grid>
-
     </Grid>
 </Window>

@@ -22,7 +22,7 @@
             -->
             
             <ListBoxItem VerticalAlignment="Center">
-                <Grid Background="#FFD4D4D4" Height="100" Width="475" Margin="5">
+                <Grid Background="#FFDFDEDE" Height="100" Width="475" Margin="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.75*"/>
                         <ColumnDefinition Width="0.75*"/>
@@ -78,10 +78,10 @@
                             <TextBlock Text="15" FontSize="16" TextAlignment="Center"/>
                         </StackPanel>
                         <Grid Grid.Row="2" VerticalAlignment="Center" Margin="25,3,25,3">
-                            <Button>
+                            <Button Background="#FFB46EB4">
                                 <Grid Margin="0,0,0,0">
                                     <Viewbox>
-                                        <TextBlock Text="Купить билет"/>
+                                        <TextBlock Foreground="White" Text="Купить билет"/>
                                     </Viewbox>
                                 </Grid>
                             </Button>
@@ -117,7 +117,7 @@
             <Grid  Grid.Row="2">
                 <Viewbox>
                     <StackPanel Margin="5">
-                        <TextBlock Text="Выбирите кол -во" Foreground="White"/>
+                        <TextBlock Text="Выбирите кол-во" Foreground="White"/>
                         <TextBlock Text="мест для покупки" Foreground="White"/>
                     </StackPanel>
                 </Viewbox>
@@ -134,7 +134,7 @@
                     <xctk:IntegerUpDown Name="AmountOfTeacketsToBuyIntegerUpDown" Value="1"/>
                 </Viewbox>
 
-                <Button x:Name="AcceptAmountOfTicketsToBuyButton" Grid.Column="1" Margin="15" Background="Purple">
+                <Button x:Name="AcceptAmountOfTicketsToBuyButton" Grid.Column="1" Margin="15,25,15,25" Background="Purple">
                     <Grid Margin="0,-5,0,0">
                         <Viewbox Margin="15">
                             <TextBlock Text="OK" Foreground="White"/>
