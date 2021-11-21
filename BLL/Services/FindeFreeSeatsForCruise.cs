@@ -9,5 +9,6 @@ namespace BLL.Services
 {
     public class FindeFreeSeatsForCruise
     {
+
     }
 }

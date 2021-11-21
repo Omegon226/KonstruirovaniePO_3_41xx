@@ -200,7 +200,7 @@ namespace Интерфейс
                 return;
             }
 
-            SelectCruiseWindow WindowToFindeCruise = new SelectCruiseWindow(DBComunication, StartPoint, EndPoint);
+            SelectCruiseWindow WindowToFindeCruise = new SelectCruiseWindow(DBComunication, StartPoint, EndPoint, StatusLevelOfUser);
             WindowToFindeCruise.Show();
         }
 

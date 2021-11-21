@@ -78,10 +78,23 @@
                             <TextBlock Text="15" FontSize="16" TextAlignment="Center"/>
                         </StackPanel>
                         <Grid Grid.Row="2" VerticalAlignment="Center" Margin="25,3,25,3">
-                            <Button Background="#FFB46EB4">
-                                <Grid Margin="0,0,0,0">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button Grid.Column="0" Margin="2" Background="#FFB46EB4">
+                                <Grid Margin="0">
                                     <Viewbox>
-                                        <TextBlock Foreground="White" Text="Купить билет"/>
+                                        <TextBlock Foreground="White" Text="Купить"/>
+                                    </Viewbox>
+                                </Grid>
+                            </Button>
+                            <Button Grid.Column="1" Margin="2" Background="#FFB46EB4" Visibility="Visible">
+                                <Grid Margin="0">
+                                    <Viewbox>
+                                        <TextBlock Foreground="White" Text="Dev:Info"/>
                                     </Viewbox>
                                 </Grid>
                             </Button>
