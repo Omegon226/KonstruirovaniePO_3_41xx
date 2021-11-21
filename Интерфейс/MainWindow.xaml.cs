@@ -457,6 +457,15 @@ namespace Интерфейс
                 if (converted == false)
                     return;
 
+                for (int i = 0; i < allTicket.Count; ++i)
+                {
+                    if (allTicket[i].UserID == id)
+                    {
+                        MessageBox.Show("Невозможно удалить эту строку, есть зависимость по внешнему ключу с таблицей Ticket");
+                        return;
+                    }
+                }
+
                 DBComunication.User.Delete(id);
                 allUser = DBComunication.User.GetAll();
                 InsertInformationInUserDataGrid();
@@ -751,6 +760,15 @@ namespace Интерфейс
                 if (converted == false)
                     return;
 
+                for (int i = 0; i < allCruise.Count; ++i)
+                {
+                    if (allCruise[i].TransportIDOfTheCruise == id)
+                    {
+                        MessageBox.Show("Невозможно удалить эту строку, есть зависимость по внешнему ключу с таблицей Cruise");
+                        return;
+                    }
+                }
+
                 DBComunication.User.Delete(id);
                 allUser = DBComunication.User.GetAll();
                 InsertInformationInTransportDataGrid();
@@ -957,13 +975,22 @@ namespace Интерфейс
                 if (converted == false)
                     return;
 
+                for (int i = 0; i < allStoppingOnTheRoute.Count; ++i)
+                {
+                    if (allStopSequences[i].StoppingID == id)
+                    {
+                        MessageBox.Show("Невозможно удалить эту строку, есть зависимость по внешнему ключу с таблицей StopSequences");
+                        return;
+                    }
+                }
+
                 DBComunication.StoppingOnTheRoute.Delete(id);
                 allStoppingOnTheRoute = DBComunication.StoppingOnTheRoute.GetAll();
                 InsertInformationInStoppingOnTheRouteDataGrid();
             }
         }
 
-        // CRUD Для RouteButton
+        // CRUD Для Route
         private void CreateRouteButton_Click(object sender, RoutedEventArgs e)
         {
             RouteCUWindow CreateWindow = new RouteCUWindow();
@@ -1064,6 +1091,23 @@ namespace Интерфейс
                 if (converted == false)
                     return;
 
+                for (int i = 0; i < allStoppingOnTheRoute.Count; ++i)
+                {
+                    if (allStopSequences[i].StopRouteID == id)
+                    {
+                        MessageBox.Show("Невозможно удалить эту строку, есть зависимость по внешнему ключу с таблицей StopSequences");
+                        return;
+                    }
+                }
+                for (int i = 0; i < allCruise.Count; ++i)
+                {
+                    if (allCruise[i].RouteIDOfTheCruise == id)
+                    {
+                        MessageBox.Show("Невозможно удалить эту строку, есть зависимость по внешнему ключу с таблицей Cruise");
+                        return;
+                    }
+                }
+
                 DBComunication.Route.Delete(id);
                 allRoute = DBComunication.Route.GetAll();
                 InsertInformationInRouteDataGrid();
@@ -1147,6 +1191,15 @@ namespace Интерфейс
                 bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
                 if (converted == false)
                     return;
+
+                for (int i = 0; i < allStoppingOnTheRoute.Count; ++i)
+                {
+                    if (allStoppingOnTheRoute[i].StopLocalityID == id)
+                    {
+                        MessageBox.Show("Невозможно удалить эту строку, есть зависимость по внешнему ключу с таблицей StoppingOnTheRoute");
+                        return;
+                    }
+                }
 
                 DBComunication.Locality.Delete(id);
                 allLocality = DBComunication.Locality.GetAll();
@@ -1278,6 +1331,15 @@ namespace Интерфейс
                 bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
                 if (converted == false)
                     return;
+
+                for (int i = 0; i < allCruise.Count; ++i)
+                {
+                    if (allCruise[i].DriverIDOfTheCruise == id)
+                    {
+                        MessageBox.Show("Невозможно удалить эту строку, есть зависимость по внешнему ключу с таблицей Cruise");
+                        return;
+                    }
+                }
 
                 DBComunication.Driver.Delete(id);
                 allDriver = DBComunication.Driver.GetAll();
@@ -1424,6 +1486,15 @@ namespace Интерфейс
                 bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
                 if (converted == false)
                     return;
+
+                for (int i = 0; i < allTicket.Count; ++i)
+                {
+                    if (allTicket[i].CruiseID == id)
+                    {
+                        MessageBox.Show("Невозможно удалить эту строку, есть зависимость по внешнему ключу с таблицей Ticket");
+                        return;
+                    }
+                }
 
                 DBComunication.Cruise.Delete(id);
                 allCruise = DBComunication.Cruise.GetAll();
