@@ -115,8 +115,9 @@
                     <Viewbox Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="30,0,0,0">
                         <TextBlock Text="Пункт Отправления" Foreground="White"/>
                     </Viewbox>
-
-                    <ComboBox x:Name="DepartureLocalityComboBox" Grid.Row="1" Grid.Column="1" Margin="0,20,0,20"></ComboBox>
+                    <Viewbox Grid.Row="1" Grid.Column="1">
+                        <ComboBox x:Name="DepartureLocalityComboBox" Width="250" Height="35"></ComboBox>
+                    </Viewbox>
                 </Grid>
                 
                 <Grid Grid.Column="1" Grid.Row="1">
@@ -134,8 +135,9 @@
                     <Viewbox Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="30,0,0,0">
                         <TextBlock Text="Пункт Прибытия" Foreground="White"/>
                     </Viewbox>
-
-                    <ComboBox x:Name="ArrivalLocalityComboBox" Grid.Row="1" Grid.Column="1" Margin="0,20,0,20"></ComboBox>
+                    <Viewbox Grid.Row="1" Grid.Column="1">
+                        <ComboBox x:Name="ArrivalLocalityComboBox" Width="250" Height="35"></ComboBox>
+                    </Viewbox>
                 </Grid>
                 
                 <Grid Grid.Column="0" Grid.Row="2">

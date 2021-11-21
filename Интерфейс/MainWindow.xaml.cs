@@ -63,9 +63,14 @@ namespace Интерфейс
             DepartureLocalityComboBox.ItemsSource = allLocality;
             DepartureLocalityComboBox.DisplayMemberPath = "Name";
             DepartureLocalityComboBox.SelectedValuePath = "ID";
+
+            DepartureLocalityComboBox.SelectedItem = allLocality[0];
+
             ArrivalLocalityComboBox.ItemsSource = allLocality;
             ArrivalLocalityComboBox.DisplayMemberPath = "Name";
             ArrivalLocalityComboBox.SelectedValuePath = "ID";
+
+            ArrivalLocalityComboBox.SelectedItem = allLocality[6];
         }
 
         private void CheckUserPrivileges()
@@ -1536,7 +1541,6 @@ namespace Интерфейс
         {
             Report3DataGrid.ItemsSource = FindeRoute.StoredProcedureExecute1((int)Report3StartingLocationComboBox.SelectedValue, (int)Report3LastLocationComboBox.SelectedValue);
         }
-
 
         #endregion
 
