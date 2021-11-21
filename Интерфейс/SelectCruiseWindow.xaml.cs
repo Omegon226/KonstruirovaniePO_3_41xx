@@ -75,6 +75,7 @@ namespace Интерфейс
 
             public DateTime StartDate;
             public int AmountOfFreeSeats;
+            public List<int> OccupiedSeats = new List<int>();
 
             public CruisesForWindowInfo(PossibleCruises PossibleCruises)
             {
@@ -104,6 +105,7 @@ namespace Интерфейс
 
         private const int minimalPriceOfCruise = 50;
         private const int MaxDayForOrderingPossibility = 31;
+        private TimeSpan MinimumTimeForOrderingTicket = new TimeSpan(0, 15, 0);
 
         private int StatusLevelOfUser = 0;
 
@@ -223,6 +225,8 @@ namespace Интерфейс
 
         private void InitioliseStartDateOfCruises()
         {
+            // ДОБАВИТЬ МИНИМАЛЬНОЕ ВРЕМЯ ПОКУПКИ 
+
             DateTime DateTimeForCruise = DateTime.Now;
             CruisesForWindowInfo CruiseForWindowToCreate;
 
@@ -289,13 +293,24 @@ namespace Интерфейс
                 {
                     if (allCruisesForWindow[i].Cruises.RouteIDOfTheCruise == allTransport[j].ID)
                     {
-                        //allPossibleCruises[i].AmountOfFreeSeats = (int)allTransport[j].NumberOfSeats;
+                        allCruisesForWindow[i].AmountOfFreeSeats = (int)allTransport[j].NumberOfSeats;
                     }
                 }
             }
 
-            // Доработать с билетами
+            // Работа с билетами
+            for (int i = 0; i < allCruisesForWindow.Count; ++i)
+            {
+                FindeOrderedSeatsForCruise.FinalResult OccupiedSeatsForCruises = FindeOrderedSeatsForCruise.CreateResult(
+                    allCruisesForWindow[i].StartDate, allCruisesForWindow[i].Cruises.CruiseID);
 
+                allCruisesForWindow[i].AmountOfFreeSeats -= OccupiedSeatsForCruises.OrderedSeats.Count;
+
+                for (int j = 0; j < OccupiedSeatsForCruises.OrderedSeats.Count; ++j)
+                {
+                    allCruisesForWindow[i].OccupiedSeats.Add(OccupiedSeatsForCruises.OrderedSeats[j]);
+                }
+            }
         }
     }
 }
