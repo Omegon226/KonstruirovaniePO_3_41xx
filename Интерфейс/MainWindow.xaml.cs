@@ -49,12 +49,23 @@ namespace Интерфейс
             InsertInformationInReportsComboBoxes();
             InsertInformationInChartsTab();
             BuildCharts();
+            InsertInformationInFindeRouteComboBoxes();
 
             FindeRouteGrid.Visibility = Visibility.Visible;
             CreateReportsGrid.Visibility = Visibility.Hidden;
             CreateChartsGrid.Visibility = Visibility.Hidden;
 
             CheckUserPrivileges();
+        }
+
+        private void InsertInformationInFindeRouteComboBoxes()
+        {
+            DepartureLocalityComboBox.ItemsSource = allLocality;
+            DepartureLocalityComboBox.DisplayMemberPath = "Name";
+            DepartureLocalityComboBox.SelectedValuePath = "ID";
+            ArrivalLocalityComboBox.ItemsSource = allLocality;
+            ArrivalLocalityComboBox.DisplayMemberPath = "Name";
+            ArrivalLocalityComboBox.SelectedValuePath = "ID";
         }
 
         private void CheckUserPrivileges()
@@ -175,8 +186,17 @@ namespace Интерфейс
 
         private void FindeRouteButton_Click(object sender, RoutedEventArgs e)
         {
-            SelectCruiseWindow d = new SelectCruiseWindow();
-            d.Show();
+            int StartPoint = (int)DepartureLocalityComboBox.SelectedValue;
+            int EndPoint = (int)ArrivalLocalityComboBox.SelectedValue;
+
+            if (StartPoint == EndPoint)
+            {
+                MessageBox.Show("Начальный и конечный пункты не должны быть одинаковыми");
+                return;
+            }
+
+            SelectCruiseWindow WindowToFindeCruise = new SelectCruiseWindow(DBComunication, StartPoint, EndPoint);
+            WindowToFindeCruise.Show();
         }
 
         #region --- Подгрузка информации в переменные эмулирующие таблицы

@@ -66,7 +66,7 @@
             </Button>
         </Grid>
 
-        <Grid Grid.Row="1" x:Name="FindeRouteGrid" Visibility="Hidden">
+        <Grid Grid.Row="1" x:Name="FindeRouteGrid" Visibility="Visible">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.3*"/>
@@ -801,7 +801,7 @@
                  
         </Grid>
 
-        <Grid Grid.Row="1" x:Name="CreateChartsGrid" Visibility="Visible">
+        <Grid Grid.Row="1" x:Name="CreateChartsGrid" Visibility="Hidden">
 
             <TabControl x:Name="TabControlForCharts" Background="#FF440D44">
 
