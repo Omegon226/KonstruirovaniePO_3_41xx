@@ -202,8 +202,17 @@ namespace Интерфейс
                 return;
             }
 
-            SelectCruiseWindow WindowToFindeCruise = new SelectCruiseWindow(DBComunication, StartPoint, EndPoint, StatusLevelOfUser, AuthorisedUser);
-            WindowToFindeCruise.Show();
+            SelectCruiseWindow WindowToFindeCruise = new SelectCruiseWindow(this, DBComunication, StartPoint, EndPoint, StatusLevelOfUser, AuthorisedUser);
+
+            bool? result = WindowToFindeCruise.ShowDialog();
+            if (result == false)
+                return;
+
+            LoadAllInformationFromDataBase();
+            InsertInformationInCRUDDataGrids();
+            InsertInformationInReportsComboBoxes();
+            InsertInformationInChartsTab();
+            BuildCharts();
         }
 
         #region --- Подгрузка информации в переменные эмулирующие таблицы
@@ -1782,5 +1791,11 @@ namespace Интерфейс
         }
 
         #endregion
+
+        public void ChangeStatusOfUser(int StatusLevle)
+        {
+            StatusLevelOfUser = StatusLevle;
+            CheckUserPrivileges();
+        }
     }
 }

@@ -135,8 +135,11 @@ namespace Интерфейс
         private int IDOfCheckedCruiseToBuy;
         private TransportModel TransportOfCheckedCruiseToBuy;
 
-        public SelectCruiseWindow(DBDataOperations DBComunicationFromMainWindow, int IDOfStartingLocationFromMainWindow, int IDOfEndLocationFromMainWindow, int UserStausLevel, UserModel User)
+        MainWindow LinkToMainWindow;
+
+        public SelectCruiseWindow(MainWindow Link, DBDataOperations DBComunicationFromMainWindow, int IDOfStartingLocationFromMainWindow, int IDOfEndLocationFromMainWindow, int UserStausLevel, UserModel User)
         {
+            LinkToMainWindow = Link;
             DBComunication = DBComunicationFromMainWindow;
             IDOfStartingLocation = IDOfStartingLocationFromMainWindow;
             IDOfEndLocation = IDOfEndLocationFromMainWindow;
@@ -166,6 +169,7 @@ namespace Интерфейс
 
         private void ReturnBackOnMainWindowFromSelectCruiseWindowButton_Click(object sender, RoutedEventArgs e)
         {
+            DialogResult = true;
             this.Close();
         }
 
@@ -207,7 +211,17 @@ namespace Интерфейс
 
             for (int i = 0; i < AmountOfTicketsToBuy; ++i)
             {
-                OrderTicketWindow OrderTicketWindow = new OrderTicketWindow();
+                OrderTicketWindow OrderTicketWindow;
+
+                if (AuthorisedUser != null)
+                {
+                    OrderTicketWindow = new OrderTicketWindow(AuthorisedUser);
+                }
+                else
+                {
+                    OrderTicketWindow = new OrderTicketWindow();
+                }
+
                 OrderTicketWindow.FreeSeatsComboBox.ItemsSource = FreeSeats;
                 OrderTicketWindow.DocumentTypeComboBox.ItemsSource = IndentificationDocuments;
 
@@ -219,17 +233,79 @@ namespace Интерфейс
                     TicketModel NewObject = new TicketModel();
 
                     NewObject.DateOfIssue = DateTime.Now;
-                    NewObject.IdentificationInformation = OrderTicketWindow.DocumentInfoTextBox.Text;
+                    NewObject.IdentificationInformation = OrderTicketWindow.IndentificationInformationTextBox.Text;
                     NewObject.SeatNumberOnTheTransport = (int)OrderTicketWindow.FreeSeatsComboBox.SelectedValue;
                     NewObject.FullName = OrderTicketWindow.SurnameTextBox.Text + OrderTicketWindow.NameTextBox.Text + OrderTicketWindow.PatronymicTextBox.Text;
                     NewObject.CruiseID = CheckedCruiseToBuy.Cruise.CruiseID;
-                    NewObject.UserID = AuthorisedUser.ID;
                     NewObject.RaceDepartureTime = (DateTime?)CheckedCruiseToBuy.StartDate;
 
                     AllTicketsToBuy.Add(NewObject);
 
                 }
             }
+
+            if (StatusLevelOfUser == 0)
+            {
+                MessageBox.Show("Для покупки билетов требуется регистрация");
+
+                EnterAvtovokzalSystemWindow AuthorizationWindow = new EnterAvtovokzalSystemWindow();
+
+                bool? result = AuthorizationWindow.ShowDialog();
+                if (result == false)
+                    return;
+                else
+                {
+                    UserModel AuthorizedUser = new UserModel();
+
+                    AuthorizedUser.Login = AuthorizationWindow.LoginTextBox.Text;
+                    AuthorizedUser.Password = AuthorizationWindow.PasswordTextBox.Password;
+
+                    FindeSameUserAndUpdateStatus(AuthorizedUser);
+                }
+
+            }
+
+            for (int i = 0; i < AllTicketsToBuy.Count; ++i)
+            {
+                AllTicketsToBuy[i].UserID = AuthorisedUser.ID;
+            }
+
+            for (int i = 0; i < AllTicketsToBuy.Count; ++i)
+            {
+                DBComunication.Ticket.Create(AllTicketsToBuy[i]);
+                allTicket = DBComunication.Ticket.GetAll();
+            }
+
+            MessageBox.Show("Типо билеты добавлены");
+
+            DialogResult = true;
+            this.Close();
+
+        }
+        private void FindeSameUserAndUpdateStatus(UserModel UserToFinde)
+        {
+            for (int i = 0; i < allUser.Count; ++i)
+            {
+                if ((UserToFinde.Login == allUser[i].Login) && (UserToFinde.Password == allUser[i].Password))
+                {
+                    StatusLevelOfUser = (int)allUser[i].Status;
+                    AuthorisedUser = allUser[i];
+
+                    if (allUser[i].Status == 1)
+                    {
+                        MessageBox.Show("Вход в систему осуществлён! Вы являетесь пользователем.");
+                        LinkToMainWindow.ChangeStatusOfUser(1);
+                    }
+                    if (allUser[i].Status == 2)
+                    {
+                        MessageBox.Show("Вход в систему осуществлён! Вы являетесь администратором.");
+                        LinkToMainWindow.ChangeStatusOfUser(2);
+                    }
+
+                    return;
+                }
+            }
+            MessageBox.Show("Похоже такого пользователя нет...");
         }
 
         #region --- Подгрузка информации в переменные эмулирующие таблицы
