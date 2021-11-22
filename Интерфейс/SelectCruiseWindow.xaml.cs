@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using BLL.Models;
 using BLL.DBInteraction;
 using BLL.Services;
+using System.Collections.ObjectModel;
 
 namespace Интерфейс
 {
@@ -22,7 +23,7 @@ namespace Интерфейс
     /// </summary>
     public partial class SelectCruiseWindow : Window
     {
-        class PossibleCruises
+        public class PossibleCruises
         {
             public int CruiseID { get; set; }
             public int DayOfTheWeekCruiseID { get; set; }
@@ -69,28 +70,44 @@ namespace Интерфейс
             }
         }
 
-        class CruisesForWindowInfo
+        public class CruisesForWindowInfo
         {
-            public PossibleCruises Cruises;
+            public PossibleCruises Cruise;
 
             public DateTime StartDate;
             public int AmountOfFreeSeats;
             public List<int> OccupiedSeats = new List<int>();
 
+            public string CruiseStartDate { get; set; }
+            public string CruiseStartPointLocalityName { get; set; }
+            public string CruiseFullTimeInCruise { get; set; }
+            public string CruiseEndPointLocalityName { get; set; }
+            public string CruiseFullPrice { get; set; }
+            public string CruiseAmountOfFreeSeats { get; set; }
+
             public CruisesForWindowInfo(PossibleCruises PossibleCruises)
             {
-                this.Cruises = PossibleCruises;
+                this.Cruise = PossibleCruises;
             }
             public void SetStartDate(DateTime Date)
             {
                 this.StartDate = Date;
+            }
+            public void InitioliseStringInfoForWindow()
+            {
+                this.CruiseStartDate = StartDate.ToString();
+                this.CruiseStartPointLocalityName = Cruise.StartPointLocalityName;
+                this.CruiseFullTimeInCruise = Cruise.FullTimeInCruise.ToString();
+                this.CruiseEndPointLocalityName = Cruise.EndPointLocalityName;
+                this.CruiseFullPrice = "Цена : " + Cruise.FullPrice.ToString();
+                this.CruiseAmountOfFreeSeats = AmountOfFreeSeats.ToString();
             }
         }
 
         private DBDataOperations DBComunication;
 
         private List<PossibleCruises> allPossibleCruises = new List<PossibleCruises>();
-        private List<CruisesForWindowInfo> allCruisesForWindow = new List<CruisesForWindowInfo>();
+        private ObservableCollection<CruisesForWindowInfo> allCruisesForWindow = new ObservableCollection<CruisesForWindowInfo>();
 
         private List<CruiseModel> allCruise;
         private List<DayOfTheWeekModel> allDayOfTheWeek;
@@ -119,12 +136,33 @@ namespace Интерфейс
             IDOfEndLocation = IDOfEndLocationFromMainWindow;
             StatusLevelOfUser = UserStausLevel;
 
-            InitializeComponent();
             LoadAllInformationFromDataBase();
-            FindeRoutesForCruises();
-            FindeAditionalInfoForCruises();
-            InitioliseStartDateOfCruises();
-            FindeFreeSeatsForCruises();
+            CreateCruisesForWindow();
+
+            InitializeComponent();
+
+            CruisesList.ItemsSource = allCruisesForWindow;
+        }
+
+        private void CruisesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CruisesForWindowInfo Cruise = (CruisesForWindowInfo)CruisesList.SelectedItem;
+            MessageBox.Show(Cruise.CruiseStartDate + "\n" +
+                            Cruise.CruiseStartPointLocalityName + "\n" +
+                            Cruise.CruiseFullTimeInCruise + "\n" +
+                            Cruise.CruiseEndPointLocalityName + "\n" +
+                            Cruise.CruiseFullPrice + "\n" +
+                            Cruise.CruiseAmountOfFreeSeats);
+        }
+
+        private void ReturnBackOnMainWindowFromSelectCruiseWindowButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void AcceptAmountOfTicketsToBuyButton_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
 
         #region --- Подгрузка информации в переменные эмулирующие таблицы
@@ -185,6 +223,17 @@ namespace Интерфейс
 
         #endregion
 
+        #region --- Изучение таблиц и создание Рейсов для заказа билетов
+
+        private void CreateCruisesForWindow()
+        {
+            FindeRoutesForCruises();
+            FindeAditionalInfoForCruises();
+            InitioliseStartDateOfCruises();
+            FindeFreeSeatsForCruises();
+            InitialiseCruiseStringInfoForWindow();
+        }
+
         private void FindeRoutesForCruises()
         {
             List<FindeRouteForCruises.FinalResult> Routes = FindeRouteForCruises.FindeRouts(IDOfStartingLocation, IDOfEndLocation);
@@ -244,14 +293,14 @@ namespace Интерфейс
 
                     bool TodayIsTheDayOfCruise = allPossibleCruises[j].DayOfTheWeekCruiseID == DayOfTheWeekForCruise;
                     DateTime NowMoment = DateTime.Now;
-                    TimeSpan CruiseStartTime = (TimeSpan)CruiseForWindowToCreate.Cruises.StartTime;
+                    TimeSpan CruiseStartTime = (TimeSpan)CruiseForWindowToCreate.Cruise.StartTime;
                     DateTime DateTimeForCruiseCalculations = new DateTime(DateTimeForCruise.Year, DateTimeForCruise.Month, DateTimeForCruise.Day).Add(CruiseStartTime);
                     TimeSpan DateDifference = DateTimeForCruiseCalculations - NowMoment;
                     bool DifferenceInNowTimeAndCruiseStartTime = DateDifference > MinimumTimeForOrderingTicket;
 
                     if ((TodayIsTheDayOfCruise) && (DifferenceInNowTimeAndCruiseStartTime))
                     {
-                        CruiseForWindowToCreate.SetStartDate(DateTimeForCruise.Add((TimeSpan)CruiseForWindowToCreate.Cruises.StartTime));
+                        CruiseForWindowToCreate.SetStartDate(DateTimeForCruise.Add((TimeSpan)CruiseForWindowToCreate.Cruise.StartTime));
                         allCruisesForWindow.Add(CruiseForWindowToCreate);
                     }
                 }
@@ -299,7 +348,7 @@ namespace Интерфейс
             {
                 for (int j = 0; j < allRoute.Count; ++j)
                 {
-                    if (allCruisesForWindow[i].Cruises.RouteIDOfTheCruise == allTransport[j].ID)
+                    if (allCruisesForWindow[i].Cruise.RouteIDOfTheCruise == allTransport[j].ID)
                     {
                         allCruisesForWindow[i].AmountOfFreeSeats = (int)allTransport[j].NumberOfSeats;
                     }
@@ -310,7 +359,7 @@ namespace Интерфейс
             for (int i = 0; i < allCruisesForWindow.Count; ++i)
             {
                 FindeOrderedSeatsForCruise.FinalResult OccupiedSeatsForCruises = FindeOrderedSeatsForCruise.CreateResult(
-                    allCruisesForWindow[i].StartDate, allCruisesForWindow[i].Cruises.CruiseID);
+                    allCruisesForWindow[i].StartDate, allCruisesForWindow[i].Cruise.CruiseID);
 
                 allCruisesForWindow[i].AmountOfFreeSeats -= OccupiedSeatsForCruises.OrderedSeats.Count;
 
@@ -320,5 +369,17 @@ namespace Интерфейс
                 }
             }
         }
+
+        private void InitialiseCruiseStringInfoForWindow()
+        {
+            for (int i = 0; i < allCruisesForWindow.Count; ++i)
+            {
+                allCruisesForWindow[i].InitioliseStringInfoForWindow();
+            }
+        }
+
+
+        #endregion
+
     }
 }
