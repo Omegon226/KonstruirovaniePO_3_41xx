@@ -40,6 +40,7 @@ namespace Интерфейс
         private List<UserModel> allUser;
 
         private int StatusLevelOfUser = 0;
+        private UserModel AuthorisedUser;
 
         public MainWindow()
         {
@@ -141,6 +142,7 @@ namespace Интерфейс
                 if ((UserToFinde.Login == allUser[i].Login) && (UserToFinde.Password == allUser[i].Password))
                 {
                     StatusLevelOfUser = (int)allUser[i].Status;
+                    AuthorisedUser = allUser[i];
                     AuthorisetionButton.Visibility = Visibility.Hidden;
                     DeauthorisetionButton.Visibility = Visibility.Visible;
                     
@@ -200,7 +202,7 @@ namespace Интерфейс
                 return;
             }
 
-            SelectCruiseWindow WindowToFindeCruise = new SelectCruiseWindow(DBComunication, StartPoint, EndPoint, StatusLevelOfUser);
+            SelectCruiseWindow WindowToFindeCruise = new SelectCruiseWindow(DBComunication, StartPoint, EndPoint, StatusLevelOfUser, AuthorisedUser);
             WindowToFindeCruise.Show();
         }
 

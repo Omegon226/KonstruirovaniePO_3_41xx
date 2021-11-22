@@ -125,19 +125,23 @@ namespace Интерфейс
         private TimeSpan MinimumTimeForOrderingTicket = new TimeSpan(0, 15, 0);
 
         private int StatusLevelOfUser = 0;
+        private UserModel AuthorisedUser;
         private int AmountOfTicketsToBuy = 0;
 
         private int IDOfStartingLocation;
         private int IDOfEndLocation;
 
         private CruisesForWindowInfo CheckedCruiseToBuy;
+        private int IDOfCheckedCruiseToBuy;
+        private TransportModel TransportOfCheckedCruiseToBuy;
 
-        public SelectCruiseWindow(DBDataOperations DBComunicationFromMainWindow, int IDOfStartingLocationFromMainWindow, int IDOfEndLocationFromMainWindow, int UserStausLevel)
+        public SelectCruiseWindow(DBDataOperations DBComunicationFromMainWindow, int IDOfStartingLocationFromMainWindow, int IDOfEndLocationFromMainWindow, int UserStausLevel, UserModel User)
         {
             DBComunication = DBComunicationFromMainWindow;
             IDOfStartingLocation = IDOfStartingLocationFromMainWindow;
             IDOfEndLocation = IDOfEndLocationFromMainWindow;
             StatusLevelOfUser = UserStausLevel;
+            AuthorisedUser = User;
 
             LoadAllInformationFromDataBase();
             CreateCruisesForWindow();
@@ -150,6 +154,14 @@ namespace Интерфейс
         private void CruisesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CheckedCruiseToBuy = (CruisesForWindowInfo)CruisesList.SelectedItem;
+            IDOfCheckedCruiseToBuy = CruisesList.SelectedIndex;
+            for (int i = 0; i < allTransport.Count; ++i)
+            {
+                if (CheckedCruiseToBuy.Cruise.TransportIDOfTheCruise == allTransport[i].ID)
+                {
+                    TransportOfCheckedCruiseToBuy = allTransport[i];
+                }
+            }
         }
 
         private void ReturnBackOnMainWindowFromSelectCruiseWindowButton_Click(object sender, RoutedEventArgs e)
@@ -157,10 +169,15 @@ namespace Интерфейс
             this.Close();
         }
 
-
         private void BuyTicketsButton_Click(object sender, RoutedEventArgs e)
         {
             AmountOfTicketsToBuy = (int)AmountOfTeacketsToBuyIntegerUpDown.Value;
+
+            List<string> IndentificationDocuments = new List<string>();
+            IndentificationDocuments.Add("Паспорт");
+            IndentificationDocuments.Add("Свидетельство о рождении");
+
+            List<int> FreeSeats = new List<int>();
 
             if (AmountOfTicketsToBuy <= 0)
             {
@@ -168,7 +185,51 @@ namespace Интерфейс
                 return;
             }
 
+            List<TicketModel> AllTicketsToBuy = new List<TicketModel>();
 
+
+            for (int i = 1; i <= TransportOfCheckedCruiseToBuy.NumberOfSeats; ++i)
+            {
+                bool flagOfOccpiedSeat = false;
+                for (int j = 0; j < CheckedCruiseToBuy.OccupiedSeats.Count; ++j)
+                {
+                    if (CheckedCruiseToBuy.OccupiedSeats[j] == i)
+                    {
+                        flagOfOccpiedSeat = true;
+                    }
+                }
+
+                if (flagOfOccpiedSeat == false)
+                {
+                    FreeSeats.Add(i);
+                }
+            }
+
+            for (int i = 0; i < AmountOfTicketsToBuy; ++i)
+            {
+                OrderTicketWindow OrderTicketWindow = new OrderTicketWindow();
+                OrderTicketWindow.FreeSeatsComboBox.ItemsSource = FreeSeats;
+                OrderTicketWindow.DocumentTypeComboBox.ItemsSource = IndentificationDocuments;
+
+                bool? result = OrderTicketWindow.ShowDialog();
+                if (result == false)
+                    return;
+                else
+                {
+                    TicketModel NewObject = new TicketModel();
+
+                    NewObject.DateOfIssue = DateTime.Now;
+                    NewObject.IdentificationInformation = OrderTicketWindow.DocumentInfoTextBox.Text;
+                    NewObject.SeatNumberOnTheTransport = (int)OrderTicketWindow.FreeSeatsComboBox.SelectedValue;
+                    NewObject.FullName = OrderTicketWindow.SurnameTextBox.Text + OrderTicketWindow.NameTextBox.Text + OrderTicketWindow.PatronymicTextBox.Text;
+                    NewObject.CruiseID = CheckedCruiseToBuy.Cruise.CruiseID;
+                    NewObject.UserID = AuthorisedUser.ID;
+                    NewObject.RaceDepartureTime = (DateTime?)CheckedCruiseToBuy.StartDate;
+
+                    AllTicketsToBuy.Add(NewObject);
+
+                }
+            }
         }
 
         #region --- Подгрузка информации в переменные эмулирующие таблицы
