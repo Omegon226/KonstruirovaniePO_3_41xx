@@ -116,7 +116,7 @@
                         <TextBlock Text="Пункт Отправления" Foreground="White"/>
                     </Viewbox>
                     <Viewbox Grid.Row="1" Grid.Column="1">
-                        <ComboBox x:Name="DepartureLocalityComboBox" Width="250" Height="35"></ComboBox>
+                        <ComboBox x:Name="DepartureLocalityComboBox" Width="150" Height="25"></ComboBox>
                     </Viewbox>
                 </Grid>
                 
@@ -136,7 +136,7 @@
                         <TextBlock Text="Пункт Прибытия" Foreground="White"/>
                     </Viewbox>
                     <Viewbox Grid.Row="1" Grid.Column="1">
-                        <ComboBox x:Name="ArrivalLocalityComboBox" Width="250" Height="35"></ComboBox>
+                        <ComboBox x:Name="ArrivalLocalityComboBox" Width="150" Height="25"></ComboBox>
                     </Viewbox>
                 </Grid>
                 

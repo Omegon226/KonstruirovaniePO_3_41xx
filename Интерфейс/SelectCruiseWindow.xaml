@@ -15,7 +15,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <ListBox x:Name="CruisesList" SelectionChanged="CruisesList_SelectionChanged" Grid.Column="1" Background="#FF780078">
+        <ListBox x:Name="CruisesList" SelectionChanged="CruisesList_SelectionChanged" Grid.Column="1" Background="#FFB46EB4">
 
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -30,78 +30,64 @@
 
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
-                                <RowDefinition/>
+                                <RowDefinition Height="0.4*"/>
                             </Grid.RowDefinitions>
 
-                            <StackPanel Margin="5" Grid.Row="0" VerticalAlignment="Center">
+                            <StackPanel Margin="2" Grid.Row="0" VerticalAlignment="Center">
                                 <TextBlock Text="Время отбытия:" FontSize="17" TextAlignment="Center"/>
-                                <TextBlock Text="{Binding Path=CruiseStartDate}" FontSize="17" TextAlignment="Center"/>
+                                <Viewbox Height="35">
+                                    <TextBlock Text="{Binding Path=CruiseStartDate}" TextAlignment="Center"/>
+                                </Viewbox>
                             </StackPanel>
-                            <Grid Grid.Row="1" VerticalAlignment="Center" Margin="5">
-                                <TextBlock Text="{Binding Path=CruiseStartPointLocalityName}" FontSize="24" TextAlignment="Left"/>
-                            </Grid>
+                            <Viewbox Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,4,0,4">
+                                <TextBlock Text="{Binding Path=CruiseStartPointLocalityName}" FontSize="14" TextAlignment="Left"/>
+                            </Viewbox>
 
                         </Grid>
                         <Grid Grid.Column="1">
 
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
-                                <RowDefinition/>
+                                <RowDefinition Height="0.4*"/>
                             </Grid.RowDefinitions>
 
                             <StackPanel Margin="5" Grid.Row="0" VerticalAlignment="Center">
                                 <TextBlock Text="Время поездки:" FontSize="17" TextAlignment="Center"/>
-                                <TextBlock Text="{Binding Path=CruiseFullTimeInCruise}" FontSize="20" TextAlignment="Center"/>
+                                <Viewbox Height="35">
+                                    <TextBlock Text="{Binding Path=CruiseFullTimeInCruise}" TextAlignment="Center"/>
+                                </Viewbox>
                             </StackPanel>
-                            <Grid Grid.Row="1" VerticalAlignment="Center" Margin="5">
-                                <TextBlock Text="{Binding Path=CruiseEndPointLocalityName}" FontSize="24" TextAlignment="Left"/>
-                            </Grid>
+                            <Viewbox Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,4,0,4">
+                                <TextBlock Text="{Binding Path=CruiseEndPointLocalityName}" FontSize="14" TextAlignment="Left"/>
+                            </Viewbox>
 
                         </Grid>
                         <Grid Grid.Column="2">
 
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
-                                <RowDefinition Height="1.35*"/>
-                                <RowDefinition/>
+                                <RowDefinition Height="1.65*"/>
                             </Grid.RowDefinitions>
 
-
                             <Grid Grid.Row="0" VerticalAlignment="Center">
-                                <TextBlock Text="{Binding Path=CruiseFullPrice}" FontSize="18" TextAlignment="Center"/>
+                                <Viewbox Margin="5">
+                                    <TextBlock Text="{Binding Path=CruiseFullPrice}" TextAlignment="Center"/>
+                                </Viewbox>
+
                             </Grid>
                             <StackPanel Grid.Row="1" VerticalAlignment="Center">
-                                <TextBlock Text="Кол-во свободных мест:" FontSize="16" TextAlignment="Center"/>
-                                <TextBlock Text="{Binding Path=CruiseAmountOfFreeSeats}" FontSize="16" TextAlignment="Center"/>
+                                <Viewbox>
+                                    <TextBlock Text="Кол-во свободных мест" FontSize="16" TextAlignment="Center"/>
+                                </Viewbox>
+                                <Viewbox Height="35" Margin="0,0,0,10">
+                                    <TextBlock Text="{Binding Path=CruiseAmountOfFreeSeats}" TextAlignment="Center"/>
+                                </Viewbox>
                             </StackPanel>
-                            <Grid Grid.Row="2" VerticalAlignment="Center" Margin="25,3,25,3">
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-
-                                <Button x:Name="OrderTicketForThisCruiseButton" Grid.Column="0" Margin="2" Background="#FFB46EB4">
-                                    <Grid Margin="0">
-                                        <Viewbox>
-                                            <TextBlock Foreground="White" Text="Купить"/>
-                                        </Viewbox>
-                                    </Grid>
-                                </Button>
-                                <Button x:Name="SeeCruiseFullInfoButton" Grid.Column="1" Margin="2" Background="#FFB46EB4" Visibility="Visible">
-                                    <Grid Margin="0">
-                                        <Viewbox>
-                                            <TextBlock Foreground="White" Text="Dev:Info"/>
-                                        </Viewbox>
-                                    </Grid>
-                                </Button>
-                            </Grid>
 
                         </Grid>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-
         </ListBox>
 
         <Grid Grid.Column="2">
@@ -114,7 +100,7 @@
                 <RowDefinition Height="0.2*"/>
             </Grid.RowDefinitions>
 
-            <Button x:Name="ReturnBackOnMainWindowFromSelectCruiseWindowButton" Grid.Row="1" Margin="15" Background="Purple" Click="ReturnBackOnMainWindowFromSelectCruiseWindowButton_Click">
+            <Button x:Name="ReturnBackOnMainWindowFromSelectCruiseWindowButton" Grid.Row="1" MaxHeight="300" Margin="18" Background="Purple" Click="ReturnBackOnMainWindowFromSelectCruiseWindowButton_Click">
                 <Grid Margin="0,-5,0,0">
                     <Viewbox>
                         <StackPanel Margin="5">
@@ -128,7 +114,7 @@
             <Grid  Grid.Row="2">
                 <Viewbox>
                     <StackPanel Margin="5">
-                        <TextBlock Text="Выбирите кол-во" Foreground="White"/>
+                        <TextBlock Text="Выберите кол-во" Foreground="White"/>
                         <TextBlock Text="мест для покупки" Foreground="White"/>
                     </StackPanel>
                 </Viewbox>
@@ -137,18 +123,18 @@
             <Grid Grid.Row="3">
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="0.5*"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Viewbox Grid.Column="0" Margin="25">
-                    <xctk:IntegerUpDown Name="AmountOfTeacketsToBuyIntegerUpDown" Value="1"/>
+                <Viewbox Grid.Column="0" Margin="10" MaxHeight="60">
+                    <xctk:IntegerUpDown x:Name="AmountOfTeacketsToBuyIntegerUpDown" Value="1"/>
                 </Viewbox>
 
-                <Button x:Name="AcceptAmountOfTicketsToBuyButton" Grid.Column="1" Margin="15,25,15,25" Background="Purple" Click="AcceptAmountOfTicketsToBuyButton_Click">
-                    <Grid Margin="0,-5,0,0">
-                        <Viewbox Margin="15">
-                            <TextBlock Text="OK" Foreground="White"/>
+                <Button x:Name="BuyTicketsButton" Grid.Column="1" Margin="5,25,15,25" MaxHeight="200" Background="Purple" Click="BuyTicketsButton_Click">
+                    <Grid>
+                        <Viewbox Margin="5">
+                            <TextBlock Text="Купить билет" Foreground="White"/>
                         </Viewbox>
                     </Grid>
                 </Button>

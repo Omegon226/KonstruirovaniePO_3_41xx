@@ -96,10 +96,10 @@ namespace Интерфейс
             public void InitioliseStringInfoForWindow()
             {
                 this.CruiseStartDate = StartDate.ToString();
-                this.CruiseStartPointLocalityName = Cruise.StartPointLocalityName;
-                this.CruiseFullTimeInCruise = Cruise.FullTimeInCruise.ToString();
-                this.CruiseEndPointLocalityName = Cruise.EndPointLocalityName;
-                this.CruiseFullPrice = "Цена : " + Cruise.FullPrice.ToString();
+                this.CruiseStartPointLocalityName = "Нач: " + Cruise.StartPointLocalityName;
+                this.CruiseFullTimeInCruise = Cruise.FullTimeInCruise.ToString() + " Часа";
+                this.CruiseEndPointLocalityName = "Кон: " + Cruise.EndPointLocalityName;
+                this.CruiseFullPrice = "Цена : " + Cruise.FullPrice.ToString() + " Руб.";
                 this.CruiseAmountOfFreeSeats = AmountOfFreeSeats.ToString();
             }
         }
@@ -125,9 +125,12 @@ namespace Интерфейс
         private TimeSpan MinimumTimeForOrderingTicket = new TimeSpan(0, 15, 0);
 
         private int StatusLevelOfUser = 0;
+        private int AmountOfTicketsToBuy = 0;
 
         private int IDOfStartingLocation;
         private int IDOfEndLocation;
+
+        private CruisesForWindowInfo CheckedCruiseToBuy;
 
         public SelectCruiseWindow(DBDataOperations DBComunicationFromMainWindow, int IDOfStartingLocationFromMainWindow, int IDOfEndLocationFromMainWindow, int UserStausLevel)
         {
@@ -146,13 +149,7 @@ namespace Интерфейс
 
         private void CruisesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CruisesForWindowInfo Cruise = (CruisesForWindowInfo)CruisesList.SelectedItem;
-            MessageBox.Show(Cruise.CruiseStartDate + "\n" +
-                            Cruise.CruiseStartPointLocalityName + "\n" +
-                            Cruise.CruiseFullTimeInCruise + "\n" +
-                            Cruise.CruiseEndPointLocalityName + "\n" +
-                            Cruise.CruiseFullPrice + "\n" +
-                            Cruise.CruiseAmountOfFreeSeats);
+            CheckedCruiseToBuy = (CruisesForWindowInfo)CruisesList.SelectedItem;
         }
 
         private void ReturnBackOnMainWindowFromSelectCruiseWindowButton_Click(object sender, RoutedEventArgs e)
@@ -160,9 +157,18 @@ namespace Интерфейс
             this.Close();
         }
 
-        private void AcceptAmountOfTicketsToBuyButton_Click(object sender, RoutedEventArgs e)
+
+        private void BuyTicketsButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            AmountOfTicketsToBuy = (int)AmountOfTeacketsToBuyIntegerUpDown.Value;
+
+            if (AmountOfTicketsToBuy <= 0)
+            {
+                MessageBox.Show("Вы ввели неверное кол-во билетов для покупки");
+                return;
+            }
+
+
         }
 
         #region --- Подгрузка информации в переменные эмулирующие таблицы

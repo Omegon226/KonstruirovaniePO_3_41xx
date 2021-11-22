@@ -32,7 +32,7 @@
             </Viewbox>
         </Grid>
         <Grid Grid.Row="0" Grid.Column="2">
-            <TextBlock Text="Отчетсов" Margin="15" FontSize="16" Foreground="White"/>
+            <TextBlock Text="Отчество" Margin="15" FontSize="16" Foreground="White"/>
             <Viewbox Margin="10">
                 <TextBox x:Name="PatronymicTextBox" Width="80" Margin="0,15,0,0"/>
             </Viewbox>
