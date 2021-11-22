@@ -190,8 +190,7 @@ namespace Интерфейс
             }
 
             List<TicketModel> AllTicketsToBuy = new List<TicketModel>();
-
-
+            
             for (int i = 1; i <= TransportOfCheckedCruiseToBuy.NumberOfSeats; ++i)
             {
                 bool flagOfOccpiedSeat = false;
@@ -241,6 +240,13 @@ namespace Интерфейс
 
                     AllTicketsToBuy.Add(NewObject);
 
+                    for (int j = 0; j < FreeSeats.Count; ++j)
+                    {
+                        if (FreeSeats[i] == (int)OrderTicketWindow.FreeSeatsComboBox.SelectedValue)
+                        {
+                            FreeSeats.Remove(FreeSeats[i]);
+                        }
+                    }
                 }
             }
 
@@ -295,11 +301,13 @@ namespace Интерфейс
                     {
                         MessageBox.Show("Вход в систему осуществлён! Вы являетесь пользователем.");
                         LinkToMainWindow.ChangeStatusOfUser(1);
+                        LinkToMainWindow.ChangeRegistraitedUserInfo(AuthorisedUser);
                     }
                     if (allUser[i].Status == 2)
                     {
                         MessageBox.Show("Вход в систему осуществлён! Вы являетесь администратором.");
                         LinkToMainWindow.ChangeStatusOfUser(2);
+                        LinkToMainWindow.ChangeRegistraitedUserInfo(AuthorisedUser);
                     }
 
                     return;
@@ -444,7 +452,21 @@ namespace Интерфейс
                     if ((TodayIsTheDayOfCruise) && (DifferenceInNowTimeAndCruiseStartTime))
                     {
                         CruiseForWindowToCreate.SetStartDate(DateTimeForCruise.Add((TimeSpan)CruiseForWindowToCreate.Cruise.StartTime));
-                        allCruisesForWindow.Add(CruiseForWindowToCreate);
+                        bool FlagOfHaving = false;
+                        for (int k = 0; k < allCruisesForWindow.Count; ++k)
+                        {
+                            if ((allCruisesForWindow[k].StartDate == CruiseForWindowToCreate.StartDate) && 
+                                (allCruisesForWindow[k].Cruise.StartPointLocalityID == CruiseForWindowToCreate.Cruise.StartPointLocalityID) && 
+                                (allCruisesForWindow[k].Cruise.EndPointLocalityID == CruiseForWindowToCreate.Cruise.EndPointLocalityID))
+                            {
+                                FlagOfHaving = true;
+                            }
+                        }
+
+                        if (FlagOfHaving == false)
+                        {
+                            allCruisesForWindow.Add(CruiseForWindowToCreate);
+                        }
                     }
                 }
 

@@ -1797,5 +1797,9 @@ namespace Интерфейс
             StatusLevelOfUser = StatusLevle;
             CheckUserPrivileges();
         }
+        public void ChangeRegistraitedUserInfo(UserModel User)
+        {
+            AuthorisedUser = User;
+        }
     }
 }
