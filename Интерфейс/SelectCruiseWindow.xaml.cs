@@ -225,9 +225,8 @@ namespace Интерфейс
 
         private void InitioliseStartDateOfCruises()
         {
-            // ДОБАВИТЬ МИНИМАЛЬНОЕ ВРЕМЯ ПОКУПКИ 
-
             DateTime DateTimeForCruise = DateTime.Now;
+            DateTimeForCruise = new DateTime(DateTimeForCruise.Year, DateTimeForCruise.Month, DateTimeForCruise.Day, 0, 0, 0);
             CruisesForWindowInfo CruiseForWindowToCreate;
 
             for (int i = 0; i <= MaxDayForOrderingPossibility; ++i)
@@ -235,15 +234,24 @@ namespace Интерфейс
                 if (i != 0)
                 {
                     DateTimeForCruise = DateTimeForCruise.AddDays(+1);
+                    DateTimeForCruise = new DateTime(DateTimeForCruise.Year, DateTimeForCruise.Month, DateTimeForCruise.Day, 0, 0, 0);
                 }
                 int DayOfTheWeekForCruise = ParseDaysOfTheWeek(DateTimeForCruise);
 
                 for (int j = 0; j < allPossibleCruises.Count; ++j)
                 {
-                    if (allPossibleCruises[j].DayOfTheWeekCruiseID == DayOfTheWeekForCruise)
+                    CruiseForWindowToCreate = new CruisesForWindowInfo(allPossibleCruises[j]);
+
+                    bool TodayIsTheDayOfCruise = allPossibleCruises[j].DayOfTheWeekCruiseID == DayOfTheWeekForCruise;
+                    DateTime NowMoment = DateTime.Now;
+                    TimeSpan CruiseStartTime = (TimeSpan)CruiseForWindowToCreate.Cruises.StartTime;
+                    DateTime DateTimeForCruiseCalculations = new DateTime(DateTimeForCruise.Year, DateTimeForCruise.Month, DateTimeForCruise.Day).Add(CruiseStartTime);
+                    TimeSpan DateDifference = DateTimeForCruiseCalculations - NowMoment;
+                    bool DifferenceInNowTimeAndCruiseStartTime = DateDifference > MinimumTimeForOrderingTicket;
+
+                    if ((TodayIsTheDayOfCruise) && (DifferenceInNowTimeAndCruiseStartTime))
                     {
-                        CruiseForWindowToCreate = new CruisesForWindowInfo(allPossibleCruises[j]);
-                        CruiseForWindowToCreate.SetStartDate(DateTimeForCruise);
+                        CruiseForWindowToCreate.SetStartDate(DateTimeForCruise.Add((TimeSpan)CruiseForWindowToCreate.Cruises.StartTime));
                         allCruisesForWindow.Add(CruiseForWindowToCreate);
                     }
                 }
