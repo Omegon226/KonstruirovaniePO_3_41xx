@@ -130,6 +130,7 @@ namespace Интерфейс
 
         private int IDOfStartingLocation;
         private int IDOfEndLocation;
+        private DateTime SelectedDateFromMainWindow;
 
         private CruisesForWindowInfo CheckedCruiseToBuy;
         private int IDOfCheckedCruiseToBuy;
@@ -145,6 +146,24 @@ namespace Интерфейс
             IDOfEndLocation = IDOfEndLocationFromMainWindow;
             StatusLevelOfUser = UserStausLevel;
             AuthorisedUser = User;
+            SelectedDateFromMainWindow = DateTime.Now;
+
+            LoadAllInformationFromDataBase();
+            CreateCruisesForWindow();
+
+            InitializeComponent();
+
+            CruisesList.ItemsSource = allCruisesForWindow;
+        }
+        public SelectCruiseWindow(MainWindow Link, DBDataOperations DBComunicationFromMainWindow, int IDOfStartingLocationFromMainWindow, int IDOfEndLocationFromMainWindow, int UserStausLevel, UserModel User, DateTime? SelectedDate)
+        {
+            LinkToMainWindow = Link;
+            DBComunication = DBComunicationFromMainWindow;
+            IDOfStartingLocation = IDOfStartingLocationFromMainWindow;
+            IDOfEndLocation = IDOfEndLocationFromMainWindow;
+            StatusLevelOfUser = UserStausLevel;
+            AuthorisedUser = User;
+            SelectedDateFromMainWindow = (DateTime)SelectedDate;
 
             LoadAllInformationFromDataBase();
             CreateCruisesForWindow();
@@ -183,6 +202,8 @@ namespace Интерфейс
 
             List<int> FreeSeats = new List<int>();
 
+            double FullPriceOfTickets; 
+
             if (AmountOfTicketsToBuy <= 0)
             {
                 MessageBox.Show("Вы ввели неверное кол-во билетов для покупки");
@@ -207,6 +228,8 @@ namespace Интерфейс
                     FreeSeats.Add(i);
                 }
             }
+
+            FullPriceOfTickets = (double)CheckedCruiseToBuy.Cruise.FullPrice * AmountOfTicketsToBuy;
 
             for (int i = 0; i < AmountOfTicketsToBuy; ++i)
             {
@@ -234,7 +257,7 @@ namespace Интерфейс
                     NewObject.DateOfIssue = DateTime.Now;
                     NewObject.IdentificationInformation = OrderTicketWindow.IndentificationInformationTextBox.Text;
                     NewObject.SeatNumberOnTheTransport = (int)OrderTicketWindow.FreeSeatsComboBox.SelectedValue;
-                    NewObject.FullName = OrderTicketWindow.SurnameTextBox.Text + OrderTicketWindow.NameTextBox.Text + OrderTicketWindow.PatronymicTextBox.Text;
+                    NewObject.FullName = OrderTicketWindow.SurnameTextBox.Text + " " + OrderTicketWindow.NameTextBox.Text + " " + OrderTicketWindow.PatronymicTextBox.Text;
                     NewObject.CruiseID = CheckedCruiseToBuy.Cruise.CruiseID;
                     NewObject.RaceDepartureTime = (DateTime?)CheckedCruiseToBuy.StartDate;
 
@@ -276,13 +299,26 @@ namespace Интерфейс
                 AllTicketsToBuy[i].UserID = AuthorisedUser.ID;
             }
 
+            {
+                string TextOfPayment = "К оплате: " + FullPriceOfTickets.ToString() + " Руб.";
+
+                TicketPaymentWindow PayWindow = new TicketPaymentWindow(TextOfPayment);
+
+                bool? result = PayWindow.ShowDialog();
+                if (result == false)
+                {
+                    MessageBox.Show("Вы отказались от покупки билетов");
+                    return;
+                }
+            }
+
             for (int i = 0; i < AllTicketsToBuy.Count; ++i)
             {
                 DBComunication.Ticket.Create(AllTicketsToBuy[i]);
                 allTicket = DBComunication.Ticket.GetAll();
             }
 
-            MessageBox.Show("Типо билеты добавлены");
+            MessageBox.Show("Вы успешно оплатили билеты!");
 
             DialogResult = true;
             this.Close();
@@ -380,7 +416,7 @@ namespace Интерфейс
         {
             FindeRoutesForCruises();
             FindeAditionalInfoForCruises();
-            InitioliseStartDateOfCruises();
+            InitioliseStartDateOfCruises(SelectedDateFromMainWindow);
             FindeFreeSeatsForCruises();
             InitialiseCruiseStringInfoForWindow();
         }
@@ -423,9 +459,9 @@ namespace Интерфейс
             }
         }
 
-        private void InitioliseStartDateOfCruises()
+        private void InitioliseStartDateOfCruises(DateTime SelectedDateFromMainWindow)
         {
-            DateTime DateTimeForCruise = DateTime.Now;
+            DateTime DateTimeForCruise = SelectedDateFromMainWindow;
             DateTimeForCruise = new DateTime(DateTimeForCruise.Year, DateTimeForCruise.Month, DateTimeForCruise.Day, 0, 0, 0);
             CruisesForWindowInfo CruiseForWindowToCreate;
 

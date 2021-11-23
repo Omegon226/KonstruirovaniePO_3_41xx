@@ -131,6 +131,9 @@
     <Compile Include="SelectCruiseWindow.xaml.cs">
       <DependentUpon>SelectCruiseWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TicketPaymentWindow.xaml.cs">
+      <DependentUpon>TicketPaymentWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="CeateUpdateWindows\CruiseCUWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -188,6 +191,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SelectCruiseWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TicketPaymentWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

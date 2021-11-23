@@ -23,10 +23,12 @@ namespace Интерфейс
         public OrderTicketWindow()
         {
             InitializeComponent();
+            SetIndentificationInfoAsPasport();
         }
         public OrderTicketWindow(UserModel UserInfo)
         {
             InitializeComponent();
+            SetIndentificationInfoAsPasport();
 
             string[] FullName = UserInfo.FullName.Split(' ');
 
@@ -46,6 +48,25 @@ namespace Интерфейс
                 this.PatronymicTextBox.Text = FullName[2];
             }
         }
+        private void SetIndentificationInfoAsPasport()
+        {
+            DocumentTypeComboBox.SelectedIndex = 0;
+            IndentificationInformationTextBox.Mask = "0000 000000";
+        }
+
+        private void DocumentTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (DocumentTypeComboBox.SelectedIndex == 1)
+            {
+                IndentificationInformationTextBox.Text = "";
+                IndentificationInformationTextBox.Mask = "LLL-LL № 000000";
+            }
+            if (DocumentTypeComboBox.SelectedIndex == 0)
+            {
+                IndentificationInformationTextBox.Text = "";
+                IndentificationInformationTextBox.Mask = "0000 000000";
+            }
+        }
 
         private void AcceptButton_Click(object sender, RoutedEventArgs e)
         {
@@ -55,9 +76,7 @@ namespace Интерфейс
 
             bool SuccessOfFullNameInfo = SuccessOfSurnameParse && SuccessOfNameParse && SuccessOfPatronomicParse;
 
-            bool SuccessOfIndetificationInformation = IndentificationInformationTextBox.Text.All(Char.IsLetterOrDigit);
-
-            if (SuccessOfFullNameInfo && SuccessOfIndetificationInformation)
+            if (SuccessOfFullNameInfo)
             {
                 bool CorectnessOfIndetificationInformatio = ValidationOfIndetificationInformatio(IndentificationInformationTextBox.Text, DocumentTypeComboBox.SelectedIndex);
 
@@ -84,20 +103,21 @@ namespace Интерфейс
             if (TypeOfDocument == 0)
             {
                 // Проверка по паспорту
-                if (IndentificationInfo.Length == 10)
+                if (IndentificationInfo.Length == 11)
                 {
                     return (true);
                 }
             }
-            else 
+            if (TypeOfDocument == 1)
             {
                 // Проверка по сведетельству о рождении
-                if ((9 <= IndentificationInfo.Length) && (IndentificationInfo.Length <= 12))
+                if ((13 <= IndentificationInfo.Length) && (IndentificationInfo.Length <= 15))
                 {
                     return (true);
                 }
             }
             return (false);
         }
+
     }
 }

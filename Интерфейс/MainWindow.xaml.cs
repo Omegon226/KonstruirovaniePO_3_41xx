@@ -202,7 +202,17 @@ namespace Интерфейс
                 return;
             }
 
-            SelectCruiseWindow WindowToFindeCruise = new SelectCruiseWindow(this, DBComunication, StartPoint, EndPoint, StatusLevelOfUser, AuthorisedUser);
+            SelectCruiseWindow WindowToFindeCruise;
+
+            if (DateOfRoteToFindeDatePicker.SelectedDate == null)
+            {
+                WindowToFindeCruise = new SelectCruiseWindow(this, DBComunication, StartPoint, EndPoint, StatusLevelOfUser, AuthorisedUser);
+            }
+            else
+            {
+                WindowToFindeCruise = new SelectCruiseWindow(this, DBComunication, StartPoint, EndPoint, StatusLevelOfUser, AuthorisedUser, DateOfRoteToFindeDatePicker.SelectedDate);
+            }
+            
 
             bool? result = WindowToFindeCruise.ShowDialog();
             if (result == false)
@@ -213,6 +223,8 @@ namespace Интерфейс
             InsertInformationInReportsComboBoxes();
             InsertInformationInChartsTab();
             BuildCharts();
+
+
         }
 
         #region --- Подгрузка информации в переменные эмулирующие таблицы
