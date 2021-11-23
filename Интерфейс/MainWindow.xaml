@@ -7,7 +7,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
-        Title="MainWindow" MinWidth="1100" MinHeight="800" Width="1100" Height="800" MaxWidth="2200" MaxHeight="1600">
+        Title="Автовокзал" MinWidth="1100" MinHeight="800" Width="1100" Height="800" MaxWidth="2200" MaxHeight="1600">
     <Grid Background="#FF440D44">
 
         <Grid.RowDefinitions>
@@ -18,11 +18,13 @@
         <Grid Grid.Row="0" x:Name="TabControlForMainWindow" VerticalAlignment="Top">
             
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="330" />
+                <ColumnDefinition MinWidth="270" />
+                <ColumnDefinition Width="1.4*"/>
+                <ColumnDefinition Width="1.4*"/>
                 <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition />
-                <ColumnDefinition />
+                <ColumnDefinition Width="1.4*"/>
             </Grid.ColumnDefinitions>
 
             <Viewbox MinHeight="120" MaxHeight="200">
@@ -36,28 +38,42 @@
                     </Viewbox>
                 </Grid>
             </Button>
-            <Button x:Name="CreateReportsTabOpenButton" Grid.Column="2" Margin="10" Background="Purple" Click="CreateReportsTabOpenButton_Click">
+            <Button x:Name="CRUDTabOpenButton" Grid.Column="2" Margin="10" Background="Purple" Click="CRUDTabOpenButton_Click">
                 <Grid Margin="5,0,5,0">
                     <Viewbox MinHeight="120" MaxHeight="200">
-                        <TextBlock Text="Посмотреть отчёты" Foreground="White"/>
+                        <TextBlock Text="Таблицы БД" Foreground="White"/>
                     </Viewbox>
                 </Grid>
             </Button>
-            <Button x:Name="CreateChartsTabOpenButton" Grid.Column="3" Margin="10" Background="Purple" Click="CreateChartsTabOpenButton_Click">
+            <Button x:Name="CreateReportsTabOpenButton" Grid.Column="3" Margin="10" Background="Purple" Click="CreateReportsTabOpenButton_Click">
                 <Grid Margin="5,0,5,0">
                     <Viewbox MinHeight="120" MaxHeight="200">
-                        <TextBlock Text="Построить графики" Foreground="White"/>
+                        <TextBlock Text="Отчёты" Foreground="White"/>
                     </Viewbox>
                 </Grid>
             </Button>
-            <Button x:Name="AuthorisetionButton" Grid.Column="4" Margin="15" Background="#FFB46EB4" Visibility="Visible" Click="AuthorisetionButton_Click">
+            <Button x:Name="CreateChartsTabOpenButton" Grid.Column="4" Margin="10" Background="Purple" Click="CreateChartsTabOpenButton_Click">
+                <Grid Margin="5,0,5,0">
+                    <Viewbox MinHeight="120" MaxHeight="200">
+                        <TextBlock Text="Графики" Foreground="White"/>
+                    </Viewbox>
+                </Grid>
+            </Button>
+            <Button x:Name="AuthorisetionButton" Grid.Column="5" Margin="5,10,5,10" Background="#FFB46EB4" Visibility="Visible" Click="AuthorisetionButton_Click">
                 <Grid Margin="0,0,0,0">
                     <Viewbox MinHeight="100" MaxHeight="200" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Margin="5" Text="Войти" Foreground="White"/>
                     </Viewbox>
                 </Grid>
             </Button>
-            <Button x:Name="DeauthorisetionButton" Grid.Column="4" Margin="15" Background="#FFB46EB4" Visibility="Hidden" Click="DeauthorisetionButton_Click">
+            <Button x:Name="RegistrationButton" Grid.Column="6" Margin="5,10,5,10" Background="#FFB46EB4" Visibility="Visible" Click="RegistrationButtonButton_Click">
+                <Grid Margin="0,0,0,0">
+                    <Viewbox MinHeight="100" MaxHeight="200" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Margin="5" Text="Регистрация" Foreground="White"/>
+                    </Viewbox>
+                </Grid>
+            </Button>
+            <Button x:Name="DeauthorisetionButton" Grid.Column="5" Grid.ColumnSpan="2" Margin="15" Background="#FFB46EB4" Visibility="Hidden" Click="DeauthorisetionButton_Click">
                 <Grid Margin="0,0,0,0">
                     <Viewbox MinHeight="100" MaxHeight="200" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Margin="5" Text="Выйти" Foreground="White"/>
@@ -92,14 +108,14 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                
+
                 <Grid Grid.Column="0" Grid.ColumnSpan="2" Height="10" VerticalAlignment="Top" Background="#FFAA6CAA"></Grid>
 
                 <Viewbox Grid.ColumnSpan="2" Margin="0,25,0,25">
                     <TextBlock Text="Куда поедем?" Foreground="White"/>
                 </Viewbox>
 
-                
+
                 <Grid Grid.Column="0" Grid.Row="1">
 
                     <Grid.ColumnDefinitions>
@@ -119,9 +135,9 @@
                         <ComboBox x:Name="DepartureLocalityComboBox" Width="150" Height="25"></ComboBox>
                     </Viewbox>
                 </Grid>
-                
+
                 <Grid Grid.Column="1" Grid.Row="1">
-                    
+
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.2*"/>
                         <ColumnDefinition/>
@@ -139,9 +155,9 @@
                         <ComboBox x:Name="ArrivalLocalityComboBox" Width="150" Height="25"></ComboBox>
                     </Viewbox>
                 </Grid>
-                
+
                 <Grid Grid.Column="0" Grid.Row="2">
-                    
+
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.2*"/>
                         <ColumnDefinition/>
@@ -161,7 +177,7 @@
                         <DatePicker x:Name="DateOfRoteToFindeDatePicker" Grid.Row="1" Grid.Column="1"/>
                     </Viewbox>
                 </Grid>
-                
+
                 <Grid Grid.Column="1" Grid.Row="2">
 
                     <Grid.ColumnDefinitions>
@@ -184,13 +200,13 @@
             </Grid>
         </Grid>
 
-        <Grid Grid.Row="1" x:Name="CreateReportsGrid" Visibility="Hidden">
+        <Grid Grid.Row="1" x:Name="CRUDGrid" Visibility="Hidden">
 
             <TabControl x:Name="TabControlForCRUD" Background="#FF440D44">
 
                 <TabItem x:Name="UserTab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">User</TextBlock>
+                        <TextBlock Margin="3">Пользователи (Таблица User)</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -237,7 +253,7 @@
 
                 <TabItem x:Name="TicketTab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Ticket</TextBlock>
+                        <TextBlock Margin="3">Билеты (Таблица Ticket)</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -287,7 +303,7 @@
 
                 <TabItem x:Name="TransportTab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Transport</TextBlock>
+                        <TextBlock Margin="3">Транспорт (Таблица Transport)</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -334,7 +350,7 @@
 
                 <TabItem x:Name="StopSequencesTab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">StopSequences</TextBlock>
+                        <TextBlock Margin="3">Остановки в Маршруте (Таблица StopSequences)</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -382,7 +398,7 @@
 
                 <TabItem x:Name="StoppingOnTheRouteTab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">StoppingOnTheRoute</TextBlock>
+                        <TextBlock Margin="3">Остановки (Таблица StoppingOnTheRoute)</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -426,7 +442,7 @@
 
                 <TabItem x:Name="RouteTab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Route</TextBlock>
+                        <TextBlock Margin="3">Маршруты (Таблица Route)</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -471,7 +487,7 @@
 
                 <TabItem x:Name="LocalityTab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Locality</TextBlock>
+                        <TextBlock Margin="3">Населйнные пункты (Таблица Locality)</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -516,7 +532,7 @@
 
                 <TabItem x:Name="DriverTab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Driver</TextBlock>
+                        <TextBlock Margin="3">Водители (Таблица Driver)</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -563,7 +579,7 @@
 
                 <TabItem x:Name="DayOfTheWeekTab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">DayOfTheWeek</TextBlock>
+                        <TextBlock Margin="3">Дни недели (Таблица DayOfTheWeek)</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -611,7 +627,7 @@
 
                 <TabItem x:Name="CruiseTab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Cruise</TextBlock>
+                        <TextBlock Margin="3">Рейсы (Таблица Cruise)</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -656,10 +672,17 @@
                         </Grid>
                     </TabItem.Content>
                 </TabItem>
+                
+            </TabControl>
+                 
+        </Grid>
 
+        <Grid Grid.Row="1" x:Name="CreateReportsGrid" Visibility="Hidden">
+            <TabControl x:Name="TabControlForReports" Background="#FF440D44">
+                
                 <TabItem x:Name="Report1Tab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Отчёт 1</TextBlock>
+                        <TextBlock Margin="3">Найти маршрут по конечной остановке</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -691,7 +714,7 @@
 
                             </Grid>
                             <DataGrid Grid.Row="1" Name="Report1DataGrid">
-                                
+
                             </DataGrid>
                         </Grid>
                     </TabItem.Content>
@@ -699,7 +722,7 @@
 
                 <TabItem x:Name="Report2Tab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Отчёт 2</TextBlock>
+                        <TextBlock Margin="3">Поиск рейса по времени в пути маршрута</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -717,7 +740,7 @@
 
                                 <Button x:Name="Report2Button" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="Report2Button_Click">
                                     <Viewbox Margin="5,0,5,0">
-                                        <TextBlock Text="Поиск пейса по времени в пути маршрута" Foreground="White"/>
+                                        <TextBlock Text="Поиск рейса по времени в пути маршрута" Foreground="White"/>
                                     </Viewbox>
                                 </Button>
 
@@ -728,7 +751,7 @@
                                 <Viewbox Grid.Column="2">
                                     <xctk:IntegerUpDown x:Name="Report2AmountOfHoursIntegerUpDown" Width="150" Margin="5" Value="3"/>
                                 </Viewbox>
-                                
+
                             </Grid>
                             <DataGrid Grid.Row="1" Name="Report2DataGrid">
 
@@ -739,7 +762,7 @@
 
                 <TabItem x:Name="Report3Tab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Отчёт 3</TextBlock>
+                        <TextBlock Margin="3">Поиск рейса по начальным и конеынм остановкам</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -790,7 +813,7 @@
                                         <ComboBox x:Name="Report3LastLocationComboBox" Width="250" Margin="5"/>
                                     </Viewbox>
                                 </Grid>
-                                
+
                             </Grid>
                             <DataGrid Grid.Row="1" Name="Report3DataGrid">
 
@@ -798,9 +821,8 @@
                         </Grid>
                     </TabItem.Content>
                 </TabItem>
-
+                
             </TabControl>
-                 
         </Grid>
 
         <Grid Grid.Row="1" x:Name="CreateChartsGrid" Visibility="Hidden">

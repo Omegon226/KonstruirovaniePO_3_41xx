@@ -30,7 +30,7 @@
 
         <Grid Grid.Row="1" Grid.ColumnSpan="3" Margin="10">
             <Viewbox>
-                <TextBlock Text="StopSequences" Foreground="White"/>
+                <TextBlock Margin="15,0,15,0" Text="Последовательнсоть остановок маршрута" Foreground="White"/>
             </Viewbox>
         </Grid>
 

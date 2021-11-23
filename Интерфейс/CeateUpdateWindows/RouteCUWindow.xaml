@@ -23,7 +23,7 @@
 
         <Grid Grid.Row="1" Margin="10">
             <Viewbox>
-                <TextBlock Text="Route" Foreground="White"/>
+                <TextBlock Text="Маршрут" Foreground="White"/>
             </Viewbox>
         </Grid>
 

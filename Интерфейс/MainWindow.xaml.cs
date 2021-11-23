@@ -53,6 +53,7 @@ namespace Интерфейс
             InsertInformationInFindeRouteComboBoxes();
 
             FindeRouteGrid.Visibility = Visibility.Visible;
+            CRUDGrid.Visibility = Visibility.Hidden;
             CreateReportsGrid.Visibility = Visibility.Hidden;
             CreateChartsGrid.Visibility = Visibility.Hidden;
 
@@ -79,10 +80,11 @@ namespace Интерфейс
             if (StatusLevelOfUser == 0)
             {
                 FindeRouteTabOpenButton.Visibility = Visibility.Visible;
+                CRUDTabOpenButton.Visibility = Visibility.Hidden;
                 CreateReportsTabOpenButton.Visibility = Visibility.Hidden;
                 CreateChartsTabOpenButton.Visibility = Visibility.Hidden;
 
-                if ((CreateReportsGrid.Visibility == Visibility.Visible) || (CreateChartsGrid.Visibility == Visibility.Visible))
+                if ((CRUDGrid.Visibility == Visibility.Visible) || (CreateReportsGrid.Visibility == Visibility.Visible) || (CreateChartsGrid.Visibility == Visibility.Visible))
                 {
                     ReturnToFindeRouteGrid();
                 }
@@ -92,10 +94,11 @@ namespace Интерфейс
             if (StatusLevelOfUser == 1)
             {
                 FindeRouteTabOpenButton.Visibility = Visibility.Visible;
+                CRUDTabOpenButton.Visibility = Visibility.Hidden;
                 CreateReportsTabOpenButton.Visibility = Visibility.Hidden;
                 CreateChartsTabOpenButton.Visibility = Visibility.Hidden;
 
-                if ((CreateReportsGrid.Visibility == Visibility.Visible) || (CreateChartsGrid.Visibility == Visibility.Visible))
+                if ((CRUDGrid.Visibility == Visibility.Visible) || (CreateReportsGrid.Visibility == Visibility.Visible) || (CreateChartsGrid.Visibility == Visibility.Visible))
                 {
                     ReturnToFindeRouteGrid();
                 }
@@ -105,6 +108,7 @@ namespace Интерфейс
             if (StatusLevelOfUser == 2)
             {
                 FindeRouteTabOpenButton.Visibility = Visibility.Visible;
+                CRUDTabOpenButton.Visibility = Visibility.Visible;
                 CreateReportsTabOpenButton.Visibility = Visibility.Visible;
                 CreateChartsTabOpenButton.Visibility = Visibility.Visible;
                 return;
@@ -114,6 +118,7 @@ namespace Интерфейс
         {
             FindeRouteGrid.Visibility = Visibility.Visible;
             CreateReportsGrid.Visibility = Visibility.Hidden;
+            CRUDGrid.Visibility = Visibility.Hidden;
             CreateChartsGrid.Visibility = Visibility.Hidden;
         }
 
@@ -144,6 +149,7 @@ namespace Интерфейс
                     StatusLevelOfUser = (int)allUser[i].Status;
                     AuthorisedUser = allUser[i];
                     AuthorisetionButton.Visibility = Visibility.Hidden;
+                    RegistrationButton.Visibility = Visibility.Hidden;
                     DeauthorisetionButton.Visibility = Visibility.Visible;
                     
                     if (allUser[i].Status == 1)
@@ -161,10 +167,53 @@ namespace Интерфейс
             MessageBox.Show("Похоже такого пользователя нет...");
         }
 
+        private void RegistrationButtonButton_Click(object sender, RoutedEventArgs e)
+        {
+            RegisterUserWindow RegistrationWindow = new RegisterUserWindow();
+
+            bool? result = RegistrationWindow.ShowDialog();
+            if (result == false)
+                return;
+            else
+            {
+                UserModel AuthorizedUser = new UserModel();
+
+                AuthorizedUser.FullName = RegistrationWindow.SurnameTextBox.Text + " " + RegistrationWindow.NameTextBox.Text + " " + RegistrationWindow.PatronymicTextBox.Text;
+                AuthorizedUser.Login = RegistrationWindow.LoginTextBox.Text;
+                AuthorizedUser.Password = RegistrationWindow.PasswordTextBox.Text;
+                AuthorizedUser.Status = 1;
+
+                FindeSameUserAndRegistrait(AuthorizedUser);
+                CheckUserPrivileges();
+            }
+        }
+        private void FindeSameUserAndRegistrait(UserModel UserToFinde)
+        {
+            for (int i = 0; i < allUser.Count; ++i)
+            {
+                if ((UserToFinde.Login == allUser[i].Login) && (UserToFinde.FullName == allUser[i].FullName))
+                {
+                    MessageBox.Show("Такой пользователь уже существует");
+                    return;
+                }
+            }
+
+            StatusLevelOfUser = (int)UserToFinde.Status;
+            AuthorisedUser = UserToFinde;
+            AuthorisetionButton.Visibility = Visibility.Hidden;
+            RegistrationButton.Visibility = Visibility.Hidden;
+            DeauthorisetionButton.Visibility = Visibility.Visible;
+
+            DBComunication.User.Create(UserToFinde);
+            allUser = DBComunication.User.GetAll();
+            InsertInformationInUserDataGrid();
+        }
+
         private void DeauthorisetionButton_Click(object sender, RoutedEventArgs e)
         {
             StatusLevelOfUser = 0;
             AuthorisetionButton.Visibility = Visibility.Visible;
+            RegistrationButton.Visibility = Visibility.Visible;
             DeauthorisetionButton.Visibility = Visibility.Hidden;
             MessageBox.Show("Вы вышли из системы");
             CheckUserPrivileges();
@@ -173,6 +222,15 @@ namespace Интерфейс
         private void FindeRouteTabOpenButton_Click(object sender, RoutedEventArgs e)
         {
             FindeRouteGrid.Visibility = Visibility.Visible;
+            CRUDGrid.Visibility = Visibility.Hidden;
+            CreateReportsGrid.Visibility = Visibility.Hidden;
+            CreateChartsGrid.Visibility = Visibility.Hidden;
+        }
+
+        private void CRUDTabOpenButton_Click(object sender, RoutedEventArgs e)
+        {
+            FindeRouteGrid.Visibility = Visibility.Hidden;
+            CRUDGrid.Visibility = Visibility.Visible;
             CreateReportsGrid.Visibility = Visibility.Hidden;
             CreateChartsGrid.Visibility = Visibility.Hidden;
         }
@@ -180,6 +238,7 @@ namespace Интерфейс
         private void CreateReportsTabOpenButton_Click(object sender, RoutedEventArgs e)
         {
             FindeRouteGrid.Visibility = Visibility.Hidden;
+            CRUDGrid.Visibility = Visibility.Hidden;
             CreateReportsGrid.Visibility = Visibility.Visible;
             CreateChartsGrid.Visibility = Visibility.Hidden;
         }
@@ -187,6 +246,7 @@ namespace Интерфейс
         private void CreateChartsTabOpenButton_Click(object sender, RoutedEventArgs e)
         {
             FindeRouteGrid.Visibility = Visibility.Hidden;
+            CRUDGrid.Visibility = Visibility.Hidden;
             CreateReportsGrid.Visibility = Visibility.Hidden;
             CreateChartsGrid.Visibility = Visibility.Visible;
         }
@@ -199,6 +259,11 @@ namespace Интерфейс
             if (StartPoint == EndPoint)
             {
                 MessageBox.Show("Начальный и конечный пункты не должны быть одинаковыми");
+                return;
+            }
+            if (DateOfRoteToFindeDatePicker.SelectedDate - DateTime.Now > new TimeSpan(30, 0, 0))
+            {
+                MessageBox.Show("Вы не можете заказывать билеты больше чем за 30 дней");
                 return;
             }
 
@@ -226,6 +291,17 @@ namespace Интерфейс
 
 
         }
+
+        public void ChangeStatusOfUser(int StatusLevle)
+        {
+            StatusLevelOfUser = StatusLevle;
+            CheckUserPrivileges();
+        }
+        public void ChangeRegistraitedUserInfo(UserModel User)
+        {
+            AuthorisedUser = User;
+        }
+
 
         #region --- Подгрузка информации в переменные эмулирующие таблицы
 
@@ -366,7 +442,7 @@ namespace Интерфейс
 
         #endregion
 
-        #region --- Функции для работы с Отчётами и CRUD Администратора
+        #region --- Функции для CRUD
 
         private int getSelectedRow(DataGrid dataGrid)
         {
@@ -521,8 +597,12 @@ namespace Интерфейс
         }
 
         // CRUD Для Ticket
+        private List<string> IndentificationDocuments = new List<string>();
         private void CreateTicketButton_Click(object sender, RoutedEventArgs e)
         {
+            IndentificationDocuments.Add("Паспорт");
+            IndentificationDocuments.Add("Свидетельство о рождении");
+
             TicketCUWindow CreateWindow = new TicketCUWindow();
             CreateWindow.CruiseIDComboBox.ItemsSource = allCruise;
             CreateWindow.CruiseIDComboBox.DisplayMemberPath = "ID";
@@ -530,6 +610,7 @@ namespace Интерфейс
             CreateWindow.UserIDComboBox.ItemsSource = allUser;
             CreateWindow.UserIDComboBox.DisplayMemberPath = "FullName";
             CreateWindow.UserIDComboBox.SelectedValuePath = "ID";
+            CreateWindow.DocumentTypeComboBox.ItemsSource = IndentificationDocuments;
 
             bool? result = CreateWindow.ShowDialog();
             if (result == false)
@@ -584,6 +665,9 @@ namespace Интерфейс
                 TicketModel ph = allTicket.Where(i => i.ID == id).FirstOrDefault();
                 if (ph != null)
                 {
+                    IndentificationDocuments.Add("Паспорт");
+                    IndentificationDocuments.Add("Свидетельство о рождении");
+
                     TicketCUWindow UpdateWindow = new TicketCUWindow();
                     UpdateWindow.CruiseIDComboBox.ItemsSource = allCruise;
                     UpdateWindow.CruiseIDComboBox.DisplayMemberPath = "ID";
@@ -591,6 +675,7 @@ namespace Интерфейс
                     UpdateWindow.UserIDComboBox.ItemsSource = allUser;
                     UpdateWindow.UserIDComboBox.DisplayMemberPath = "FullName";
                     UpdateWindow.UserIDComboBox.SelectedValuePath = "ID";
+                    UpdateWindow.DocumentTypeComboBox.ItemsSource = IndentificationDocuments;
 
                     int Year = ph.DateOfIssue.Value.Year;
                     int Month = ph.DateOfIssue.Value.Month;
@@ -605,7 +690,21 @@ namespace Интерфейс
                     UpdateWindow.DateOfIssueMinuteParametrTextBox.Text = Minute.ToString();
                     UpdateWindow.DateOfIssueSecondParametrTextBox.Text = Second.ToString();
 
-                    UpdateWindow.IndentificationInformationTextBox.Text = ph.IdentificationInformation;
+                    if ((ph.IdentificationInformation.Length == 11 && ph.IdentificationInformation[4] == ' ') || (ph.IdentificationInformation.Length == 10))
+                    {
+                        UpdateWindow.DocumentTypeComboBox.SelectedIndex = 0;
+                        UpdateWindow.IndentificationInformationTextBox.Text = ph.IdentificationInformation;
+                    }
+                    if ((15 <= ph.IdentificationInformation.Length) && (ph.IdentificationInformation.Length <= 17))
+                    {
+                        UpdateWindow.DocumentTypeComboBox.SelectedIndex = 1;
+                        UpdateWindow.IndentificationInformationTextBox.Text = ph.IdentificationInformation;
+                    }
+                    if (ph.IdentificationInformation.Length < 10 || ph.IdentificationInformation.Length == 12 || ph.IdentificationInformation.Length > 15)
+                    {
+                        MessageBox.Show("Индентификационные данные по билету не могут быть занесены, т.к. их формат не правильный");
+                    }
+
                     UpdateWindow.SeatNumberOnTheTransportIntegerUpDown.Value = ph.SeatNumberOnTheTransport;
 
                     string[] FullName = ph.FullName.Split(' ');
@@ -1550,6 +1649,10 @@ namespace Интерфейс
             }
         }
 
+        #endregion
+
+        #region --- Функции для создания отчётов
+
         private void Report1Button_Click(object sender, RoutedEventArgs e)
         {
             Report1DataGrid.ItemsSource = FindeRoute.StoredProcedureExecute2((int)Report1LastStoppingComboBox.SelectedValue);
@@ -1804,14 +1907,5 @@ namespace Интерфейс
 
         #endregion
 
-        public void ChangeStatusOfUser(int StatusLevle)
-        {
-            StatusLevelOfUser = StatusLevle;
-            CheckUserPrivileges();
-        }
-        public void ChangeRegistraitedUserInfo(UserModel User)
-        {
-            AuthorisedUser = User;
-        }
     }
 }

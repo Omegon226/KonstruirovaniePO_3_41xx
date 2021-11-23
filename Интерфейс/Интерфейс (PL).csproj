@@ -128,6 +128,9 @@
     <Compile Include="OrderTicketWindow.xaml.cs">
       <DependentUpon>OrderTicketWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RegisterUserWindow.xaml.cs">
+      <DependentUpon>RegisterUserWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SelectCruiseWindow.xaml.cs">
       <DependentUpon>SelectCruiseWindow.xaml</DependentUpon>
     </Compile>
@@ -187,6 +190,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="OrderTicketWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RegisterUserWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

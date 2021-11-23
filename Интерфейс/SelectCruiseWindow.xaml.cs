@@ -153,6 +153,8 @@ namespace Интерфейс
 
             InitializeComponent();
 
+            Title = "Рейсы на маршрут: " + allCruisesForWindow[0].Cruise.StartPointLocalityName + " - " + allCruisesForWindow[0].Cruise.EndPointLocalityName;
+
             CruisesList.ItemsSource = allCruisesForWindow;
         }
         public SelectCruiseWindow(MainWindow Link, DBDataOperations DBComunicationFromMainWindow, int IDOfStartingLocationFromMainWindow, int IDOfEndLocationFromMainWindow, int UserStausLevel, UserModel User, DateTime? SelectedDate)

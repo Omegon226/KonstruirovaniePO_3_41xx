@@ -24,6 +24,20 @@ namespace Интерфейс.CeateUpdateWindows
             InitializeComponent();
         }
 
+        private void DocumentTypeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (DocumentTypeComboBox.SelectedIndex == 1)
+            {
+                IndentificationInformationTextBox.Text = "";
+                IndentificationInformationTextBox.Mask = "LLL-LL № 000000";
+            }
+            if (DocumentTypeComboBox.SelectedIndex == 0)
+            {
+                IndentificationInformationTextBox.Text = "";
+                IndentificationInformationTextBox.Mask = "0000 000000";
+            }
+        }
+
         private void AcceptButton_Click(object sender, RoutedEventArgs e)
         {
             bool SuccessOfSurnameParse = SurnameTextBox.Text.All(Char.IsLetter);
