@@ -15,6 +15,8 @@ using BLL.Models;
 using BLL.DBInteraction;
 using BLL.Services;
 using System.Collections.ObjectModel;
+using PdfSharp.Pdf;
+using PdfSharp.Drawing;
 
 namespace Интерфейс
 {
@@ -213,7 +215,13 @@ namespace Интерфейс
             }
 
             List<TicketModel> AllTicketsToBuy = new List<TicketModel>();
-            
+
+            if (TransportOfCheckedCruiseToBuy == null)
+            {
+                MessageBox.Show("Вы не выбрали рейс для поездки!");
+                return;
+            }
+
             for (int i = 1; i <= TransportOfCheckedCruiseToBuy.NumberOfSeats; ++i)
             {
                 bool flagOfOccpiedSeat = false;
@@ -265,9 +273,10 @@ namespace Интерфейс
 
                     AllTicketsToBuy.Add(NewObject);
 
+                    int SelectedSeat = (int)OrderTicketWindow.FreeSeatsComboBox.SelectedValue;
                     for (int j = 0; j < FreeSeats.Count; ++j)
                     {
-                        if (FreeSeats[i] == (int)OrderTicketWindow.FreeSeatsComboBox.SelectedValue)
+                        if ((int)FreeSeats[j] == (int)SelectedSeat)
                         {
                             FreeSeats.Remove(FreeSeats[i]);
                         }
@@ -316,6 +325,11 @@ namespace Интерфейс
 
             for (int i = 0; i < AllTicketsToBuy.Count; ++i)
             {
+                CreatePDFOfTickets(i, AllTicketsToBuy[i], CheckedCruiseToBuy);
+            }
+
+            for (int i = 0; i < AllTicketsToBuy.Count; ++i)
+            {
                 DBComunication.Ticket.Create(AllTicketsToBuy[i]);
                 allTicket = DBComunication.Ticket.GetAll();
             }
@@ -353,6 +367,63 @@ namespace Интерфейс
             }
             MessageBox.Show("Похоже такого пользователя нет...");
         }
+        private void CreatePDFOfTickets(int TicketNomber, TicketModel Ticket, CruisesForWindowInfo CruiseInfo)
+        {
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+            PdfDocument document = new PdfDocument();
+
+            PdfPage page = document.AddPage();
+
+            XGraphics gfx = XGraphics.FromPdfPage(page);
+
+            XFont font = new XFont("Arial", 20);
+
+            gfx.DrawString("Билет на рейс", new XFont("Arial", 40, XFontStyle.Bold), XBrushes.Black, new XPoint(150, 70));
+
+            int currentYPosition = 180;
+
+            gfx.DrawString("Информация о билете", new XFont("Arial", 30, XFontStyle.Bold), XBrushes.Black, new XPoint(120, currentYPosition));
+            currentYPosition += 50;
+            gfx.DrawString("Номер билета в очереди заказа: " + TicketNomber.ToString(), new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
+            currentYPosition += 20;
+            gfx.DrawString("Индентификационная информация: " + Ticket.IdentificationInformation, new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
+            currentYPosition += 20;
+            gfx.DrawString("Номер сиденья: " + Ticket.SeatNumberOnTheTransport.ToString(), new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
+            currentYPosition += 20;
+            gfx.DrawString("Дата отправки рейса: " + Ticket.RaceDepartureTime.ToString(), new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
+            currentYPosition += 20;
+            gfx.DrawLine(new XPen(XColor.FromArgb(0, 150, 0)), new XPoint(50, currentYPosition), new XPoint(500, currentYPosition));
+            currentYPosition += 40;
+
+            gfx.DrawString("Информация о рейсе", new XFont("Arial", 30, XFontStyle.Bold), XBrushes.Black, new XPoint(120, currentYPosition));
+            currentYPosition += 50;
+            gfx.DrawString("Пункт начала движения: " + CruiseInfo.Cruise.StartPointLocalityName.ToString(), new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
+            currentYPosition += 20;
+            gfx.DrawString("Пункт начала движения: " + CruiseInfo.Cruise.EndPointLocalityName.ToString(), new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
+            currentYPosition += 20;
+            gfx.DrawString("Цена в Рублях: " + CruiseInfo.Cruise.FullPrice.ToString(), new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
+            currentYPosition += 20;
+            gfx.DrawString("Время поездки: " + CruiseInfo.Cruise.FullTimeInCruise.ToString(), new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
+            currentYPosition += 20;
+            gfx.DrawLine(new XPen(XColor.FromArgb(0, 150, 0)), new XPoint(50, currentYPosition), new XPoint(500, currentYPosition));
+            currentYPosition += 40;
+
+            gfx.DrawString("Информация о транспорте", new XFont("Arial", 30, XFontStyle.Bold), XBrushes.Black, new XPoint(120, currentYPosition));
+            currentYPosition += 50;
+            gfx.DrawString("Кол-во мест в транспорте: " + TransportOfCheckedCruiseToBuy.NumberOfSeats.ToString(), new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
+            currentYPosition += 20;
+            gfx.DrawString("Регистрационный номер: " + TransportOfCheckedCruiseToBuy.RegistrationNumber, new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
+            currentYPosition += 20;
+            gfx.DrawString("Марка Авто: " + TransportOfCheckedCruiseToBuy.Model, new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
+
+            DateTime DateNow = DateTime.Now;
+            string DateTimeString = DateNow.Day.ToString() + DateNow.Month.ToString() + DateNow.Year.ToString();
+            Random rnd = new Random();
+
+            document.Save(@"E:\\УНИВЕР\\3-41(5 семестр (3 курс))(Смирнов)\\Конструирование ПО\\Интерфейс\\Интерфейс\\Tickets\\Ticket" + TicketNomber.ToString() + "-" + DateTimeString + "-" + rnd.Next(100000, 999999).ToString() + ".pdf");
+        }
+
 
         #region --- Подгрузка информации в переменные эмулирующие таблицы
 

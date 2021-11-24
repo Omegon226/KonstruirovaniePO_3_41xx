@@ -212,6 +212,7 @@ namespace Интерфейс
         private void DeauthorisetionButton_Click(object sender, RoutedEventArgs e)
         {
             StatusLevelOfUser = 0;
+            AuthorisedUser = null;
             AuthorisetionButton.Visibility = Visibility.Visible;
             RegistrationButton.Visibility = Visibility.Visible;
             DeauthorisetionButton.Visibility = Visibility.Hidden;
@@ -261,7 +262,7 @@ namespace Интерфейс
                 MessageBox.Show("Начальный и конечный пункты не должны быть одинаковыми");
                 return;
             }
-            if (DateOfRoteToFindeDatePicker.SelectedDate - DateTime.Now > new TimeSpan(30, 0, 0))
+            if (DateOfRoteToFindeDatePicker.SelectedDate - DateTime.Now > new TimeSpan(30, 0, 0, 0))
             {
                 MessageBox.Show("Вы не можете заказывать билеты больше чем за 30 дней");
                 return;
@@ -300,6 +301,9 @@ namespace Интерфейс
         public void ChangeRegistraitedUserInfo(UserModel User)
         {
             AuthorisedUser = User;
+            AuthorisetionButton.Visibility = Visibility.Hidden;
+            RegistrationButton.Visibility = Visibility.Hidden;
+            DeauthorisetionButton.Visibility = Visibility.Visible;
         }
 
 
