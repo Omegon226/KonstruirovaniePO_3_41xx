@@ -1743,23 +1743,7 @@ namespace Интерфейс
             ChartValues<int> Salarys = new ChartValues<int>();
             string[] Labels = new string[DriversForChartDependenceOfSalaryOnLengthOfService.Count];
 
-            int countOfDrivers = DriversForChartDependenceOfSalaryOnLengthOfService.Count;
-            for (int i = 0; i < countOfDrivers; i++)
-            {
-                int minExperience = int.MaxValue;
-                int index = 0;
-                for (int j = 0; j < DriversForChartDependenceOfSalaryOnLengthOfService.Count; j++)
-                {
-                    if (DriversForChartDependenceOfSalaryOnLengthOfService[j].Experience < minExperience)
-                    {
-                        minExperience = DriversForChartDependenceOfSalaryOnLengthOfService[j].Experience;
-                        index = j;
-                    }
-                }
-                DriversForChart.Add(DriversForChartDependenceOfSalaryOnLengthOfService[index]);
-                DriversForChartDependenceOfSalaryOnLengthOfService.RemoveAt(index);
-            }
-
+            DriversForChart = SortDriversByTheirExperience();
             UpdateDriverChartInfo();
 
             for (int i = 0; i < DriversForChart.Count; ++i)
@@ -1785,6 +1769,31 @@ namespace Интерфейс
             ChartDependenceOfSalaryOnLengthOfService.Series = SeriesCollection;
             ChartDependenceOfSalaryOnLengthOfServiceXAx.LabelFormatter = YFormatter;
             ChartDependenceOfSalaryOnLengthOfServiceYAx.Labels = Labels;
+        }
+        private List<FindeDriver.StoredProcedureResult> SortDriversByTheirExperience()
+        {
+            List<FindeDriver.StoredProcedureResult> DriversSort = new List<FindeDriver.StoredProcedureResult>();
+            ChartValues<int> Salarys = new ChartValues<int>();
+            string[] Labels = new string[DriversForChartDependenceOfSalaryOnLengthOfService.Count];
+
+            int countOfDrivers = DriversForChartDependenceOfSalaryOnLengthOfService.Count;
+            for (int i = 0; i < countOfDrivers; i++)
+            {
+                int minExperience = int.MaxValue;
+                int index = 0;
+                for (int j = 0; j < DriversForChartDependenceOfSalaryOnLengthOfService.Count; j++)
+                {
+                    if (DriversForChartDependenceOfSalaryOnLengthOfService[j].Experience < minExperience)
+                    {
+                        minExperience = DriversForChartDependenceOfSalaryOnLengthOfService[j].Experience;
+                        index = j;
+                    }
+                }
+                DriversSort.Add(DriversForChartDependenceOfSalaryOnLengthOfService[index]);
+                DriversForChartDependenceOfSalaryOnLengthOfService.RemoveAt(index);
+            }
+
+            return (DriversSort);
         }
 
         private void BuildChartDriversSalary()

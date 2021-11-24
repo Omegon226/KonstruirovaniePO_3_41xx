@@ -199,15 +199,7 @@ namespace Интерфейс
         private void BuyTicketsButton_Click(object sender, RoutedEventArgs e)
         {
             AmountOfTicketsToBuy = (int)AmountOfTeacketsToBuyIntegerUpDown.Value;
-
-            List<string> IndentificationDocuments = new List<string>();
-            IndentificationDocuments.Add("Паспорт");
-            IndentificationDocuments.Add("Свидетельство о рождении");
-
-            List<int> FreeSeats = new List<int>();
-
-            double FullPriceOfTickets; 
-
+                        
             if (AmountOfTicketsToBuy <= 0)
             {
                 MessageBox.Show("Вы ввели неверное кол-во билетов для покупки");
@@ -222,24 +214,9 @@ namespace Интерфейс
                 return;
             }
 
-            for (int i = 1; i <= TransportOfCheckedCruiseToBuy.NumberOfSeats; ++i)
-            {
-                bool flagOfOccpiedSeat = false;
-                for (int j = 0; j < CheckedCruiseToBuy.OccupiedSeats.Count; ++j)
-                {
-                    if (CheckedCruiseToBuy.OccupiedSeats[j] == i)
-                    {
-                        flagOfOccpiedSeat = true;
-                    }
-                }
+            List<int> FreeSeats = FindeFreeSeatsForCruise();
 
-                if (flagOfOccpiedSeat == false)
-                {
-                    FreeSeats.Add(i);
-                }
-            }
-
-            FullPriceOfTickets = (double)CheckedCruiseToBuy.Cruise.FullPrice * AmountOfTicketsToBuy;
+            double FullPriceOfTickets = (double)CheckedCruiseToBuy.Cruise.FullPrice * AmountOfTicketsToBuy;
 
             for (int i = 0; i < AmountOfTicketsToBuy; ++i)
             {
@@ -255,6 +232,10 @@ namespace Интерфейс
                 }
 
                 OrderTicketWindow.FreeSeatsComboBox.ItemsSource = FreeSeats;
+
+                List<string> IndentificationDocuments = new List<string>();
+                IndentificationDocuments.Add("Паспорт");
+                IndentificationDocuments.Add("Свидетельство о рождении");
                 OrderTicketWindow.DocumentTypeComboBox.ItemsSource = IndentificationDocuments;
 
                 bool? result = OrderTicketWindow.ShowDialog();
@@ -274,12 +255,10 @@ namespace Интерфейс
                     AllTicketsToBuy.Add(NewObject);
 
                     int SelectedSeat = (int)OrderTicketWindow.FreeSeatsComboBox.SelectedValue;
-                    for (int j = 0; j < FreeSeats.Count; ++j)
+                    int? OrderedSeat = FindeAndDeleteOrderedSeat(SelectedSeat, FreeSeats);
+                    if (OrderedSeat != null)
                     {
-                        if ((int)FreeSeats[j] == (int)SelectedSeat)
-                        {
-                            FreeSeats.Remove(FreeSeats[i]);
-                        }
+                        FreeSeats.Remove((int)OrderedSeat);
                     }
                 }
             }
@@ -288,21 +267,7 @@ namespace Интерфейс
             {
                 MessageBox.Show("Для покупки билетов требуется регистрация");
 
-                EnterAvtovokzalSystemWindow AuthorizationWindow = new EnterAvtovokzalSystemWindow();
-
-                bool? result = AuthorizationWindow.ShowDialog();
-                if (result == false)
-                    return;
-                else
-                {
-                    UserModel AuthorizedUser = new UserModel();
-
-                    AuthorizedUser.Login = AuthorizationWindow.LoginTextBox.Text;
-                    AuthorizedUser.Password = AuthorizationWindow.PasswordTextBox.Password;
-
-                    FindeSameUserAndUpdateStatus(AuthorizedUser);
-                }
-
+                AuthorizationSecuence();
             }
 
             for (int i = 0; i < AllTicketsToBuy.Count; ++i)
@@ -310,22 +275,11 @@ namespace Интерфейс
                 AllTicketsToBuy[i].UserID = AuthorisedUser.ID;
             }
 
-            {
-                string TextOfPayment = "К оплате: " + FullPriceOfTickets.ToString() + " Руб.";
-
-                TicketPaymentWindow PayWindow = new TicketPaymentWindow(TextOfPayment);
-
-                bool? result = PayWindow.ShowDialog();
-                if (result == false)
-                {
-                    MessageBox.Show("Вы отказались от покупки билетов");
-                    return;
-                }
-            }
+            PaymentSecuence(FullPriceOfTickets);
 
             for (int i = 0; i < AllTicketsToBuy.Count; ++i)
             {
-                CreatePDFOfTickets(i, AllTicketsToBuy[i], CheckedCruiseToBuy);
+                CreatePDFOfTickets(i + 1, AllTicketsToBuy[i], CheckedCruiseToBuy);
             }
 
             for (int i = 0; i < AllTicketsToBuy.Count; ++i)
@@ -340,6 +294,71 @@ namespace Интерфейс
             this.Close();
 
         }
+        private List<int> FindeFreeSeatsForCruise()
+        {
+            List<int> FreeSeats = new List<int>();
+
+            for (int i = 1; i <= TransportOfCheckedCruiseToBuy.NumberOfSeats; ++i)
+            {
+                bool flagOfOccpiedSeat = false;
+                for (int j = 0; j < CheckedCruiseToBuy.OccupiedSeats.Count; ++j)
+                {
+                    if (CheckedCruiseToBuy.OccupiedSeats[j] == i)
+                    {
+                        flagOfOccpiedSeat = true;
+                    }
+                }
+
+                if (flagOfOccpiedSeat == false)
+                {
+                    FreeSeats.Add(i);
+                }
+            }
+
+            return (FreeSeats);
+        }
+        private int? FindeAndDeleteOrderedSeat(int SelectedSeat, List<int> FreeSeats)
+        {
+            for (int j = 0; j < FreeSeats.Count; ++j)
+            {
+                if ((int)FreeSeats[j] == (int)SelectedSeat)
+                {
+                    return (FreeSeats[j]);
+                }
+            }
+            return (null);
+        }
+        private void AuthorizationSecuence()
+        {
+            EnterAvtovokzalSystemWindow AuthorizationWindow = new EnterAvtovokzalSystemWindow();
+
+            bool? result = AuthorizationWindow.ShowDialog();
+            if (result == false)
+                return;
+            else
+            {
+                UserModel AuthorizedUser = new UserModel();
+
+                AuthorizedUser.Login = AuthorizationWindow.LoginTextBox.Text;
+                AuthorizedUser.Password = AuthorizationWindow.PasswordTextBox.Password;
+
+                FindeSameUserAndUpdateStatus(AuthorizedUser);
+            }
+        }
+        private void PaymentSecuence(double FullPriceOfTickets)
+        {
+            string TextOfPayment = "К оплате: " + FullPriceOfTickets.ToString() + " Руб.";
+
+            TicketPaymentWindow PayWindow = new TicketPaymentWindow(TextOfPayment);
+
+            bool? result = PayWindow.ShowDialog();
+            if (result == false)
+            {
+                MessageBox.Show("Вы отказались от покупки билетов");
+                return;
+            }
+        }
+
         private void FindeSameUserAndUpdateStatus(UserModel UserToFinde)
         {
             for (int i = 0; i < allUser.Count; ++i)
@@ -376,8 +395,6 @@ namespace Интерфейс
             PdfPage page = document.AddPage();
 
             XGraphics gfx = XGraphics.FromPdfPage(page);
-
-            XFont font = new XFont("Arial", 20);
 
             gfx.DrawString("Билет на рейс", new XFont("Arial", 40, XFontStyle.Bold), XBrushes.Black, new XPoint(150, 70));
 
@@ -489,7 +506,7 @@ namespace Интерфейс
         {
             FindeRoutesForCruises();
             FindeAditionalInfoForCruises();
-            InitioliseStartDateOfCruises(SelectedDateFromMainWindow);
+            InitialiseStartDateOfCruises(SelectedDateFromMainWindow);
             FindeFreeSeatsForCruises();
             InitialiseCruiseStringInfoForWindow();
         }
@@ -532,11 +549,11 @@ namespace Интерфейс
             }
         }
 
-        private void InitioliseStartDateOfCruises(DateTime SelectedDateFromMainWindow)
+        private void InitialiseStartDateOfCruises(DateTime SelectedDateFromMainWindow)
         {
             DateTime DateTimeForCruise = SelectedDateFromMainWindow;
             DateTimeForCruise = new DateTime(DateTimeForCruise.Year, DateTimeForCruise.Month, DateTimeForCruise.Day, 0, 0, 0);
-            CruisesForWindowInfo CruiseForWindowToCreate;
+            //CruisesForWindowInfo CruiseForWindowToCreate;
 
             for (int i = 0; i <= MaxDayForOrderingPossibility; ++i)
             {
@@ -547,39 +564,47 @@ namespace Интерфейс
                 }
                 int DayOfTheWeekForCruise = ParseDaysOfTheWeek(DateTimeForCruise);
 
-                for (int j = 0; j < allPossibleCruises.Count; ++j)
-                {
-                    CruiseForWindowToCreate = new CruisesForWindowInfo(allPossibleCruises[j]);
-
-                    bool TodayIsTheDayOfCruise = allPossibleCruises[j].DayOfTheWeekCruiseID == DayOfTheWeekForCruise;
-                    DateTime NowMoment = DateTime.Now;
-                    TimeSpan CruiseStartTime = (TimeSpan)CruiseForWindowToCreate.Cruise.StartTime;
-                    DateTime DateTimeForCruiseCalculations = new DateTime(DateTimeForCruise.Year, DateTimeForCruise.Month, DateTimeForCruise.Day).Add(CruiseStartTime);
-                    TimeSpan DateDifference = DateTimeForCruiseCalculations - NowMoment;
-                    bool DifferenceInNowTimeAndCruiseStartTime = DateDifference > MinimumTimeForOrderingTicket;
-
-                    if ((TodayIsTheDayOfCruise) && (DifferenceInNowTimeAndCruiseStartTime))
-                    {
-                        CruiseForWindowToCreate.SetStartDate(DateTimeForCruise.Add((TimeSpan)CruiseForWindowToCreate.Cruise.StartTime));
-                        bool FlagOfHaving = false;
-                        for (int k = 0; k < allCruisesForWindow.Count; ++k)
-                        {
-                            if ((allCruisesForWindow[k].StartDate == CruiseForWindowToCreate.StartDate) && 
-                                (allCruisesForWindow[k].Cruise.StartPointLocalityID == CruiseForWindowToCreate.Cruise.StartPointLocalityID) && 
-                                (allCruisesForWindow[k].Cruise.EndPointLocalityID == CruiseForWindowToCreate.Cruise.EndPointLocalityID))
-                            {
-                                FlagOfHaving = true;
-                            }
-                        }
-
-                        if (FlagOfHaving == false)
-                        {
-                            allCruisesForWindow.Add(CruiseForWindowToCreate);
-                        }
-                    }
-                }
+                InitialaiseCruises(DateTimeForCruise, DayOfTheWeekForCruise);
 
             }
+        }
+        private void InitialaiseCruises(DateTime DateTimeForCruise, int DayOfTheWeekForCruise)
+        {
+            for (int j = 0; j < allPossibleCruises.Count; ++j)
+            {
+                CruisesForWindowInfo CruiseForWindowToCreate = new CruisesForWindowInfo(allPossibleCruises[j]);
+
+                bool TodayIsTheDayOfCruise = allPossibleCruises[j].DayOfTheWeekCruiseID == DayOfTheWeekForCruise;
+                DateTime NowMoment = DateTime.Now;
+                TimeSpan CruiseStartTime = (TimeSpan)CruiseForWindowToCreate.Cruise.StartTime;
+                DateTime DateTimeForCruiseCalculations = new DateTime(DateTimeForCruise.Year, DateTimeForCruise.Month, DateTimeForCruise.Day).Add(CruiseStartTime);
+                TimeSpan DateDifference = DateTimeForCruiseCalculations - NowMoment;
+                bool DifferenceInNowTimeAndCruiseStartTime = DateDifference > MinimumTimeForOrderingTicket;
+
+                if ((TodayIsTheDayOfCruise) && (DifferenceInNowTimeAndCruiseStartTime))
+                {
+                    CruiseForWindowToCreate.SetStartDate(DateTimeForCruise.Add((TimeSpan)CruiseForWindowToCreate.Cruise.StartTime));
+                    bool FlagOfHaving = CheckIfThisCruiseAlreadyExist(CruiseForWindowToCreate);
+                    
+                    if (FlagOfHaving == false)
+                    {
+                        allCruisesForWindow.Add(CruiseForWindowToCreate);
+                    }
+                }
+            }
+        }
+        private bool CheckIfThisCruiseAlreadyExist(CruisesForWindowInfo CruiseForWindowToCreate)
+        {
+            for (int k = 0; k < allCruisesForWindow.Count; ++k)
+            {
+                if ((allCruisesForWindow[k].StartDate == CruiseForWindowToCreate.StartDate) &&
+                    (allCruisesForWindow[k].Cruise.StartPointLocalityID == CruiseForWindowToCreate.Cruise.StartPointLocalityID) &&
+                    (allCruisesForWindow[k].Cruise.EndPointLocalityID == CruiseForWindowToCreate.Cruise.EndPointLocalityID))
+                {
+                    return (true);
+                }
+            }
+            return (false);
         }
         private int ParseDaysOfTheWeek(DateTime DateTimeForCruise)
         {
@@ -618,6 +643,13 @@ namespace Интерфейс
 
         private void FindeFreeSeatsForCruises()
         {
+            SetAmountOfFreeSeatsAsTransportSeats();
+
+            // Работа с билетами
+            FindeOcupiedSeats();
+        }
+        private void SetAmountOfFreeSeatsAsTransportSeats()
+        {
             for (int i = 0; i < allCruisesForWindow.Count; ++i)
             {
                 for (int j = 0; j < allRoute.Count; ++j)
@@ -628,8 +660,9 @@ namespace Интерфейс
                     }
                 }
             }
-
-            // Работа с билетами
+        }
+        private void FindeOcupiedSeats()
+        {
             for (int i = 0; i < allCruisesForWindow.Count; ++i)
             {
                 FindeOrderedSeatsForCruise.FinalResult OccupiedSeatsForCruises = FindeOrderedSeatsForCruise.CreateResult(
