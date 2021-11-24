@@ -45,6 +45,7 @@ namespace Интерфейс
 
             public double? FullPrice;
             public int? FullTimeInCruise;
+            public TransportModel TransportOfTheCruise;
 
             public PossibleCruises(CruiseModel CruiseInfo, FindeRouteForCruises.FinalResult RouteInfo)
             {
@@ -135,8 +136,7 @@ namespace Интерфейс
         private DateTime SelectedDateFromMainWindow;
 
         private CruisesForWindowInfo CheckedCruiseToBuy;
-        private int IDOfCheckedCruiseToBuy;
-        private TransportModel TransportOfCheckedCruiseToBuy;
+        List<string> IndentificationDocuments = new List<string>();
 
         MainWindow LinkToMainWindow;
 
@@ -149,6 +149,9 @@ namespace Интерфейс
             StatusLevelOfUser = UserStausLevel;
             AuthorisedUser = User;
             SelectedDateFromMainWindow = DateTime.Now;
+
+            IndentificationDocuments.Add("Паспорт");
+            IndentificationDocuments.Add("Свидетельство о рождении");
 
             LoadAllInformationFromDataBase();
             CreateCruisesForWindow();
@@ -169,6 +172,9 @@ namespace Интерфейс
             AuthorisedUser = User;
             SelectedDateFromMainWindow = (DateTime)SelectedDate;
 
+            IndentificationDocuments.Add("Паспорт");
+            IndentificationDocuments.Add("Свидетельство о рождении");
+
             LoadAllInformationFromDataBase();
             CreateCruisesForWindow();
 
@@ -180,14 +186,6 @@ namespace Интерфейс
         private void CruisesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             CheckedCruiseToBuy = (CruisesForWindowInfo)CruisesList.SelectedItem;
-            IDOfCheckedCruiseToBuy = CruisesList.SelectedIndex;
-            for (int i = 0; i < allTransport.Count; ++i)
-            {
-                if (CheckedCruiseToBuy.Cruise.TransportIDOfTheCruise == allTransport[i].ID)
-                {
-                    TransportOfCheckedCruiseToBuy = allTransport[i];
-                }
-            }
         }
 
         private void ReturnBackOnMainWindowFromSelectCruiseWindowButton_Click(object sender, RoutedEventArgs e)
@@ -208,9 +206,15 @@ namespace Интерфейс
 
             List<TicketModel> AllTicketsToBuy = new List<TicketModel>();
 
-            if (TransportOfCheckedCruiseToBuy == null)
+            if (CheckedCruiseToBuy == null)
             {
                 MessageBox.Show("Вы не выбрали рейс для поездки!");
+                return;
+            }
+
+            if (CheckedCruiseToBuy.AmountOfFreeSeats == 0)
+            {
+                MessageBox.Show("Нету свободных мест на рейс");
                 return;
             }
 
@@ -233,9 +237,6 @@ namespace Интерфейс
 
                 OrderTicketWindow.FreeSeatsComboBox.ItemsSource = FreeSeats;
 
-                List<string> IndentificationDocuments = new List<string>();
-                IndentificationDocuments.Add("Паспорт");
-                IndentificationDocuments.Add("Свидетельство о рождении");
                 OrderTicketWindow.DocumentTypeComboBox.ItemsSource = IndentificationDocuments;
 
                 bool? result = OrderTicketWindow.ShowDialog();
@@ -298,7 +299,7 @@ namespace Интерфейс
         {
             List<int> FreeSeats = new List<int>();
 
-            for (int i = 1; i <= TransportOfCheckedCruiseToBuy.NumberOfSeats; ++i)
+            for (int i = 1; i <= CheckedCruiseToBuy.Cruise.TransportOfTheCruise.NumberOfSeats; ++i)
             {
                 bool flagOfOccpiedSeat = false;
                 for (int j = 0; j < CheckedCruiseToBuy.OccupiedSeats.Count; ++j)
@@ -404,6 +405,8 @@ namespace Интерфейс
             currentYPosition += 50;
             gfx.DrawString("Номер билета в очереди заказа: " + TicketNomber.ToString(), new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
             currentYPosition += 20;
+            gfx.DrawString("ФИО: " + Ticket.FullName, new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
+            currentYPosition += 20;
             gfx.DrawString("Индентификационная информация: " + Ticket.IdentificationInformation, new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
             currentYPosition += 20;
             gfx.DrawString("Номер сиденья: " + Ticket.SeatNumberOnTheTransport.ToString(), new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
@@ -428,11 +431,11 @@ namespace Интерфейс
 
             gfx.DrawString("Информация о транспорте", new XFont("Arial", 30, XFontStyle.Bold), XBrushes.Black, new XPoint(120, currentYPosition));
             currentYPosition += 50;
-            gfx.DrawString("Кол-во мест в транспорте: " + TransportOfCheckedCruiseToBuy.NumberOfSeats.ToString(), new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
+            gfx.DrawString("Кол-во мест в транспорте: " + CheckedCruiseToBuy.Cruise.TransportOfTheCruise.NumberOfSeats.ToString(), new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
             currentYPosition += 20;
-            gfx.DrawString("Регистрационный номер: " + TransportOfCheckedCruiseToBuy.RegistrationNumber, new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
+            gfx.DrawString("Регистрационный номер: " + CheckedCruiseToBuy.Cruise.TransportOfTheCruise.RegistrationNumber, new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
             currentYPosition += 20;
-            gfx.DrawString("Марка Авто: " + TransportOfCheckedCruiseToBuy.Model, new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
+            gfx.DrawString("Марка Авто: " + CheckedCruiseToBuy.Cruise.TransportOfTheCruise.Model, new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
 
             DateTime DateNow = DateTime.Now;
             string DateTimeString = DateNow.Day.ToString() + DateNow.Month.ToString() + DateNow.Year.ToString();
@@ -504,14 +507,15 @@ namespace Интерфейс
 
         private void CreateCruisesForWindow()
         {
-            FindeRoutesForCruises();
+            FindeCruisesForRoute();
             FindeAditionalInfoForCruises();
             InitialiseStartDateOfCruises(SelectedDateFromMainWindow);
+            FindeCruiseTransport();
             FindeFreeSeatsForCruises();
             InitialiseCruiseStringInfoForWindow();
         }
 
-        private void FindeRoutesForCruises()
+        private void FindeCruisesForRoute()
         {
             List<FindeRouteForCruises.FinalResult> Routes = FindeRouteForCruises.FindeRouts(IDOfStartingLocation, IDOfEndLocation);
             PossibleCruises CruiseToAdd;
@@ -524,6 +528,20 @@ namespace Интерфейс
                     {
                         CruiseToAdd = new PossibleCruises(allCruise[j], Routes[i]);
                         allPossibleCruises.Add(CruiseToAdd);
+                    }
+                }
+            }
+        }
+
+        private void FindeCruiseTransport()
+        {
+            for (int i = 0; i < allTransport.Count; ++i)
+            {
+                for (int j = 0; j < allPossibleCruises.Count; ++j)
+                {
+                    if (allPossibleCruises[j].TransportIDOfTheCruise == allTransport[i].ID)
+                    {
+                        allPossibleCruises[j].TransportOfTheCruise = allTransport[i];
                     }
                 }
             }
@@ -553,7 +571,6 @@ namespace Интерфейс
         {
             DateTime DateTimeForCruise = SelectedDateFromMainWindow;
             DateTimeForCruise = new DateTime(DateTimeForCruise.Year, DateTimeForCruise.Month, DateTimeForCruise.Day, 0, 0, 0);
-            //CruisesForWindowInfo CruiseForWindowToCreate;
 
             for (int i = 0; i <= MaxDayForOrderingPossibility; ++i)
             {

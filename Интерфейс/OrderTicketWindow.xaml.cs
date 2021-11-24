@@ -70,9 +70,9 @@ namespace Интерфейс
 
         private void AcceptButton_Click(object sender, RoutedEventArgs e)
         {
-            bool SuccessOfSurnameParse = SurnameTextBox.Text.All(Char.IsLetter);
-            bool SuccessOfNameParse = NameTextBox.Text.All(Char.IsLetter);
-            bool SuccessOfPatronomicParse = PatronymicTextBox.Text.All(Char.IsLetter);
+            bool SuccessOfSurnameParse = SurnameTextBox.Text.All(Char.IsLetter) && SurnameTextBox.Text != "";
+            bool SuccessOfNameParse = NameTextBox.Text.All(Char.IsLetter) && NameTextBox.Text != "";
+            bool SuccessOfPatronomicParse = PatronymicTextBox.Text.All(Char.IsLetter) && PatronymicTextBox.Text != "";
 
             bool SuccessOfFullNameInfo = SuccessOfSurnameParse && SuccessOfNameParse && SuccessOfPatronomicParse;
 
