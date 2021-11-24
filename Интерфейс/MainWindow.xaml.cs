@@ -52,11 +52,6 @@ namespace Интерфейс
             BuildCharts();
             InsertInformationInFindeRouteComboBoxes();
 
-            FindeRouteGrid.Visibility = Visibility.Visible;
-            CRUDGrid.Visibility = Visibility.Hidden;
-            CreateReportsGrid.Visibility = Visibility.Hidden;
-            CreateChartsGrid.Visibility = Visibility.Hidden;
-
             CheckUserPrivileges();
         }
 
@@ -77,6 +72,10 @@ namespace Интерфейс
 
         private void CheckUserPrivileges()
         {
+            bool IfUserOnAdminGrids = (CRUDGrid.Visibility == Visibility.Visible) || 
+                                        (CreateReportsGrid.Visibility == Visibility.Visible) || 
+                                        (CreateChartsGrid.Visibility == Visibility.Visible);
+
             if (StatusLevelOfUser == 0)
             {
                 FindeRouteTabOpenButton.Visibility = Visibility.Visible;
@@ -84,7 +83,7 @@ namespace Интерфейс
                 CreateReportsTabOpenButton.Visibility = Visibility.Hidden;
                 CreateChartsTabOpenButton.Visibility = Visibility.Hidden;
 
-                if ((CRUDGrid.Visibility == Visibility.Visible) || (CreateReportsGrid.Visibility == Visibility.Visible) || (CreateChartsGrid.Visibility == Visibility.Visible))
+                if (IfUserOnAdminGrids)
                 {
                     ReturnToFindeRouteGrid();
                 }
@@ -98,7 +97,7 @@ namespace Интерфейс
                 CreateReportsTabOpenButton.Visibility = Visibility.Hidden;
                 CreateChartsTabOpenButton.Visibility = Visibility.Hidden;
 
-                if ((CRUDGrid.Visibility == Visibility.Visible) || (CreateReportsGrid.Visibility == Visibility.Visible) || (CreateChartsGrid.Visibility == Visibility.Visible))
+                if (IfUserOnAdminGrids)
                 {
                     ReturnToFindeRouteGrid();
                 }
@@ -148,10 +147,8 @@ namespace Интерфейс
                 {
                     StatusLevelOfUser = (int)allUser[i].Status;
                     AuthorisedUser = allUser[i];
-                    AuthorisetionButton.Visibility = Visibility.Hidden;
-                    RegistrationButton.Visibility = Visibility.Hidden;
-                    DeauthorisetionButton.Visibility = Visibility.Visible;
-                    
+                    SetAuthorizeExitAndRegistrationButtonVisibiliy();
+
                     if (allUser[i].Status == 1)
                     {
                         MessageBox.Show("Вход в систему осуществлён! Вы являетесь пользователем.");
@@ -200,9 +197,7 @@ namespace Интерфейс
 
             StatusLevelOfUser = (int)UserToFinde.Status;
             AuthorisedUser = UserToFinde;
-            AuthorisetionButton.Visibility = Visibility.Hidden;
-            RegistrationButton.Visibility = Visibility.Hidden;
-            DeauthorisetionButton.Visibility = Visibility.Visible;
+            SetAuthorizeExitAndRegistrationButtonVisibiliy();
 
             DBComunication.User.Create(UserToFinde);
             allUser = DBComunication.User.GetAll();
@@ -213,11 +208,25 @@ namespace Интерфейс
         {
             StatusLevelOfUser = 0;
             AuthorisedUser = null;
-            AuthorisetionButton.Visibility = Visibility.Visible;
-            RegistrationButton.Visibility = Visibility.Visible;
-            DeauthorisetionButton.Visibility = Visibility.Hidden;
+            SetAuthorizeExitAndRegistrationButtonVisibiliy();
             MessageBox.Show("Вы вышли из системы");
             CheckUserPrivileges();
+        }
+
+        private void SetAuthorizeExitAndRegistrationButtonVisibiliy()
+        {
+            if (AuthorisedUser == null)
+            {
+                AuthorisetionButton.Visibility = Visibility.Visible;
+                RegistrationButton.Visibility = Visibility.Visible;
+                DeauthorisetionButton.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                AuthorisetionButton.Visibility = Visibility.Hidden;
+                RegistrationButton.Visibility = Visibility.Hidden;
+                DeauthorisetionButton.Visibility = Visibility.Visible;
+            }
         }
 
         private void FindeRouteTabOpenButton_Click(object sender, RoutedEventArgs e)
@@ -277,8 +286,7 @@ namespace Интерфейс
             else
             {
                 WindowToFindeCruise = new SelectCruiseWindow(this, DBComunication, StartPoint, EndPoint, StatusLevelOfUser, AuthorisedUser, DateOfRoteToFindeDatePicker.SelectedDate);
-            }
-            
+            }    
 
             bool? result = WindowToFindeCruise.ShowDialog();
             if (result == false)
@@ -289,8 +297,6 @@ namespace Интерфейс
             InsertInformationInReportsComboBoxes();
             InsertInformationInChartsTab();
             BuildCharts();
-
-
         }
 
         public void ChangeStatusOfUser(int StatusLevle)
@@ -608,13 +614,7 @@ namespace Интерфейс
             IndentificationDocuments.Add("Свидетельство о рождении");
 
             TicketCUWindow CreateWindow = new TicketCUWindow();
-            CreateWindow.CruiseIDComboBox.ItemsSource = allCruise;
-            CreateWindow.CruiseIDComboBox.DisplayMemberPath = "ID";
-            CreateWindow.CruiseIDComboBox.SelectedValuePath = "ID";
-            CreateWindow.UserIDComboBox.ItemsSource = allUser;
-            CreateWindow.UserIDComboBox.DisplayMemberPath = "FullName";
-            CreateWindow.UserIDComboBox.SelectedValuePath = "ID";
-            CreateWindow.DocumentTypeComboBox.ItemsSource = IndentificationDocuments;
+            MakeSetupForTicketCUWindow(CreateWindow);
 
             bool? result = CreateWindow.ShowDialog();
             if (result == false)
@@ -673,13 +673,7 @@ namespace Интерфейс
                     IndentificationDocuments.Add("Свидетельство о рождении");
 
                     TicketCUWindow UpdateWindow = new TicketCUWindow();
-                    UpdateWindow.CruiseIDComboBox.ItemsSource = allCruise;
-                    UpdateWindow.CruiseIDComboBox.DisplayMemberPath = "ID";
-                    UpdateWindow.CruiseIDComboBox.SelectedValuePath = "ID";
-                    UpdateWindow.UserIDComboBox.ItemsSource = allUser;
-                    UpdateWindow.UserIDComboBox.DisplayMemberPath = "FullName";
-                    UpdateWindow.UserIDComboBox.SelectedValuePath = "ID";
-                    UpdateWindow.DocumentTypeComboBox.ItemsSource = IndentificationDocuments;
+                    MakeSetupForTicketCUWindow(UpdateWindow);
 
                     int Year = ph.DateOfIssue.Value.Year;
                     int Month = ph.DateOfIssue.Value.Month;
@@ -802,6 +796,16 @@ namespace Интерфейс
                 allTicket = DBComunication.Ticket.GetAll();
                 InsertInformationInTicketDataGrid();
             }
+        }
+        private void MakeSetupForTicketCUWindow(TicketCUWindow Window)
+        {
+            Window.CruiseIDComboBox.ItemsSource = allCruise;
+            Window.CruiseIDComboBox.DisplayMemberPath = "ID";
+            Window.CruiseIDComboBox.SelectedValuePath = "ID";
+            Window.UserIDComboBox.ItemsSource = allUser;
+            Window.UserIDComboBox.DisplayMemberPath = "FullName";
+            Window.UserIDComboBox.SelectedValuePath = "ID";
+            Window.DocumentTypeComboBox.ItemsSource = IndentificationDocuments;
         }
 
         // CRUD Для Transport
@@ -930,12 +934,7 @@ namespace Интерфейс
         private void CreateStopSequencesButton_Click(object sender, RoutedEventArgs e)
         {
             StopSequencesCUWindow CreateWindow = new StopSequencesCUWindow(allLocality, allStoppingOnTheRoute);
-            CreateWindow.StoppingIDComboBox.ItemsSource = allStoppingOnTheRoute;
-            CreateWindow.StoppingIDComboBox.DisplayMemberPath = "ID";
-            CreateWindow.StoppingIDComboBox.SelectedValuePath = "ID"; 
-            CreateWindow.StopRouteIDComboBox.ItemsSource = allRoute;
-            CreateWindow.StopRouteIDComboBox.DisplayMemberPath = "ID";
-            CreateWindow.StopRouteIDComboBox.SelectedValuePath = "ID";
+            MakeSetupForStopSequencesCUWindow(CreateWindow);
 
             bool? result = CreateWindow.ShowDialog();
             if (result == false)
@@ -979,12 +978,7 @@ namespace Интерфейс
                 if (ph != null)
                 {
                     StopSequencesCUWindow UpdateWindow = new StopSequencesCUWindow(allLocality, allStoppingOnTheRoute);
-                    UpdateWindow.StoppingIDComboBox.ItemsSource = allStoppingOnTheRoute;
-                    UpdateWindow.StoppingIDComboBox.DisplayMemberPath = "ID";
-                    UpdateWindow.StoppingIDComboBox.SelectedValuePath = "ID";
-                    UpdateWindow.StopRouteIDComboBox.ItemsSource = allRoute;
-                    UpdateWindow.StopRouteIDComboBox.DisplayMemberPath = "ID";
-                    UpdateWindow.StopRouteIDComboBox.SelectedValuePath = "ID";
+                    MakeSetupForStopSequencesCUWindow(UpdateWindow);
 
                     UpdateWindow.IndexNumberIntegerUpDown.Value = ph.IndexNumber;
                     UpdateWindow.StoppingIDComboBox.SelectedValue = ph.StoppingID;
@@ -1044,14 +1038,21 @@ namespace Интерфейс
                 InsertInformationInStopSequencesDataGrid();
             }
         }
+        private void MakeSetupForStopSequencesCUWindow(StopSequencesCUWindow Window)
+        {
+            Window.StoppingIDComboBox.ItemsSource = allStoppingOnTheRoute;
+            Window.StoppingIDComboBox.DisplayMemberPath = "ID";
+            Window.StoppingIDComboBox.SelectedValuePath = "ID";
+            Window.StopRouteIDComboBox.ItemsSource = allRoute;
+            Window.StopRouteIDComboBox.DisplayMemberPath = "ID";
+            Window.StopRouteIDComboBox.SelectedValuePath = "ID";
+        }
 
         // CRUD Для StoppingOnTheRoute
         private void CreateStoppingOnTheRouteButton_Click(object sender, RoutedEventArgs e)
         {
             StoppingOnTheRouteCUWindow CreateWindow = new StoppingOnTheRouteCUWindow();
-            CreateWindow.StopLocalityIDComboBox.ItemsSource = allLocality;
-            CreateWindow.StopLocalityIDComboBox.DisplayMemberPath = "Name";
-            CreateWindow.StopLocalityIDComboBox.SelectedValuePath = "ID";
+            MakeSetupForStoppingOnTheRouteCUWindow(CreateWindow);
 
             bool? result = CreateWindow.ShowDialog();
             if (result == false)
@@ -1087,9 +1088,7 @@ namespace Интерфейс
                 if (ph != null)
                 {
                     StoppingOnTheRouteCUWindow UpdateWindow = new StoppingOnTheRouteCUWindow();
-                    UpdateWindow.StopLocalityIDComboBox.ItemsSource = allLocality;
-                    UpdateWindow.StopLocalityIDComboBox.DisplayMemberPath = "Name";
-                    UpdateWindow.StopLocalityIDComboBox.SelectedValuePath = "ID";
+                    MakeSetupForStoppingOnTheRouteCUWindow(UpdateWindow);
 
                     UpdateWindow.StopLocalityIDComboBox.SelectedValue = ph.StopLocalityID;
 
@@ -1139,6 +1138,12 @@ namespace Интерфейс
                 allStoppingOnTheRoute = DBComunication.StoppingOnTheRoute.GetAll();
                 InsertInformationInStoppingOnTheRouteDataGrid();
             }
+        }
+        private void MakeSetupForStoppingOnTheRouteCUWindow(StoppingOnTheRouteCUWindow Window)
+        {
+            Window.StopLocalityIDComboBox.ItemsSource = allLocality;
+            Window.StopLocalityIDComboBox.DisplayMemberPath = "Name";
+            Window.StopLocalityIDComboBox.SelectedValuePath = "ID";
         }
 
         // CRUD Для Route
@@ -1517,18 +1522,7 @@ namespace Интерфейс
         private void CreateCruiseButton_Click(object sender, RoutedEventArgs e)
         {
             CruiseCUWindow CreateWindow = new CruiseCUWindow();
-            CreateWindow.DayOfTheWeekIDComboBox.ItemsSource = allDayOfTheWeek;
-            CreateWindow.DayOfTheWeekIDComboBox.DisplayMemberPath = "DayOfTheWeekName";
-            CreateWindow.DayOfTheWeekIDComboBox.SelectedValuePath = "ID";
-            CreateWindow.RouteIDOfTheCruiseComboBox.ItemsSource = allRoute;
-            CreateWindow.RouteIDOfTheCruiseComboBox.DisplayMemberPath = "ID";
-            CreateWindow.RouteIDOfTheCruiseComboBox.SelectedValuePath = "ID";
-            CreateWindow.DriverIDOfTheCruiseComboBox.ItemsSource = allDriver;
-            CreateWindow.DriverIDOfTheCruiseComboBox.DisplayMemberPath = "FullName";
-            CreateWindow.DriverIDOfTheCruiseComboBox.SelectedValuePath = "ID";
-            CreateWindow.TransportIDOfTheCruiseComboBox.ItemsSource = allTransport;
-            CreateWindow.TransportIDOfTheCruiseComboBox.DisplayMemberPath = "RegistrationNumber";
-            CreateWindow.TransportIDOfTheCruiseComboBox.SelectedValuePath = "ID";
+            MakeSetupForCruiseCUWindow(CreateWindow);
 
             bool? result = CreateWindow.ShowDialog();
             if (result == false)
@@ -1572,18 +1566,7 @@ namespace Интерфейс
                 if (ph != null)
                 {
                     CruiseCUWindow UpdateWindow = new CruiseCUWindow();
-                    UpdateWindow.DayOfTheWeekIDComboBox.ItemsSource = allDayOfTheWeek;
-                    UpdateWindow.DayOfTheWeekIDComboBox.DisplayMemberPath = "DayOfTheWeekName";
-                    UpdateWindow.DayOfTheWeekIDComboBox.SelectedValuePath = "ID";
-                    UpdateWindow.RouteIDOfTheCruiseComboBox.ItemsSource = allRoute;
-                    UpdateWindow.RouteIDOfTheCruiseComboBox.DisplayMemberPath = "ID";
-                    UpdateWindow.RouteIDOfTheCruiseComboBox.SelectedValuePath = "ID";
-                    UpdateWindow.DriverIDOfTheCruiseComboBox.ItemsSource = allDriver;
-                    UpdateWindow.DriverIDOfTheCruiseComboBox.DisplayMemberPath = "FullName";
-                    UpdateWindow.DriverIDOfTheCruiseComboBox.SelectedValuePath = "ID";
-                    UpdateWindow.TransportIDOfTheCruiseComboBox.ItemsSource = allTransport;
-                    UpdateWindow.TransportIDOfTheCruiseComboBox.DisplayMemberPath = "RegistrationNumber";
-                    UpdateWindow.TransportIDOfTheCruiseComboBox.SelectedValuePath = "ID";
+                    MakeSetupForCruiseCUWindow(UpdateWindow);
 
                     UpdateWindow.DayOfTheWeekIDComboBox.SelectedValue = ph.DayOfTheWeekCruiseID;
                     UpdateWindow.RouteIDOfTheCruiseComboBox.SelectedValue = ph.RouteIDOfTheCruise;
@@ -1651,6 +1634,21 @@ namespace Интерфейс
                 allCruise = DBComunication.Cruise.GetAll();
                 InsertInformationInCruiseDataGrid();
             }
+        }
+        private void MakeSetupForCruiseCUWindow(CruiseCUWindow Window)
+        {
+            Window.DayOfTheWeekIDComboBox.ItemsSource = allDayOfTheWeek;
+            Window.DayOfTheWeekIDComboBox.DisplayMemberPath = "DayOfTheWeekName";
+            Window.DayOfTheWeekIDComboBox.SelectedValuePath = "ID";
+            Window.RouteIDOfTheCruiseComboBox.ItemsSource = allRoute;
+            Window.RouteIDOfTheCruiseComboBox.DisplayMemberPath = "ID";
+            Window.RouteIDOfTheCruiseComboBox.SelectedValuePath = "ID";
+            Window.DriverIDOfTheCruiseComboBox.ItemsSource = allDriver;
+            Window.DriverIDOfTheCruiseComboBox.DisplayMemberPath = "FullName";
+            Window.DriverIDOfTheCruiseComboBox.SelectedValuePath = "ID";
+            Window.TransportIDOfTheCruiseComboBox.ItemsSource = allTransport;
+            Window.TransportIDOfTheCruiseComboBox.DisplayMemberPath = "RegistrationNumber";
+            Window.TransportIDOfTheCruiseComboBox.SelectedValuePath = "ID";
         }
 
         #endregion
@@ -1752,7 +1750,7 @@ namespace Интерфейс
             }
             for (int i = 0; i < DriversForChart.Count; ++i)
             {
-                Labels[i] = DriversForChart[i].Experience.ToString()+ "Года/Лет Стажа " + DriversForChart[i].FullName;
+                Labels[i] = DriversForChart[i].Experience.ToString() + "Года/Лет Стажа " + DriversForChart[i].FullName;
             }
 
             SeriesCollection SeriesCollection = new SeriesCollection

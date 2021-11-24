@@ -591,12 +591,9 @@ namespace Интерфейс
             {
                 CruisesForWindowInfo CruiseForWindowToCreate = new CruisesForWindowInfo(allPossibleCruises[j]);
 
-                bool TodayIsTheDayOfCruise = allPossibleCruises[j].DayOfTheWeekCruiseID == DayOfTheWeekForCruise;
-                DateTime NowMoment = DateTime.Now;
-                TimeSpan CruiseStartTime = (TimeSpan)CruiseForWindowToCreate.Cruise.StartTime;
-                DateTime DateTimeForCruiseCalculations = new DateTime(DateTimeForCruise.Year, DateTimeForCruise.Month, DateTimeForCruise.Day).Add(CruiseStartTime);
-                TimeSpan DateDifference = DateTimeForCruiseCalculations - NowMoment;
+                TimeSpan DateDifference = FindeDateDifference(DateTimeForCruise, CruiseForWindowToCreate);
                 bool DifferenceInNowTimeAndCruiseStartTime = DateDifference > MinimumTimeForOrderingTicket;
+                bool TodayIsTheDayOfCruise = allPossibleCruises[j].DayOfTheWeekCruiseID == DayOfTheWeekForCruise;
 
                 if ((TodayIsTheDayOfCruise) && (DifferenceInNowTimeAndCruiseStartTime))
                 {
@@ -609,6 +606,15 @@ namespace Интерфейс
                     }
                 }
             }
+        }
+        private TimeSpan FindeDateDifference(DateTime DateTimeForCruise, CruisesForWindowInfo CruiseForWindowToCreate)
+        {
+            DateTime NowMoment = DateTime.Now;
+            TimeSpan CruiseStartTime = (TimeSpan)CruiseForWindowToCreate.Cruise.StartTime;
+            DateTime DateTimeForCruiseCalculations = new DateTime(DateTimeForCruise.Year, DateTimeForCruise.Month, DateTimeForCruise.Day).Add(CruiseStartTime);
+            TimeSpan DateDifference = DateTimeForCruiseCalculations - NowMoment;
+
+            return (DateDifference);
         }
         private bool CheckIfThisCruiseAlreadyExist(CruisesForWindowInfo CruiseForWindowToCreate)
         {
