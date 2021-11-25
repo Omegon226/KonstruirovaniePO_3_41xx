@@ -25,88 +25,6 @@ namespace Интерфейс
     /// </summary>
     public partial class SelectCruiseWindow : Window
     {
-        public class PossibleCruises
-        {
-            public int CruiseID { get; set; }
-            public int DayOfTheWeekCruiseID { get; set; }
-            public int RouteIDOfTheCruise { get; set; }
-            public int DriverIDOfTheCruise { get; set; }
-            public int TransportIDOfTheCruise { get; set; }
-            public TimeSpan? StartTime { get; set; }
-
-            public int? StartPointIndex { get; set; }
-            public int StartPointStoppingID { get; set; }
-            public int StartPointLocalityID { get; set; }
-            public string StartPointLocalityName { get; set; }
-            public int? EndPointIndex { get; set; }
-            public int EndPointStoppingID { get; set; }
-            public int EndPointLocalityID { get; set; }
-            public string EndPointLocalityName { get; set; }
-
-            public double? FullPrice;
-            public int? FullTimeInCruise;
-            public TransportModel TransportOfTheCruise;
-
-            public PossibleCruises(CruiseModel CruiseInfo, FindeRouteForCruises.FinalResult RouteInfo)
-            {
-                this.CruiseID = CruiseInfo.ID;
-                this.DayOfTheWeekCruiseID = CruiseInfo.DayOfTheWeekCruiseID;
-                this.RouteIDOfTheCruise = CruiseInfo.RouteIDOfTheCruise;
-                this.DriverIDOfTheCruise = CruiseInfo.DriverIDOfTheCruise;
-                this.TransportIDOfTheCruise = CruiseInfo.TransportIDOfTheCruise;
-                this.StartTime = CruiseInfo.StartTime;
-
-                this.StartPointIndex = RouteInfo.StartPointIndex;
-                this.StartPointStoppingID = RouteInfo.StartPointStoppingID;
-                this.StartPointLocalityID = RouteInfo.StartPointLocalityID;
-                this.StartPointLocalityName = RouteInfo.StartPointLocalityName;
-                this.EndPointIndex = RouteInfo.EndPointIndex;
-                this.EndPointStoppingID = RouteInfo.EndPointStoppingID;
-                this.EndPointLocalityID = RouteInfo.EndPointLocalityID;
-                this.EndPointLocalityName = RouteInfo.EndPointLocalityName;
-            }
-
-            public void AddPriceAndTimeInfo(FindeAditionalInformationForCruise.StoredProcedureResult AdditionalInfoForCruises)
-            {
-                this.FullPrice = AdditionalInfoForCruises.PriceOfCruise;
-                this.FullTimeInCruise = AdditionalInfoForCruises.TravelTimeInHours;
-            }
-        }
-
-        public class CruisesForWindowInfo
-        {
-            public PossibleCruises Cruise;
-
-            public DateTime StartDate;
-            public int AmountOfFreeSeats;
-            public List<int> OccupiedSeats = new List<int>();
-
-            public string CruiseStartDate { get; set; }
-            public string CruiseStartPointLocalityName { get; set; }
-            public string CruiseFullTimeInCruise { get; set; }
-            public string CruiseEndPointLocalityName { get; set; }
-            public string CruiseFullPrice { get; set; }
-            public string CruiseAmountOfFreeSeats { get; set; }
-
-            public CruisesForWindowInfo(PossibleCruises PossibleCruises)
-            {
-                this.Cruise = PossibleCruises;
-            }
-            public void SetStartDate(DateTime Date)
-            {
-                this.StartDate = Date;
-            }
-            public void InitioliseStringInfoForWindow()
-            {
-                this.CruiseStartDate = StartDate.ToString();
-                this.CruiseStartPointLocalityName = "Нач: " + Cruise.StartPointLocalityName;
-                this.CruiseFullTimeInCruise = Cruise.FullTimeInCruise.ToString() + " Часа";
-                this.CruiseEndPointLocalityName = "Кон: " + Cruise.EndPointLocalityName;
-                this.CruiseFullPrice = "Цена : " + Cruise.FullPrice.ToString() + " Руб.";
-                this.CruiseAmountOfFreeSeats = AmountOfFreeSeats.ToString();
-            }
-        }
-
         private DBDataOperations DBComunication;
 
         private List<PossibleCruises> allPossibleCruises = new List<PossibleCruises>();
@@ -139,6 +57,7 @@ namespace Интерфейс
         List<string> IndentificationDocuments = new List<string>();
 
         MainWindow LinkToMainWindow;
+        private PDFCreator PDF = new PDFCreator();
 
         public SelectCruiseWindow(MainWindow Link, DBDataOperations DBComunicationFromMainWindow, int IDOfStartingLocationFromMainWindow, int IDOfEndLocationFromMainWindow, int UserStausLevel, UserModel User)
         {
@@ -280,7 +199,7 @@ namespace Интерфейс
 
             for (int i = 0; i < AllTicketsToBuy.Count; ++i)
             {
-                CreatePDFOfTickets(i + 1, AllTicketsToBuy[i], CheckedCruiseToBuy);
+                CreatePDFOfTickets(i + 1, AllTicketsToBuy[i], CheckedCruiseToBuy, CheckedCruiseToBuy);
             }
 
             for (int i = 0; i < AllTicketsToBuy.Count; ++i)
@@ -387,61 +306,9 @@ namespace Интерфейс
             }
             MessageBox.Show("Похоже такого пользователя нет...");
         }
-        private void CreatePDFOfTickets(int TicketNomber, TicketModel Ticket, CruisesForWindowInfo CruiseInfo)
+        private void CreatePDFOfTickets(int TicketNomber, TicketModel Ticket, CruisesForWindowInfo CruiseInfo, CruisesForWindowInfo CheckedCruiseToBuy)
         {
-            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-
-            PdfDocument document = new PdfDocument();
-
-            PdfPage page = document.AddPage();
-
-            XGraphics gfx = XGraphics.FromPdfPage(page);
-
-            gfx.DrawString("Билет на рейс", new XFont("Arial", 40, XFontStyle.Bold), XBrushes.Black, new XPoint(150, 70));
-
-            int currentYPosition = 180;
-
-            gfx.DrawString("Информация о билете", new XFont("Arial", 30, XFontStyle.Bold), XBrushes.Black, new XPoint(120, currentYPosition));
-            currentYPosition += 50;
-            gfx.DrawString("Номер билета в очереди заказа: " + TicketNomber.ToString(), new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
-            currentYPosition += 20;
-            gfx.DrawString("ФИО: " + Ticket.FullName, new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
-            currentYPosition += 20;
-            gfx.DrawString("Индентификационная информация: " + Ticket.IdentificationInformation, new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
-            currentYPosition += 20;
-            gfx.DrawString("Номер сиденья: " + Ticket.SeatNumberOnTheTransport.ToString(), new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
-            currentYPosition += 20;
-            gfx.DrawString("Дата отправки рейса: " + Ticket.RaceDepartureTime.ToString(), new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
-            currentYPosition += 20;
-            gfx.DrawLine(new XPen(XColor.FromArgb(0, 150, 0)), new XPoint(50, currentYPosition), new XPoint(500, currentYPosition));
-            currentYPosition += 40;
-
-            gfx.DrawString("Информация о рейсе", new XFont("Arial", 30, XFontStyle.Bold), XBrushes.Black, new XPoint(120, currentYPosition));
-            currentYPosition += 50;
-            gfx.DrawString("Пункт начала движения: " + CruiseInfo.Cruise.StartPointLocalityName.ToString(), new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
-            currentYPosition += 20;
-            gfx.DrawString("Пункт начала движения: " + CruiseInfo.Cruise.EndPointLocalityName.ToString(), new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
-            currentYPosition += 20;
-            gfx.DrawString("Цена в Рублях: " + CruiseInfo.Cruise.FullPrice.ToString(), new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
-            currentYPosition += 20;
-            gfx.DrawString("Время поездки: " + CruiseInfo.Cruise.FullTimeInCruise.ToString(), new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
-            currentYPosition += 20;
-            gfx.DrawLine(new XPen(XColor.FromArgb(0, 150, 0)), new XPoint(50, currentYPosition), new XPoint(500, currentYPosition));
-            currentYPosition += 40;
-
-            gfx.DrawString("Информация о транспорте", new XFont("Arial", 30, XFontStyle.Bold), XBrushes.Black, new XPoint(120, currentYPosition));
-            currentYPosition += 50;
-            gfx.DrawString("Кол-во мест в транспорте: " + CheckedCruiseToBuy.Cruise.TransportOfTheCruise.NumberOfSeats.ToString(), new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
-            currentYPosition += 20;
-            gfx.DrawString("Регистрационный номер: " + CheckedCruiseToBuy.Cruise.TransportOfTheCruise.RegistrationNumber, new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
-            currentYPosition += 20;
-            gfx.DrawString("Марка Авто: " + CheckedCruiseToBuy.Cruise.TransportOfTheCruise.Model, new XFont("Arial", 20, XFontStyle.Bold), XBrushes.Black, new XPoint(50, currentYPosition));
-
-            DateTime DateNow = DateTime.Now;
-            string DateTimeString = DateNow.Day.ToString() + DateNow.Month.ToString() + DateNow.Year.ToString();
-            Random rnd = new Random();
-
-            document.Save(@"E:\\УНИВЕР\\3-41(5 семестр (3 курс))(Смирнов)\\Конструирование ПО\\Интерфейс\\Интерфейс\\Tickets\\Ticket" + TicketNomber.ToString() + "-" + DateTimeString + "-" + rnd.Next(100000, 999999).ToString() + ".pdf");
+            PDF.CreatePDF(TicketNomber, Ticket, CruiseInfo, CheckedCruiseToBuy);
         }
 
 
