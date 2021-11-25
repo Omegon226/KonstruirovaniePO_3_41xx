@@ -19,6 +19,7 @@ using BLL.DBInteraction;
 using BLL.Services;
 using Интерфейс.CeateUpdateWindows;
 using Интерфейс.CRUDClasses;
+using Интерфейс.CharsBuildersClasses;
 
 namespace Интерфейс
 {
@@ -41,12 +42,16 @@ namespace Интерфейс
         private List<UserModel> allUser;
 
         private CRUDOperations CRUD;
+        private ChartsBuilder Charts;
 
         private int StatusLevelOfUser = 0;
         private UserModel AuthorisedUser;
 
         public MainWindow()
         {
+            CRUD = new CRUDOperations(DBComunication);
+            Charts = new ChartsBuilder();
+
             InitializeComponent();
             LoadAllInformationFromDataBase();
             InsertInformationInCRUDDataGrids();
@@ -54,8 +59,6 @@ namespace Интерфейс
             InsertInformationInChartsTab();
             BuildCharts();
             InsertInformationInFindeRouteComboBoxes();
-
-            CRUD = new CRUDOperations(DBComunication);
 
             CheckUserPrivilegesAndChangeElementVisibility();
         }
@@ -1228,7 +1231,7 @@ namespace Интерфейс
 
         private void UpdateAllChartsInfo()
         {
-            DriversForChartDependenceOfSalaryOnLengthOfService = FindeDriver.StoredProcedureExecute();
+            UpdateDriverChartInfo();
             InsertInformationInChartsTab();
             BuildCharts();
         }
@@ -1259,189 +1262,54 @@ namespace Интерфейс
 
         private void UpdateDriverChartInfo()
         {
+            Charts.DependenceOfSalaryOnLengthOfService.UpdateDriversForChartDependenceOfSalaryOnLengthOfService();
             DriversForChartDependenceOfSalaryOnLengthOfService = FindeDriver.StoredProcedureExecute();
             InsertDriversInformationForChartsDataGrid();
         }
 
         private void BuildChartDependenceOfSalaryOnLengthOfService()
         {
-            List<FindeDriver.StoredProcedureResult> DriversForChart = new List<FindeDriver.StoredProcedureResult>();
-            ChartValues<int> Salarys = new ChartValues<int>();
-            string[] Labels = new string[DriversForChartDependenceOfSalaryOnLengthOfService.Count];
+            Charts.DependenceOfSalaryOnLengthOfService.SetInformationForChart();
 
-            DriversForChart = SortDriversByTheirExperience();
-            UpdateDriverChartInfo();
-
-            for (int i = 0; i < DriversForChart.Count; ++i)
-            {
-                Salarys.Add(DriversForChart[i].Salary);
-            }
-            for (int i = 0; i < DriversForChart.Count; ++i)
-            {
-                Labels[i] = DriversForChart[i].Experience.ToString() + "Года/Лет Стажа " + DriversForChart[i].FullName;
-            }
-
-            SeriesCollection SeriesCollection = new SeriesCollection
-            {
-                new LineSeries
-                {
-                    Title = "Зависимость зарплаты от стажа работы",
-                    Values = Salarys
-                }
-            };
-
-            Func<double, string> YFormatter = value => value.ToString("C");
-
-            ChartDependenceOfSalaryOnLengthOfService.Series = SeriesCollection;
-            ChartDependenceOfSalaryOnLengthOfServiceXAx.LabelFormatter = YFormatter;
-            ChartDependenceOfSalaryOnLengthOfServiceYAx.Labels = Labels;
-        }
-        private List<FindeDriver.StoredProcedureResult> SortDriversByTheirExperience()
-        {
-            List<FindeDriver.StoredProcedureResult> DriversSort = new List<FindeDriver.StoredProcedureResult>();
-            ChartValues<int> Salarys = new ChartValues<int>();
-            string[] Labels = new string[DriversForChartDependenceOfSalaryOnLengthOfService.Count];
-
-            int countOfDrivers = DriversForChartDependenceOfSalaryOnLengthOfService.Count;
-            for (int i = 0; i < countOfDrivers; i++)
-            {
-                int minExperience = int.MaxValue;
-                int index = 0;
-                for (int j = 0; j < DriversForChartDependenceOfSalaryOnLengthOfService.Count; j++)
-                {
-                    if (DriversForChartDependenceOfSalaryOnLengthOfService[j].Experience < minExperience)
-                    {
-                        minExperience = DriversForChartDependenceOfSalaryOnLengthOfService[j].Experience;
-                        index = j;
-                    }
-                }
-                DriversSort.Add(DriversForChartDependenceOfSalaryOnLengthOfService[index]);
-                DriversForChartDependenceOfSalaryOnLengthOfService.RemoveAt(index);
-            }
-
-            return (DriversSort);
+            ChartDependenceOfSalaryOnLengthOfService.Series = Charts.DependenceOfSalaryOnLengthOfService.SeriesCollection;
+            ChartDependenceOfSalaryOnLengthOfServiceXAx.LabelFormatter = Charts.DependenceOfSalaryOnLengthOfService.YFormatter;
+            ChartDependenceOfSalaryOnLengthOfServiceYAx.Labels = Charts.DependenceOfSalaryOnLengthOfService.Labels;
         }
 
         private void BuildChartDriversSalary()
         {
-            List<FindeDriver.StoredProcedureResult> DriversForChart = DriversForChartDependenceOfSalaryOnLengthOfService;
-            ChartValues<int> Salarys = new ChartValues<int>();
-            string[] Labels = new string[DriversForChartDependenceOfSalaryOnLengthOfService.Count];
+            Charts.DriversSalary.SetInformationForChart();
 
-            UpdateDriverChartInfo();
-
-            for (int i = 0; i < DriversForChart.Count; ++i)
-            {
-                Salarys.Add(DriversForChart[i].Salary);
-            }
-            for (int i = 0; i < DriversForChart.Count; ++i)
-            {
-                Labels[i] = DriversForChart[i].FullName;
-            }
-
-            SeriesCollection SeriesCollection = new SeriesCollection
-            {
-                new ColumnSeries
-                {
-                    Title = "Зарплата водителей",
-                    Values = Salarys
-                }
-            };
-
-            Func<double, string> Formatter = value => value.ToString("C");
-
-            ChartDriversSalary.Series = SeriesCollection;
-            ChartDriversSalaryeXAx.LabelFormatter = Formatter;
-            ChartDriversSalaryYAx.Labels = Labels;
+            ChartDriversSalary.Series = Charts.DriversSalary.SeriesCollection;
+            ChartDriversSalaryeXAx.LabelFormatter = Charts.DriversSalary.YFormatter;
+            ChartDriversSalaryYAx.Labels = Charts.DriversSalary.Labels;
         }
 
         private void BuildChartUsersStatusCount()
         {
-            List<FindeUsersStatusesCount.StoredProcedureResult> ResultOfSP = FindeUsersStatusesCount.StoredProcedureExecute();
-            ChartValues<int> CountOfStatuses = new ChartValues<int>();
-            string[] Labels = { "Обычные пользователи", "Администраторы" };
+            Charts.UsersStatusCount.SetInformationForChart();
 
-            for (int i = 0; i < ResultOfSP.Count; ++i)
-            {
-                CountOfStatuses.Add(ResultOfSP[i].Status);
-            }
-
-            SeriesCollection SeriesCollection = new SeriesCollection
-            {
-                new ColumnSeries
-                {
-                    Title = "Кол-во пользователей",
-                    Values = CountOfStatuses
-                }
-            };
-
-            Func<double, string> Formatter = value => value.ToString("N");
-
-            ChartUsersStatusesCount.Series = SeriesCollection;
-            ChartUsersStatusesCountXAx.LabelFormatter = Formatter;
-            ChartUsersStatusesCountYAx.Labels = Labels;
+            ChartUsersStatusesCount.Series = Charts.UsersStatusCount.SeriesCollection;
+            ChartUsersStatusesCountXAx.LabelFormatter = Charts.UsersStatusCount.Formatter;
+            ChartUsersStatusesCountYAx.Labels = Charts.UsersStatusCount.Labels;
         }
             
         private void BuildChartAmountOfCreatedCruisesOnTheRoute()
         {
-            List<FindeAmountOfCruiseOnTheRoute.StoredProcedureResult> ResultOfSP = FindeAmountOfCruiseOnTheRoute.StoredProcedureExecute();
-            ChartValues<int> CountOfCruises = new ChartValues<int>();
-            string[] Labels = new string[ResultOfSP.Count];
+            Charts.AmountOfCreatedCruisesOnTheRoute.SetInformationForChart();
 
-            for (int i = 0; i < ResultOfSP.Count; ++i)
-            {
-                CountOfCruises.Add(ResultOfSP[i].AmountOfCruises);
-            }
-            for (int i = 0; i < ResultOfSP.Count; ++i)
-            {
-                Labels[i] = "ID Маршрута = " + ResultOfSP[i].IDOfRoute.ToString();
-            }
-
-            SeriesCollection SeriesCollection = new SeriesCollection
-            {
-                new ColumnSeries
-                {
-                    Title = "Кол-во рейсов",
-                    Values = CountOfCruises
-                }
-            };
-
-            Func<double, string> Formatter = value => value.ToString("N");
-
-            ChartAmountOfCreatedCruisesOnTheRoute.Series = SeriesCollection;
-            ChartAmountOfCreatedCruisesOnTheRouteXAx.LabelFormatter = Formatter;
-            ChartAmountOfCreatedCruisesOnTheRouteYAx.Labels = Labels;
+            ChartAmountOfCreatedCruisesOnTheRoute.Series = Charts.AmountOfCreatedCruisesOnTheRoute.SeriesCollection;
+            ChartAmountOfCreatedCruisesOnTheRouteXAx.LabelFormatter = Charts.AmountOfCreatedCruisesOnTheRoute.Formatter;
+            ChartAmountOfCreatedCruisesOnTheRouteYAx.Labels = Charts.AmountOfCreatedCruisesOnTheRoute.Labels;
         }
 
         private void BuildChartAmountOfStoppingOnTheRoute()
         {
-            List<FindeAmountOfStoppingOnTheRoute.StoredProcedureResult> ResultOfSP = FindeAmountOfStoppingOnTheRoute.StoredProcedureExecute();
-            ChartValues<int> CountOfCruises = new ChartValues<int>();
-            string[] Labels = new string[ResultOfSP.Count];
+            Charts.AmountOfStoppingOnTheRoute.SetInformationForChart();
 
-            for (int i = 0; i < ResultOfSP.Count; ++i)
-            {
-                CountOfCruises.Add(ResultOfSP[i].AmountOfStoppings);
-            }
-            for (int i = 0; i < ResultOfSP.Count; ++i)
-            {
-                Labels[i] = "ID Маршрута = " + ResultOfSP[i].RouteID.ToString();
-            }
-
-            SeriesCollection SeriesCollection = new SeriesCollection
-            {
-                new ColumnSeries
-                {
-                    Title = "Кол-во остановок",
-                    Values = CountOfCruises
-                }
-            };
-
-            Func<double, string> Formatter = value => value.ToString("N");
-
-            ChartAmountOfStoppingOnTheRoute.Series = SeriesCollection;
-            ChartAmountOfStoppingOnTheRouteXAx.LabelFormatter = Formatter;
-            ChartAmountOfStoppingOnTheRouteYAx.Labels = Labels;
+            ChartAmountOfStoppingOnTheRoute.Series = Charts.AmountOfStoppingOnTheRoute.SeriesCollection;
+            ChartAmountOfStoppingOnTheRouteXAx.LabelFormatter = Charts.AmountOfStoppingOnTheRoute.Formatter;
+            ChartAmountOfStoppingOnTheRouteYAx.Labels = Charts.AmountOfStoppingOnTheRoute.Labels;
         }
 
         #endregion

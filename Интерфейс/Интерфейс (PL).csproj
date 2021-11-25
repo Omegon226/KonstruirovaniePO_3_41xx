@@ -148,6 +148,12 @@
     <Compile Include="CeateUpdateWindows\UserCUWindow.xaml.cs">
       <DependentUpon>UserCUWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CharsBuildersClasses\AmountOfCreatedCruisesOnTheRouteChart.cs" />
+    <Compile Include="CharsBuildersClasses\AmountOfStoppingOnTheRouteChart.cs" />
+    <Compile Include="CharsBuildersClasses\ChartsBuilder.cs" />
+    <Compile Include="CharsBuildersClasses\DependenceOfSalaryOnLengthOfServiceChart.cs" />
+    <Compile Include="CharsBuildersClasses\DriversSalaryChart.cs" />
+    <Compile Include="CharsBuildersClasses\UsersStatusCountChart.cs" />
     <Compile Include="CRUDClasses\CRUDLogicForCruise.cs" />
     <Compile Include="CRUDClasses\CRUDLogicForDriver.cs" />
     <Compile Include="CRUDClasses\CRUDLogicForLocality.cs" />
