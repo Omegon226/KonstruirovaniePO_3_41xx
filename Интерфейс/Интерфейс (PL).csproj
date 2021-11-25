@@ -148,6 +148,16 @@
     <Compile Include="CeateUpdateWindows\UserCUWindow.xaml.cs">
       <DependentUpon>UserCUWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CRUDClasses\CRUDLogicForCruise.cs" />
+    <Compile Include="CRUDClasses\CRUDLogicForDriver.cs" />
+    <Compile Include="CRUDClasses\CRUDLogicForLocality.cs" />
+    <Compile Include="CRUDClasses\CRUDLogicForRoute.cs" />
+    <Compile Include="CRUDClasses\CRUDLogicForStoppingOnTheRoute.cs" />
+    <Compile Include="CRUDClasses\CRUDLogicForStopSequences.cs" />
+    <Compile Include="CRUDClasses\CRUDLogicForTicket.cs" />
+    <Compile Include="CRUDClasses\CRUDLogicForTransport.cs" />
+    <Compile Include="CRUDClasses\CRUDLogicForUser.cs" />
+    <Compile Include="CRUDClasses\CRUDOperations.cs" />
     <Compile Include="EnterAvtovokzalSystemWindow.xaml.cs">
       <DependentUpon>EnterAvtovokzalSystemWindow.xaml</DependentUpon>
     </Compile>

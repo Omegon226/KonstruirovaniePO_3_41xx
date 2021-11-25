@@ -72,7 +72,7 @@ namespace Интерфейс.CeateUpdateWindows
         }
         private bool ValidationOfPriceForStoppping(int PriceForStoppping)
         {
-            if (PriceForStoppping > 0)
+            if (PriceForStoppping >= 0)
             {
                 return (true);
             }

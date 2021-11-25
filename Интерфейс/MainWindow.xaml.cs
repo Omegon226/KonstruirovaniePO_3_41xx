@@ -18,6 +18,7 @@ using BLL.Models;
 using BLL.DBInteraction;
 using BLL.Services;
 using Интерфейс.CeateUpdateWindows;
+using Интерфейс.CRUDClasses;
 
 namespace Интерфейс
 {
@@ -39,6 +40,8 @@ namespace Интерфейс
         private List<TransportModel> allTransport;
         private List<UserModel> allUser;
 
+        private CRUDOperations CRUD;
+
         private int StatusLevelOfUser = 0;
         private UserModel AuthorisedUser;
 
@@ -52,7 +55,9 @@ namespace Интерфейс
             BuildCharts();
             InsertInformationInFindeRouteComboBoxes();
 
-            CheckUserPrivileges();
+            CRUD = new CRUDOperations(DBComunication);
+
+            CheckUserPrivilegesAndChangeElementVisibility();
         }
 
         private void InsertInformationInFindeRouteComboBoxes()
@@ -70,7 +75,7 @@ namespace Интерфейс
             ArrivalLocalityComboBox.SelectedItem = allLocality[6];
         }
 
-        private void CheckUserPrivileges()
+        private void CheckUserPrivilegesAndChangeElementVisibility()
         {
             bool IfUserOnAdminGrids = (CRUDGrid.Visibility == Visibility.Visible) || 
                                         (CreateReportsGrid.Visibility == Visibility.Visible) || 
@@ -78,10 +83,7 @@ namespace Интерфейс
 
             if (StatusLevelOfUser == 0)
             {
-                FindeRouteTabOpenButton.Visibility = Visibility.Visible;
-                CRUDTabOpenButton.Visibility = Visibility.Hidden;
-                CreateReportsTabOpenButton.Visibility = Visibility.Hidden;
-                CreateChartsTabOpenButton.Visibility = Visibility.Hidden;
+                SetElemetsVisibilityAsForUser();
 
                 if (IfUserOnAdminGrids)
                 {
@@ -92,10 +94,7 @@ namespace Интерфейс
             }
             if (StatusLevelOfUser == 1)
             {
-                FindeRouteTabOpenButton.Visibility = Visibility.Visible;
-                CRUDTabOpenButton.Visibility = Visibility.Hidden;
-                CreateReportsTabOpenButton.Visibility = Visibility.Hidden;
-                CreateChartsTabOpenButton.Visibility = Visibility.Hidden;
+                SetElemetsVisibilityAsForUser();
 
                 if (IfUserOnAdminGrids)
                 {
@@ -106,12 +105,23 @@ namespace Интерфейс
             }
             if (StatusLevelOfUser == 2)
             {
-                FindeRouteTabOpenButton.Visibility = Visibility.Visible;
-                CRUDTabOpenButton.Visibility = Visibility.Visible;
-                CreateReportsTabOpenButton.Visibility = Visibility.Visible;
-                CreateChartsTabOpenButton.Visibility = Visibility.Visible;
+                SetElemetsVisibilityAsForAdministrator();
                 return;
             }
+        }
+        private void SetElemetsVisibilityAsForUser()
+        {
+            FindeRouteTabOpenButton.Visibility = Visibility.Visible;
+            CRUDTabOpenButton.Visibility = Visibility.Hidden;
+            CreateReportsTabOpenButton.Visibility = Visibility.Hidden;
+            CreateChartsTabOpenButton.Visibility = Visibility.Hidden;
+        }
+        private void SetElemetsVisibilityAsForAdministrator()
+        {
+            FindeRouteTabOpenButton.Visibility = Visibility.Visible;
+            CRUDTabOpenButton.Visibility = Visibility.Visible;
+            CreateReportsTabOpenButton.Visibility = Visibility.Visible;
+            CreateChartsTabOpenButton.Visibility = Visibility.Visible;
         }
         private void ReturnToFindeRouteGrid()
         {
@@ -136,7 +146,7 @@ namespace Интерфейс
                 AuthorizedUser.Password = AuthorizationWindow.PasswordTextBox.Password;
 
                 FindeSameUser(AuthorizedUser);
-                CheckUserPrivileges();
+                CheckUserPrivilegesAndChangeElementVisibility();
             }
         }
         private void FindeSameUser(UserModel UserToFinde)
@@ -181,7 +191,7 @@ namespace Интерфейс
                 AuthorizedUser.Status = 1;
 
                 FindeSameUserAndRegistrait(AuthorizedUser);
-                CheckUserPrivileges();
+                CheckUserPrivilegesAndChangeElementVisibility();
             }
         }
         private void FindeSameUserAndRegistrait(UserModel UserToFinde)
@@ -210,7 +220,7 @@ namespace Интерфейс
             AuthorisedUser = null;
             SetAuthorizeExitAndRegistrationButtonVisibiliy();
             MessageBox.Show("Вы вышли из системы");
-            CheckUserPrivileges();
+            CheckUserPrivilegesAndChangeElementVisibility();
         }
 
         private void SetAuthorizeExitAndRegistrationButtonVisibiliy()
@@ -302,7 +312,7 @@ namespace Интерфейс
         public void ChangeStatusOfUser(int StatusLevle)
         {
             StatusLevelOfUser = StatusLevle;
-            CheckUserPrivileges();
+            CheckUserPrivilegesAndChangeElementVisibility();
         }
         public void ChangeRegistraitedUserInfo(UserModel User)
         {
@@ -468,34 +478,16 @@ namespace Интерфейс
         // CRUD Для User
         private void CreateUserButton_Click(object sender, RoutedEventArgs e)
         {
-            UserCUWindow CreateWindow = new UserCUWindow();
+            UserModel NewObject = CRUD.User.Create();
 
-            bool? result = CreateWindow.ShowDialog();
-            if (result == false)
-                return;
-            else
+            if (NewObject != null)
             {
-                UserModel NewObject = new UserModel();
-
-                NewObject.FullName = CreateWindow.SurnameTextBox.Text + " " + CreateWindow.NameTextBox.Text + " " + CreateWindow.PatronymicTextBox.Text;
-                NewObject.Login = CreateWindow.LoginTextBox.Text;
-                NewObject.Password = CreateWindow.PasswordTextBox.Text;
-                if (CreateWindow.StatusUserRadioButton.IsChecked == true)
-                {
-                    NewObject.Status = 1;
-                }
-                if (CreateWindow.StatusAdministratorRadioButton.IsChecked == true)
-                {
-                    NewObject.Status = 2;
-                }
-
                 DBComunication.User.Create(NewObject);
                 allUser = DBComunication.User.GetAll();
                 InsertInformationInUserDataGrid();
 
                 MessageBox.Show("Новый объект добавлен");
             }
-
         }
         private void UpdateUserButton_Click(object sender, RoutedEventArgs e)
         {
@@ -504,7 +496,6 @@ namespace Интерфейс
             int index = getSelectedRow(DataGridForUpdateOperation);
             if (index != -1)
             {
-
                 int id = 0;
                 UserModel MarkedRow = (UserModel)DataGridForUpdateOperation.Items[index];
                 bool converted = Int32.TryParse(MarkedRow.ID.ToString(), out id);
@@ -512,59 +503,13 @@ namespace Интерфейс
                     return;
 
                 UserModel ph = allUser.Where(i => i.ID == id).FirstOrDefault();
+
                 if (ph != null)
                 {
-                    UserCUWindow UpdateWindow = new UserCUWindow();
+                    ph = CRUD.User.Update(ph);
 
-                    string[] FullName = ph.FullName.Split(' ');
-
-                    if (FullName.Length == 1)
+                    if (ph != null)
                     {
-                        UpdateWindow.SurnameTextBox.Text = FullName[0];
-                    }
-                    if (FullName.Length == 2)
-                    {
-                        UpdateWindow.SurnameTextBox.Text = FullName[0];
-                        UpdateWindow.NameTextBox.Text = FullName[1];
-                    }
-                    if (FullName.Length == 3)
-                    {
-                        UpdateWindow.SurnameTextBox.Text = FullName[0];
-                        UpdateWindow.NameTextBox.Text = FullName[1];
-                        UpdateWindow.PatronymicTextBox.Text = FullName[2];
-                    }
-
-                    UpdateWindow.LoginTextBox.Text = ph.Login;
-                    UpdateWindow.PasswordTextBox.Text = ph.Password;
-
-                    if (ph.Status == 1)
-                    {
-                        UpdateWindow.StatusUserRadioButton.IsChecked = true;
-                        UpdateWindow.StatusAdministratorRadioButton.IsChecked = false;
-                    }
-                    if (ph.Status == 2)
-                    {
-                        UpdateWindow.StatusUserRadioButton.IsChecked = false;
-                        UpdateWindow.StatusAdministratorRadioButton.IsChecked = true;
-                    }
-
-                    bool? result = UpdateWindow.ShowDialog();
-                    if (result == false)
-                        return;
-                    else 
-                    {
-                        ph.FullName = UpdateWindow.SurnameTextBox.Text + " " + UpdateWindow.NameTextBox.Text + " " + UpdateWindow.PatronymicTextBox.Text;
-                        ph.Login = UpdateWindow.LoginTextBox.Text;
-                        ph.Password = UpdateWindow.PasswordTextBox.Text;
-                        if (UpdateWindow.StatusUserRadioButton.IsChecked == true)
-                        {
-                            ph.Status = 1;
-                        }
-                        if (UpdateWindow.StatusAdministratorRadioButton.IsChecked == true)
-                        {
-                            ph.Status = 2;
-                        }
-
                         DBComunication.User.Update(ph);
                         allUser = DBComunication.User.GetAll();
                         InsertInformationInUserDataGrid();
@@ -607,44 +552,12 @@ namespace Интерфейс
         }
 
         // CRUD Для Ticket
-        private List<string> IndentificationDocuments = new List<string>();
         private void CreateTicketButton_Click(object sender, RoutedEventArgs e)
         {
-            IndentificationDocuments.Add("Паспорт");
-            IndentificationDocuments.Add("Свидетельство о рождении");
+            TicketModel NewObject = CRUD.Ticket.Create();
 
-            TicketCUWindow CreateWindow = new TicketCUWindow();
-            MakeSetupForTicketCUWindow(CreateWindow);
-
-            bool? result = CreateWindow.ShowDialog();
-            if (result == false)
-                return;
-            else
+            if (NewObject != null)
             {
-                TicketModel NewObject = new TicketModel();
-
-                int Year = Int32.Parse(CreateWindow.DateOfIssueYearParametrTextBox.Text);
-                int Month = Int32.Parse(CreateWindow.DateOfIssueMonthParametrTextBox.Text);
-                int Day = Int32.Parse(CreateWindow.DateOfIssueDayParametrTextBox.Text);
-                int Hour = Int32.Parse(CreateWindow.DateOfIssueHourParametrTextBox.Text);
-                int Minute = Int32.Parse(CreateWindow.DateOfIssueMinuteParametrTextBox.Text);
-                int Second = Int32.Parse(CreateWindow.DateOfIssueSecondParametrTextBox.Text);
-                NewObject.DateOfIssue = new DateTime(Year, Month, Day, Hour, Minute, Second);
-
-                NewObject.IdentificationInformation = CreateWindow.IndentificationInformationTextBox.Text;
-                NewObject.SeatNumberOnTheTransport = CreateWindow.SeatNumberOnTheTransportIntegerUpDown.Value;
-                NewObject.FullName = CreateWindow.SurnameTextBox.Text + " " + CreateWindow.NameTextBox.Text + " " + CreateWindow.PatronymicTextBox.Text;
-                NewObject.CruiseID = (int)CreateWindow.CruiseIDComboBox.SelectedValue;
-                NewObject.UserID = (int)CreateWindow.UserIDComboBox.SelectedValue;
-
-                Year = Int32.Parse(CreateWindow.RaceDepartureTimeYearParametrTextBox.Text);
-                Month = Int32.Parse(CreateWindow.RaceDepartureTimeMonthParametrTextBox.Text);
-                Day = Int32.Parse(CreateWindow.RaceDepartureTimeDayParametrTextBox.Text);
-                Hour = Int32.Parse(CreateWindow.RaceDepartureTimeHourParametrTextBox.Text);
-                Minute = Int32.Parse(CreateWindow.RaceDepartureTimeMinuteParametrTextBox.Text);
-                Second = Int32.Parse(CreateWindow.RaceDepartureTimeSecondParametrTextBox.Text);
-                NewObject.RaceDepartureTime = new DateTime(Year, Month, Day, Hour, Minute, Second);
-
                 DBComunication.Ticket.Create(NewObject);
                 allTicket = DBComunication.Ticket.GetAll();
                 InsertInformationInTicketDataGrid();
@@ -669,103 +582,10 @@ namespace Интерфейс
                 TicketModel ph = allTicket.Where(i => i.ID == id).FirstOrDefault();
                 if (ph != null)
                 {
-                    IndentificationDocuments.Add("Паспорт");
-                    IndentificationDocuments.Add("Свидетельство о рождении");
+                    ph = CRUD.Ticket.Update(ph);
 
-                    TicketCUWindow UpdateWindow = new TicketCUWindow();
-                    MakeSetupForTicketCUWindow(UpdateWindow);
-
-                    int Year = ph.DateOfIssue.Value.Year;
-                    int Month = ph.DateOfIssue.Value.Month;
-                    int Day = ph.DateOfIssue.Value.Day;
-                    int Hour = ph.DateOfIssue.Value.Hour;
-                    int Minute = ph.DateOfIssue.Value.Minute;
-                    int Second = ph.DateOfIssue.Value.Second;
-                    UpdateWindow.DateOfIssueYearParametrTextBox.Text = Year.ToString();
-                    UpdateWindow.DateOfIssueMonthParametrTextBox.Text = Month.ToString();
-                    UpdateWindow.DateOfIssueDayParametrTextBox.Text = Day.ToString();
-                    UpdateWindow.DateOfIssueHourParametrTextBox.Text = Hour.ToString();
-                    UpdateWindow.DateOfIssueMinuteParametrTextBox.Text = Minute.ToString();
-                    UpdateWindow.DateOfIssueSecondParametrTextBox.Text = Second.ToString();
-
-                    if ((ph.IdentificationInformation.Length == 11 && ph.IdentificationInformation[4] == ' ') || (ph.IdentificationInformation.Length == 10))
+                    if (ph != null)
                     {
-                        UpdateWindow.DocumentTypeComboBox.SelectedIndex = 0;
-                        UpdateWindow.IndentificationInformationTextBox.Text = ph.IdentificationInformation;
-                    }
-                    if ((15 <= ph.IdentificationInformation.Length) && (ph.IdentificationInformation.Length <= 17))
-                    {
-                        UpdateWindow.DocumentTypeComboBox.SelectedIndex = 1;
-                        UpdateWindow.IndentificationInformationTextBox.Text = ph.IdentificationInformation;
-                    }
-                    if (ph.IdentificationInformation.Length < 10 || ph.IdentificationInformation.Length == 12 || ph.IdentificationInformation.Length > 15)
-                    {
-                        MessageBox.Show("Индентификационные данные по билету не могут быть занесены, т.к. их формат не правильный");
-                    }
-
-                    UpdateWindow.SeatNumberOnTheTransportIntegerUpDown.Value = ph.SeatNumberOnTheTransport;
-
-                    string[] FullName = ph.FullName.Split(' ');
-
-                    if (FullName.Length == 1)
-                    {
-                        UpdateWindow.SurnameTextBox.Text = FullName[0];
-                    }
-                    if (FullName.Length == 2)
-                    {
-                        UpdateWindow.SurnameTextBox.Text = FullName[0];
-                        UpdateWindow.NameTextBox.Text = FullName[1];
-                    }
-                    if (FullName.Length == 3)
-                    {
-                        UpdateWindow.SurnameTextBox.Text = FullName[0];
-                        UpdateWindow.NameTextBox.Text = FullName[1];
-                        UpdateWindow.PatronymicTextBox.Text = FullName[2];
-                    }
-
-                    UpdateWindow.CruiseIDComboBox.SelectedValue = ph.CruiseID;
-                    UpdateWindow.UserIDComboBox.SelectedValue = ph.UserID;
-
-                    Year = ph.RaceDepartureTime.Value.Year;
-                    Month = ph.RaceDepartureTime.Value.Month;
-                    Day = ph.RaceDepartureTime.Value.Day;
-                    Hour = ph.RaceDepartureTime.Value.Hour;
-                    Minute = ph.RaceDepartureTime.Value.Minute;
-                    Second = ph.RaceDepartureTime.Value.Second;
-                    UpdateWindow.RaceDepartureTimeYearParametrTextBox.Text = Year.ToString();
-                    UpdateWindow.RaceDepartureTimeMonthParametrTextBox.Text = Month.ToString();
-                    UpdateWindow.RaceDepartureTimeDayParametrTextBox.Text = Day.ToString();
-                    UpdateWindow.RaceDepartureTimeHourParametrTextBox.Text = Hour.ToString();
-                    UpdateWindow.RaceDepartureTimeMinuteParametrTextBox.Text = Minute.ToString();
-                    UpdateWindow.RaceDepartureTimeSecondParametrTextBox.Text = Second.ToString();
-
-                    bool? result = UpdateWindow.ShowDialog();
-                    if (result == false)
-                        return;
-                    else
-                    {
-                        Year = Int32.Parse(UpdateWindow.DateOfIssueYearParametrTextBox.Text);
-                        Month = Int32.Parse(UpdateWindow.DateOfIssueMonthParametrTextBox.Text);
-                        Day = Int32.Parse(UpdateWindow.DateOfIssueDayParametrTextBox.Text);
-                        Hour = Int32.Parse(UpdateWindow.DateOfIssueHourParametrTextBox.Text);
-                        Minute = Int32.Parse(UpdateWindow.DateOfIssueMinuteParametrTextBox.Text);
-                        Second = Int32.Parse(UpdateWindow.DateOfIssueSecondParametrTextBox.Text);
-                        ph.DateOfIssue = new DateTime(Year, Month, Day, Hour, Minute, Second);
-
-                        ph.IdentificationInformation = UpdateWindow.IndentificationInformationTextBox.Text;
-                        ph.SeatNumberOnTheTransport = UpdateWindow.SeatNumberOnTheTransportIntegerUpDown.Value;
-                        ph.FullName = UpdateWindow.SurnameTextBox.Text + " " + UpdateWindow.NameTextBox.Text + " " + UpdateWindow.PatronymicTextBox.Text;
-                        ph.CruiseID = (int)UpdateWindow.CruiseIDComboBox.SelectedValue;
-                        ph.UserID = (int)UpdateWindow.UserIDComboBox.SelectedValue;
-
-                        Year = Int32.Parse(UpdateWindow.RaceDepartureTimeYearParametrTextBox.Text);
-                        Month = Int32.Parse(UpdateWindow.RaceDepartureTimeMonthParametrTextBox.Text);
-                        Day = Int32.Parse(UpdateWindow.RaceDepartureTimeDayParametrTextBox.Text);
-                        Hour = Int32.Parse(UpdateWindow.RaceDepartureTimeHourParametrTextBox.Text);
-                        Minute = Int32.Parse(UpdateWindow.RaceDepartureTimeMinuteParametrTextBox.Text);
-                        Second = Int32.Parse(UpdateWindow.RaceDepartureTimeSecondParametrTextBox.Text);
-                        ph.RaceDepartureTime = new DateTime(Year, Month, Day, Hour, Minute, Second);
-
                         DBComunication.Ticket.Update(ph);
                         allTicket = DBComunication.Ticket.GetAll();
                         InsertInformationInTicketDataGrid();
@@ -797,41 +617,14 @@ namespace Интерфейс
                 InsertInformationInTicketDataGrid();
             }
         }
-        private void MakeSetupForTicketCUWindow(TicketCUWindow Window)
-        {
-            Window.CruiseIDComboBox.ItemsSource = allCruise;
-            Window.CruiseIDComboBox.DisplayMemberPath = "ID";
-            Window.CruiseIDComboBox.SelectedValuePath = "ID";
-            Window.UserIDComboBox.ItemsSource = allUser;
-            Window.UserIDComboBox.DisplayMemberPath = "FullName";
-            Window.UserIDComboBox.SelectedValuePath = "ID";
-            Window.DocumentTypeComboBox.ItemsSource = IndentificationDocuments;
-        }
 
         // CRUD Для Transport
         private void CreateTransportButton_Click(object sender, RoutedEventArgs e)
         {
-            TransportCUWindow CreateWindow = new TransportCUWindow();
+            TransportModel NewObject = CRUD.Transport.Create();
 
-            bool? result = CreateWindow.ShowDialog();
-            if (result == false)
-                return;
-            else
+            if (NewObject != null)
             {
-                TransportModel NewObject = new TransportModel();
-
-                NewObject.NumberOfSeats = CreateWindow.NumberOfSeatsIntegerUpDown.Value;
-                NewObject.RegistrationNumber = CreateWindow.RegistrationNumberTextBox.Text;
-                NewObject.Model = CreateWindow.ModelTextBox.Text;
-                if (CreateWindow.HiddenNoRadioButton.IsChecked == true)
-                {
-                    NewObject.Hidden = false;
-                }
-                if (CreateWindow.HiddenYesRadioButton.IsChecked == true)
-                {
-                    NewObject.Hidden = true;
-                }
-
                 DBComunication.Transport.Create(NewObject);
                 allTransport = DBComunication.Transport.GetAll();
                 InsertInformationInTransportDataGrid();
@@ -856,39 +649,10 @@ namespace Интерфейс
                 TransportModel ph = allTransport.Where(i => i.ID == id).FirstOrDefault();
                 if (ph != null)
                 {
-                    TransportCUWindow UpdateWindow = new TransportCUWindow();
+                    ph = CRUD.Transport.Update(ph);
 
-                    UpdateWindow.NumberOfSeatsIntegerUpDown.Value = ph.NumberOfSeats;
-                    UpdateWindow.RegistrationNumberTextBox.Text = ph.RegistrationNumber;
-                    UpdateWindow.ModelTextBox.Text = ph.Model;
-                    if (ph.Hidden == false)
+                    if (ph != null)
                     {
-                        UpdateWindow.HiddenNoRadioButton.IsChecked = true;
-                        UpdateWindow.HiddenYesRadioButton.IsChecked = false;
-                    }
-                    else
-                    {
-                        UpdateWindow.HiddenNoRadioButton.IsChecked = false;
-                        UpdateWindow.HiddenYesRadioButton.IsChecked = true;
-                    }
-
-                    bool? result = UpdateWindow.ShowDialog();
-                    if (result == false)
-                        return;
-                    else
-                    {
-                        ph.NumberOfSeats = UpdateWindow.NumberOfSeatsIntegerUpDown.Value;
-                        ph.RegistrationNumber = UpdateWindow.RegistrationNumberTextBox.Text;
-                        ph.Model = UpdateWindow.ModelTextBox.Text;
-                        if (UpdateWindow.HiddenNoRadioButton.IsChecked == true)
-                        {
-                            ph.Hidden = false;
-                        }
-                        if (UpdateWindow.HiddenYesRadioButton.IsChecked == true)
-                        {
-                            ph.Hidden = true;
-                        }
-
                         DBComunication.Transport.Update(ph);
                         allTransport = DBComunication.Transport.GetAll();
                         InsertInformationInTransportDataGrid();
@@ -896,10 +660,11 @@ namespace Интерфейс
                         MessageBox.Show("Объект обновлен");
                     }
                 }
-            }
-            else
-            {
-                MessageBox.Show("Ни один объект не выбран!");
+                else
+                {
+                    MessageBox.Show("Ни один объект не выбран!");
+                }
+
             }
         }
         private void DeleteTransportButton_Click(object sender, RoutedEventArgs e)
@@ -933,26 +698,10 @@ namespace Интерфейс
         // CRUD Для StopSequences
         private void CreateStopSequencesButton_Click(object sender, RoutedEventArgs e)
         {
-            StopSequencesCUWindow CreateWindow = new StopSequencesCUWindow(allLocality, allStoppingOnTheRoute);
-            MakeSetupForStopSequencesCUWindow(CreateWindow);
+            StopSequencesModel NewObject = CRUD.StopSequences.Create();
 
-            bool? result = CreateWindow.ShowDialog();
-            if (result == false)
-                return;
-            else
+            if (NewObject != null)
             {
-                StopSequencesModel NewObject = new StopSequencesModel();
-
-                NewObject.IndexNumber = CreateWindow.IndexNumberIntegerUpDown.Value;
-                NewObject.StoppingID = (int)CreateWindow.StoppingIDComboBox.SelectedValue;
-                NewObject.StopRouteID = (int)CreateWindow.StopRouteIDComboBox.SelectedValue;
-                NewObject.TripPrice = float.Parse(CreateWindow.TripPriceTextBox.Text);
-
-                int Hours = Int32.Parse(CreateWindow.TravelTimeToStopHoursTextBox.Text);
-                int Minutes = Int32.Parse(CreateWindow.TravelTimeToStopMinutesTextBox.Text);
-                int Seconds = Int32.Parse(CreateWindow.TravelTimeToStopSecondsTextBox.Text);
-                NewObject.TravelTimeToStop = new TimeSpan(Hours, Minutes, Seconds);
-
                 DBComunication.StopSequences.Create(NewObject);
                 allStopSequences = DBComunication.StopSequences.GetAll();
                 InsertInformationInStopSequencesDataGrid();
@@ -977,36 +726,10 @@ namespace Интерфейс
                 StopSequencesModel ph = allStopSequences.Where(i => i.ID == id).FirstOrDefault();
                 if (ph != null)
                 {
-                    StopSequencesCUWindow UpdateWindow = new StopSequencesCUWindow(allLocality, allStoppingOnTheRoute);
-                    MakeSetupForStopSequencesCUWindow(UpdateWindow);
+                    ph = CRUD.StopSequences.Update(ph);
 
-                    UpdateWindow.IndexNumberIntegerUpDown.Value = ph.IndexNumber;
-                    UpdateWindow.StoppingIDComboBox.SelectedValue = ph.StoppingID;
-                    UpdateWindow.StopRouteIDComboBox.SelectedValue = ph.StopRouteID;
-                    UpdateWindow.TripPriceTextBox.Text = ph.TripPrice.ToString();
-
-                    int Hours = ph.TravelTimeToStop.Value.Hours;
-                    int Minutes = ph.TravelTimeToStop.Value.Minutes;
-                    int Seconds = ph.TravelTimeToStop.Value.Seconds;
-                    UpdateWindow.TravelTimeToStopHoursTextBox.Text = Hours.ToString();
-                    UpdateWindow.TravelTimeToStopMinutesTextBox.Text = Minutes.ToString();
-                    UpdateWindow.TravelTimeToStopSecondsTextBox.Text = Seconds.ToString();
-
-                    bool? result = UpdateWindow.ShowDialog();
-                    if (result == false)
-                        return;
-                    else
+                    if (ph != null)
                     {
-                        ph.IndexNumber = UpdateWindow.IndexNumberIntegerUpDown.Value;
-                        ph.StoppingID = (int)UpdateWindow.StoppingIDComboBox.SelectedValue;
-                        ph.StopRouteID = (int)UpdateWindow.StopRouteIDComboBox.SelectedValue;
-                        ph.TripPrice = float.Parse(UpdateWindow.TripPriceTextBox.Text);
-
-                        Hours = Int32.Parse(UpdateWindow.TravelTimeToStopHoursTextBox.Text);
-                        Minutes = Int32.Parse(UpdateWindow.TravelTimeToStopMinutesTextBox.Text);
-                        Seconds = Int32.Parse(UpdateWindow.TravelTimeToStopSecondsTextBox.Text);
-                        ph.TravelTimeToStop = new TimeSpan(Hours, Minutes, Seconds);
-
                         DBComunication.StopSequences.Update(ph);
                         allStopSequences = DBComunication.StopSequences.GetAll();
                         InsertInformationInStopSequencesDataGrid();
@@ -1038,31 +761,14 @@ namespace Интерфейс
                 InsertInformationInStopSequencesDataGrid();
             }
         }
-        private void MakeSetupForStopSequencesCUWindow(StopSequencesCUWindow Window)
-        {
-            Window.StoppingIDComboBox.ItemsSource = allStoppingOnTheRoute;
-            Window.StoppingIDComboBox.DisplayMemberPath = "ID";
-            Window.StoppingIDComboBox.SelectedValuePath = "ID";
-            Window.StopRouteIDComboBox.ItemsSource = allRoute;
-            Window.StopRouteIDComboBox.DisplayMemberPath = "ID";
-            Window.StopRouteIDComboBox.SelectedValuePath = "ID";
-        }
 
         // CRUD Для StoppingOnTheRoute
         private void CreateStoppingOnTheRouteButton_Click(object sender, RoutedEventArgs e)
         {
-            StoppingOnTheRouteCUWindow CreateWindow = new StoppingOnTheRouteCUWindow();
-            MakeSetupForStoppingOnTheRouteCUWindow(CreateWindow);
+            StoppingOnTheRouteModel NewObject = CRUD.StoppingOnTheRoute.Create();
 
-            bool? result = CreateWindow.ShowDialog();
-            if (result == false)
-                return;
-            else
+            if (NewObject != null)
             {
-                StoppingOnTheRouteModel NewObject = new StoppingOnTheRouteModel();
-
-                NewObject.StopLocalityID = (int)CreateWindow.StopLocalityIDComboBox.SelectedValue;
-
                 DBComunication.StoppingOnTheRoute.Create(NewObject);
                 allStoppingOnTheRoute = DBComunication.StoppingOnTheRoute.GetAll();
                 InsertInformationInStoppingOnTheRouteDataGrid();
@@ -1087,18 +793,10 @@ namespace Интерфейс
                 StoppingOnTheRouteModel ph = allStoppingOnTheRoute.Where(i => i.ID == id).FirstOrDefault();
                 if (ph != null)
                 {
-                    StoppingOnTheRouteCUWindow UpdateWindow = new StoppingOnTheRouteCUWindow();
-                    MakeSetupForStoppingOnTheRouteCUWindow(UpdateWindow);
+                    ph = CRUD.StoppingOnTheRoute.Update(ph);
 
-                    UpdateWindow.StopLocalityIDComboBox.SelectedValue = ph.StopLocalityID;
-
-                    bool? result = UpdateWindow.ShowDialog();
-                    if (result == false)
-                        return;
-                    else
+                    if (ph != null)
                     {
-                        ph.StopLocalityID = (int)UpdateWindow.StopLocalityIDComboBox.SelectedValue;
-
                         DBComunication.StoppingOnTheRoute.Update(ph);
                         allStoppingOnTheRoute = DBComunication.StoppingOnTheRoute.GetAll();
                         InsertInformationInStoppingOnTheRouteDataGrid();
@@ -1139,35 +837,14 @@ namespace Интерфейс
                 InsertInformationInStoppingOnTheRouteDataGrid();
             }
         }
-        private void MakeSetupForStoppingOnTheRouteCUWindow(StoppingOnTheRouteCUWindow Window)
-        {
-            Window.StopLocalityIDComboBox.ItemsSource = allLocality;
-            Window.StopLocalityIDComboBox.DisplayMemberPath = "Name";
-            Window.StopLocalityIDComboBox.SelectedValuePath = "ID";
-        }
 
         // CRUD Для Route
         private void CreateRouteButton_Click(object sender, RoutedEventArgs e)
         {
-            RouteCUWindow CreateWindow = new RouteCUWindow();
+            RouteModel NewObject = CRUD.Route.Create();
 
-            bool? result = CreateWindow.ShowDialog();
-            if (result == false)
-                return;
-            else
+            if (NewObject != null)
             {
-                RouteModel NewObject = new RouteModel();
-
-                NewObject.TravelTimeInHours = CreateWindow.TravelTimeInHoursIntegerUpDown.Value;
-                if (CreateWindow.HiddenNoRadioButton.IsChecked == true)
-                {
-                    NewObject.Hidden = false;
-                }
-                if (CreateWindow.HiddenYesRadioButton.IsChecked == true)
-                {
-                    NewObject.Hidden = true;
-                }
-
                 DBComunication.Route.Create(NewObject);
                 allRoute = DBComunication.Route.GetAll();
                 InsertInformationInRouteDataGrid();
@@ -1192,35 +869,10 @@ namespace Интерфейс
                 RouteModel ph = allRoute.Where(i => i.ID == id).FirstOrDefault();
                 if (ph != null)
                 {
-                    RouteCUWindow UpdateWindow = new RouteCUWindow();
+                    ph = CRUD.Route.Update(ph);
 
-                    UpdateWindow.TravelTimeInHoursIntegerUpDown.Value = ph.TravelTimeInHours;
-                    if (ph.Hidden == false)
+                    if (ph != null)
                     {
-                        UpdateWindow.HiddenNoRadioButton.IsChecked = true;
-                        UpdateWindow.HiddenYesRadioButton.IsChecked = false;
-                    }
-                    else
-                    {
-                        UpdateWindow.HiddenNoRadioButton.IsChecked = false;
-                        UpdateWindow.HiddenYesRadioButton.IsChecked = true;
-                    }
-
-                    bool? result = UpdateWindow.ShowDialog();
-                    if (result == false)
-                        return;
-                    else
-                    {
-                        ph.TravelTimeInHours = UpdateWindow.TravelTimeInHoursIntegerUpDown.Value;
-                        if (UpdateWindow.HiddenNoRadioButton.IsChecked == true)
-                        {
-                            ph.Hidden = false;
-                        }
-                        if (UpdateWindow.HiddenYesRadioButton.IsChecked == true)
-                        {
-                            ph.Hidden = true;
-                        }
-
                         DBComunication.Route.Update(ph);
                         allRoute = DBComunication.Route.GetAll();
                         InsertInformationInRouteDataGrid();
@@ -1273,18 +925,10 @@ namespace Интерфейс
         // CRUD Для Locality
         private void CreateLocalityButton_Click(object sender, RoutedEventArgs e)
         {
-            LocalityCUWindow CreateWindow = new LocalityCUWindow();
+            LocalityModel NewObject = CRUD.Locality.Create();
 
-            bool? result = CreateWindow.ShowDialog();
-            if (result == false)
-                return;
-            else
+            if (NewObject != null)
             {
-                LocalityModel NewObject = new LocalityModel();
-
-                NewObject.Region = CreateWindow.RegionTextBox.Text;
-                NewObject.Name = CreateWindow.NameTextBox.Text;
-
                 DBComunication.Locality.Create(NewObject);
                 allLocality = DBComunication.Locality.GetAll();
                 InsertInformationInLocalityDataGrid();
@@ -1309,19 +953,10 @@ namespace Интерфейс
                 LocalityModel ph = allLocality.Where(i => i.ID == id).FirstOrDefault();
                 if (ph != null)
                 {
-                    LocalityCUWindow UpdateWindow = new LocalityCUWindow();
+                    ph = CRUD.Locality.Update(ph);
 
-                    UpdateWindow.RegionTextBox.Text = ph.Region;
-                    UpdateWindow.NameTextBox.Text = ph.Name;
-
-                    bool? result = UpdateWindow.ShowDialog();
-                    if (result == false)
-                        return;
-                    else
+                    if (ph != null)
                     {
-                        ph.Region = UpdateWindow.RegionTextBox.Text;
-                        ph.Name = UpdateWindow.NameTextBox.Text;
-
                         DBComunication.Locality.Update(ph);
                         allLocality = DBComunication.Locality.GetAll();
                         InsertInformationInLocalityDataGrid();
@@ -1366,27 +1001,10 @@ namespace Интерфейс
         // CRUD Для Driver
         private void CreateDriverButton_Click(object sender, RoutedEventArgs e)
         {
-            DriverCUWindow CreateWindow = new DriverCUWindow();
+            DriverModel NewObject = CRUD.Driver.Create();
 
-            bool? result = CreateWindow.ShowDialog();
-            if (result == false)
-                return;
-            else
+            if (NewObject != null)
             {
-                DriverModel NewObject = new DriverModel();
-
-                NewObject.FullName = CreateWindow.SurnameTextBox.Text + " " + CreateWindow.NameTextBox.Text + " " + CreateWindow.PatronymicTextBox.Text;
-                NewObject.Experience = Int32.Parse(CreateWindow.ExperienceTextBox.Text);
-                NewObject.Salary = Int32.Parse(CreateWindow.SalaryTextBox.Text);
-                if (CreateWindow.HiddenNoRadioButton.IsChecked == true)
-                {
-                    NewObject.Hidden = false;
-                }
-                if (CreateWindow.HiddenYesRadioButton.IsChecked == true)
-                {
-                    NewObject.Hidden = true;
-                }
-
                 DBComunication.Driver.Create(NewObject);
                 allDriver = DBComunication.Driver.GetAll();
                 InsertInformationInDriverDataGrid();
@@ -1411,57 +1029,10 @@ namespace Интерфейс
                 DriverModel ph = allDriver.Where(i => i.ID == id).FirstOrDefault();
                 if (ph != null)
                 {
-                    DriverCUWindow UpdateWindow = new DriverCUWindow();
+                    ph = CRUD.Driver.Update(ph);
 
-                    string[] FullName = ph.FullName.Split(' ');
-
-                    if (FullName.Length == 1)
+                    if (ph != null)
                     {
-                        UpdateWindow.SurnameTextBox.Text = FullName[0];
-                    }
-                    if (FullName.Length == 2)
-                    {
-                        UpdateWindow.SurnameTextBox.Text = FullName[0];
-                        UpdateWindow.NameTextBox.Text = FullName[1];
-                    }
-                    if (FullName.Length == 3)
-                    {
-                        UpdateWindow.SurnameTextBox.Text = FullName[0];
-                        UpdateWindow.NameTextBox.Text = FullName[1];
-                        UpdateWindow.PatronymicTextBox.Text = FullName[2];
-                    }
-
-                    UpdateWindow.ExperienceTextBox.Text = ph.Experience.ToString();
-                    UpdateWindow.SalaryTextBox.Text = ph.Salary.ToString();
-
-                    if (ph.Hidden == false)
-                    {
-                        UpdateWindow.HiddenNoRadioButton.IsChecked = true;
-                        UpdateWindow.HiddenYesRadioButton.IsChecked = false;
-                    }
-                    else
-                    {
-                        UpdateWindow.HiddenNoRadioButton.IsChecked = false;
-                        UpdateWindow.HiddenYesRadioButton.IsChecked = true;
-                    }
-
-                    bool? result = UpdateWindow.ShowDialog();
-                    if (result == false)
-                        return;
-                    else
-                    {
-                        ph.FullName = UpdateWindow.SurnameTextBox.Text + " " + UpdateWindow.NameTextBox.Text + " " + UpdateWindow.PatronymicTextBox.Text;
-                        ph.Experience = Int32.Parse(UpdateWindow.ExperienceTextBox.Text);
-                        ph.Salary = Int32.Parse(UpdateWindow.SalaryTextBox.Text);
-                        if (UpdateWindow.HiddenNoRadioButton.IsChecked == true)
-                        {
-                            ph.Hidden = false;
-                        }
-                        if (UpdateWindow.HiddenYesRadioButton.IsChecked == true)
-                        {
-                            ph.Hidden = true;
-                        }
-
                         DBComunication.Driver.Update(ph);
                         allDriver = DBComunication.Driver.GetAll();
                         InsertInformationInDriverDataGrid();
@@ -1521,26 +1092,10 @@ namespace Интерфейс
         // CRUD Для Cruise
         private void CreateCruiseButton_Click(object sender, RoutedEventArgs e)
         {
-            CruiseCUWindow CreateWindow = new CruiseCUWindow();
-            MakeSetupForCruiseCUWindow(CreateWindow);
+            CruiseModel NewObject = CRUD.Cruise.Create();
 
-            bool? result = CreateWindow.ShowDialog();
-            if (result == false)
-                return;
-            else
+            if (NewObject != null)
             {
-                CruiseModel NewObject = new CruiseModel();
-
-                NewObject.DayOfTheWeekCruiseID = (int)CreateWindow.DayOfTheWeekIDComboBox.SelectedValue;
-                NewObject.RouteIDOfTheCruise = (int)CreateWindow.RouteIDOfTheCruiseComboBox.SelectedValue;
-                NewObject.DriverIDOfTheCruise = (int)CreateWindow.DayOfTheWeekIDComboBox.SelectedValue;
-                NewObject.TransportIDOfTheCruise = (int)CreateWindow.TransportIDOfTheCruiseComboBox.SelectedValue;
-
-                int Hours = Int32.Parse(CreateWindow.StartTimeHoursTextBox.Text);
-                int Minutes = Int32.Parse(CreateWindow.StartTimeMinutesTextBox.Text);
-                int Seconds = Int32.Parse(CreateWindow.StartTimeSecondsTextBox.Text);
-                NewObject.StartTime = new TimeSpan(Hours, Minutes, Seconds);
-
                 DBComunication.Cruise.Create(NewObject);
                 allCruise = DBComunication.Cruise.GetAll();
                 InsertInformationInCruiseDataGrid();
@@ -1565,36 +1120,10 @@ namespace Интерфейс
                 CruiseModel ph = allCruise.Where(i => i.ID == id).FirstOrDefault();
                 if (ph != null)
                 {
-                    CruiseCUWindow UpdateWindow = new CruiseCUWindow();
-                    MakeSetupForCruiseCUWindow(UpdateWindow);
+                    ph = CRUD.Cruise.Update(ph);
 
-                    UpdateWindow.DayOfTheWeekIDComboBox.SelectedValue = ph.DayOfTheWeekCruiseID;
-                    UpdateWindow.RouteIDOfTheCruiseComboBox.SelectedValue = ph.RouteIDOfTheCruise;
-                    UpdateWindow.DriverIDOfTheCruiseComboBox.SelectedValue = ph.DriverIDOfTheCruise;
-                    UpdateWindow.TransportIDOfTheCruiseComboBox.SelectedValue = ph.TransportIDOfTheCruise;
-
-                    int Hours = ph.StartTime.Value.Hours;
-                    int Minutes = ph.StartTime.Value.Minutes;
-                    int Seconds = ph.StartTime.Value.Seconds;
-                    UpdateWindow.StartTimeHoursTextBox.Text = Hours.ToString();
-                    UpdateWindow.StartTimeMinutesTextBox.Text = Minutes.ToString();
-                    UpdateWindow.StartTimeSecondsTextBox.Text = Seconds.ToString();
-
-                    bool? result = UpdateWindow.ShowDialog();
-                    if (result == false)
-                        return;
-                    else
+                    if (ph != null)
                     {
-                        ph.DayOfTheWeekCruiseID = (int)UpdateWindow.DayOfTheWeekIDComboBox.SelectedValue;
-                        ph.RouteIDOfTheCruise = (int)UpdateWindow.RouteIDOfTheCruiseComboBox.SelectedValue;
-                        ph.DriverIDOfTheCruise = (int)UpdateWindow.DriverIDOfTheCruiseComboBox.SelectedValue;
-                        ph.TransportIDOfTheCruise = (int)UpdateWindow.TransportIDOfTheCruiseComboBox.SelectedValue;
-
-                        Hours = Int32.Parse(UpdateWindow.StartTimeHoursTextBox.Text);
-                        Minutes = Int32.Parse(UpdateWindow.StartTimeMinutesTextBox.Text);
-                        Seconds = Int32.Parse(UpdateWindow.StartTimeSecondsTextBox.Text);
-                        ph.StartTime = new TimeSpan(Hours, Minutes, Seconds);
-
                         DBComunication.Cruise.Update(ph);
                         allCruise = DBComunication.Cruise.GetAll();
                         InsertInformationInCruiseDataGrid();
@@ -1703,7 +1232,6 @@ namespace Интерфейс
             InsertInformationInChartsTab();
             BuildCharts();
         }
-
 
         private void InsertInformationInChartsTab()
         {
