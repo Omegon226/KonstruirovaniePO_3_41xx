@@ -117,7 +117,7 @@
             </Button>
         </Grid>
 
-        <Grid Grid.Row="1" x:Name="FindeRouteGrid" Visibility="Visible">
+        <Grid Grid.Row="1" x:Name="FindeRouteGrid" Visibility="Hidden">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.3*"/>
@@ -1030,7 +1030,7 @@
             </TabControl>
         </Grid>
 
-        <Grid Grid.Row="1" x:Name="CreateChartsGrid" Visibility="Hidden">
+        <Grid Grid.Row="1" x:Name="CreateChartsGrid" Visibility="Visible">
 
             <TabControl x:Name="TabControlForCharts" Background="#FF440D44">
 
@@ -1298,6 +1298,53 @@
                     </TabItem.Content>
                 </TabItem>
 
+                <TabItem x:Name="ChartAmountOfSoldTicketsFoAllCruisesTabItem">
+                    <TabItem.Header>
+                        <TextBlock Margin="3">Количество купленных билетов на рейс</TextBlock>
+                    </TabItem.Header>
+                    <TabItem.Content>
+                        <Grid>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.3*"/>
+
+                                <ColumnDefinition Width="1.5*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.1*"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Button x:Name="UpdateChartAmountOfSoldTicketsFoAllCruisesTabItemButton" Background="Purple" Margin="3" Click="UpdateChartAmountOfSoldTicketsFoAllCruisesTabItemButton_Click">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="20"/>
+                                    </Style>
+                                </Button.Resources>
+                                <Viewbox Margin="5">
+                                    <TextBlock Text="Обновить" Foreground="White" FontWeight="Bold"/>
+                                </Viewbox>
+                            </Button>
+
+                            <Grid Grid.Column="1" Grid.ColumnSpan="2">
+                                <Viewbox Margin="5">
+                                    <TextBlock Text="Количество проданных билетов на всех рейсах" Foreground="White"/>
+                                </Viewbox>
+                            </Grid>
+
+                            <lvc:CartesianChart Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Background="White" Margin="15" x:Name="ChartAmountOfSoldTicketsFoAllCruises" LegendLocation="Top" >
+                                <lvc:CartesianChart.AxisY>
+                                    <lvc:Axis x:Name="ChartAmountOfSoldTicketsFoAllXAx" Title="Count" LabelFormatter="{Binding Formatter}"></lvc:Axis>
+                                </lvc:CartesianChart.AxisY>
+                                <lvc:CartesianChart.AxisX>
+                                    <lvc:Axis x:Name="ChartAmountOfSoldTicketsFoAllYAx" Title="Route ID" Labels="{Binding Labels}"></lvc:Axis>
+                                </lvc:CartesianChart.AxisX>
+                            </lvc:CartesianChart>
+
+                        </Grid>
+                    </TabItem.Content>
+                </TabItem>
             </TabControl>
 
         </Grid>

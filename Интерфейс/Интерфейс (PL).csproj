@@ -149,6 +149,7 @@
       <DependentUpon>UserCUWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="CharsBuildersClasses\AmountOfCreatedCruisesOnTheRouteChart.cs" />
+    <Compile Include="CharsBuildersClasses\AmountOfSoldTicketsFoAllCruisesChart.cs" />
     <Compile Include="CharsBuildersClasses\AmountOfStoppingOnTheRouteChart.cs" />
     <Compile Include="CharsBuildersClasses\ChartsBuilder.cs" />
     <Compile Include="CharsBuildersClasses\DependenceOfSalaryOnLengthOfServiceChart.cs" />

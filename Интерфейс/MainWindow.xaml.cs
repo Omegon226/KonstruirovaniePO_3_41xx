@@ -1215,6 +1215,10 @@ namespace Интерфейс
         {
             UpdateAllChartsInfo();
         }
+        private void UpdateChartAmountOfSoldTicketsFoAllCruisesTabItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateAllChartsInfo();
+        }
 
         private void UpdateAllChartsInfo()
         {
@@ -1245,6 +1249,7 @@ namespace Интерфейс
             BuildChartUsersStatusCount();
             BuildChartAmountOfCreatedCruisesOnTheRoute();
             BuildChartAmountOfStoppingOnTheRoute();
+            BuildChartAmountOfSoldTicketsFoAllCruises();
         }
 
         private void UpdateDriverChartInfo()
@@ -1297,6 +1302,15 @@ namespace Интерфейс
             ChartAmountOfStoppingOnTheRoute.Series = Charts.AmountOfStoppingOnTheRoute.SeriesCollection;
             ChartAmountOfStoppingOnTheRouteXAx.LabelFormatter = Charts.AmountOfStoppingOnTheRoute.Formatter;
             ChartAmountOfStoppingOnTheRouteYAx.Labels = Charts.AmountOfStoppingOnTheRoute.Labels;
+        }
+
+        private void BuildChartAmountOfSoldTicketsFoAllCruises()
+        {
+            Charts.AmountOfSoldTicketsFoAllCruises.SetInformationForChart();
+
+            ChartAmountOfSoldTicketsFoAllCruises.Series = Charts.AmountOfSoldTicketsFoAllCruises.SeriesCollection;
+            ChartAmountOfSoldTicketsFoAllXAx.LabelFormatter = Charts.AmountOfSoldTicketsFoAllCruises.Formatter;
+            ChartAmountOfSoldTicketsFoAllYAx.Labels = Charts.AmountOfSoldTicketsFoAllCruises.Labels;
         }
 
         #endregion

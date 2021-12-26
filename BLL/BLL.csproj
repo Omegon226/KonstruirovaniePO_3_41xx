@@ -103,6 +103,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\FindeAditionalInformationForCruise.cs" />
     <Compile Include="Services\FindeAmountOfCruiseOnTheRoute.cs" />
+    <Compile Include="Services\FindeAmountOfSoldTicketsForLiveTimeOfAllCruises.cs" />
     <Compile Include="Services\FindeAmountOfStoppingOnTheRoute.cs" />
     <Compile Include="Services\FindeCruise.cs" />
     <Compile Include="Services\FindeDriver.cs" />

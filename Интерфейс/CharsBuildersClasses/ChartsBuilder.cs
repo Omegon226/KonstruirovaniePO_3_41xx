@@ -13,6 +13,7 @@ namespace Интерфейс.CharsBuildersClasses
         public UsersStatusCountChart UsersStatusCount;
         public AmountOfCreatedCruisesOnTheRouteChart AmountOfCreatedCruisesOnTheRoute;
         public AmountOfStoppingOnTheRouteChart AmountOfStoppingOnTheRoute;
+        public AmountOfSoldTicketsFoAllCruisesChart AmountOfSoldTicketsFoAllCruises;
 
         public ChartsBuilder()
         {
@@ -21,6 +22,7 @@ namespace Интерфейс.CharsBuildersClasses
             UsersStatusCount = new UsersStatusCountChart();
             AmountOfCreatedCruisesOnTheRoute = new AmountOfCreatedCruisesOnTheRouteChart();
             AmountOfStoppingOnTheRoute = new AmountOfStoppingOnTheRouteChart();
+            AmountOfSoldTicketsFoAllCruises = new AmountOfSoldTicketsFoAllCruisesChart();
         }
     }
 }
