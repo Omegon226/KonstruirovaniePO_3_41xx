@@ -58,9 +58,14 @@
 
         <Grid Grid.Row="4" Margin="25">
             <Button Background="#FFB46EB4" x:Name="AcceptButton" Click="AcceptButton_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="20"/>
+                    </Style>
+                </Button.Resources>
                 <Grid Margin="0">
                     <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Text="Войти" Foreground="White"/>
+                        <TextBlock Text="Войти" Foreground="White" FontWeight="Bold"/>
                     </Viewbox>
                 </Grid>
             </Button>

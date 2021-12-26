@@ -31,52 +31,87 @@
                 <TextBlock Grid.Column="0" Text="Автовокзал" Foreground="White" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Viewbox>
 
-            <Button x:Name="FindeRouteTabOpenButton" Grid.Column="1" Margin="10" Background="Purple" Click="FindeRouteTabOpenButton_Click">
+            <Button x:Name="FindeRouteTabOpenButton" Grid.Column="1" Margin="5" Background="Purple" Click="FindeRouteTabOpenButton_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="20"/>
+                    </Style>
+                </Button.Resources>
                 <Grid Margin="5,-5,5,0">
                     <Viewbox MinHeight="120" MaxHeight="200">
-                        <TextBlock Text="Найти поездку" Foreground="White"/>
+                        <TextBlock Text="Найти поездку" Foreground="White" FontWeight="Bold"/>
                     </Viewbox>
                 </Grid>
             </Button>
-            <Button x:Name="CRUDTabOpenButton" Grid.Column="2" Margin="10" Background="Purple" Click="CRUDTabOpenButton_Click">
+            <Button x:Name="CRUDTabOpenButton" Grid.Column="2" Margin="5" Background="Purple" Click="CRUDTabOpenButton_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="20"/>
+                    </Style>
+                </Button.Resources>
                 <Grid Margin="5,0,5,0">
                     <Viewbox MinHeight="120" MaxHeight="200">
-                        <TextBlock Text="Таблицы БД" Foreground="White"/>
+                        <TextBlock Text="Таблицы БД" Foreground="White" FontWeight="Bold"/>
                     </Viewbox>
                 </Grid>
             </Button>
-            <Button x:Name="CreateReportsTabOpenButton" Grid.Column="3" Margin="10" Background="Purple" Click="CreateReportsTabOpenButton_Click">
+            <Button x:Name="CreateReportsTabOpenButton" Grid.Column="3" Margin="5" Background="Purple" Click="CreateReportsTabOpenButton_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="20"/>
+                    </Style>
+                </Button.Resources>
                 <Grid Margin="5,0,5,0">
                     <Viewbox MinHeight="120" MaxHeight="200">
-                        <TextBlock Text="Отчёты" Foreground="White"/>
+                        <TextBlock Text="Отчёты" Foreground="White" FontWeight="Bold"/>
                     </Viewbox>
                 </Grid>
             </Button>
-            <Button x:Name="CreateChartsTabOpenButton" Grid.Column="4" Margin="10" Background="Purple" Click="CreateChartsTabOpenButton_Click">
+            <Button x:Name="CreateChartsTabOpenButton" Grid.Column="4" Margin="5" Background="Purple" Click="CreateChartsTabOpenButton_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="20"/>
+                    </Style>
+                </Button.Resources>
                 <Grid Margin="5,0,5,0">
                     <Viewbox MinHeight="120" MaxHeight="200">
-                        <TextBlock Text="Графики" Foreground="White"/>
+                        <TextBlock Text="Графики" Foreground="White" FontWeight="Bold"/>
                     </Viewbox>
                 </Grid>
             </Button>
-            <Button x:Name="AuthorisetionButton" Grid.Column="5" Margin="5,10,5,10" Background="#FFB46EB4" Visibility="Visible" Click="AuthorisetionButton_Click">
+            <Button x:Name="AuthorisetionButton" Grid.Column="5" Margin="5" Background="#FFB46EB4" Visibility="Visible" Click="AuthorisetionButton_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="20"/>
+                    </Style>
+                </Button.Resources>
                 <Grid Margin="0,0,0,0">
                     <Viewbox MinHeight="100" MaxHeight="200" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Margin="5" Text="Войти" Foreground="White"/>
+                        <TextBlock Margin="5" Text="Войти" Foreground="White" FontWeight="Bold"/>
                     </Viewbox>
                 </Grid>
             </Button>
-            <Button x:Name="RegistrationButton" Grid.Column="6" Margin="5,10,5,10" Background="#FFB46EB4" Visibility="Visible" Click="RegistrationButtonButton_Click">
+            <Button x:Name="RegistrationButton" Grid.Column="6" Margin="5" Background="#FFB46EB4" Visibility="Visible" Click="RegistrationButtonButton_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="20"/>
+                    </Style>
+                </Button.Resources>
                 <Grid Margin="0,0,0,0">
                     <Viewbox MinHeight="100" MaxHeight="200" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Margin="5" Text="Регистрация" Foreground="White"/>
+                        <TextBlock Margin="5" Text="Регистрация" Foreground="White" FontWeight="Bold"/>
                     </Viewbox>
                 </Grid>
             </Button>
-            <Button x:Name="DeauthorisetionButton" Grid.Column="5" Grid.ColumnSpan="2" Margin="15" Background="#FFB46EB4" Visibility="Hidden" Click="DeauthorisetionButton_Click">
-                <Grid Margin="0,0,0,0">
+            <Button x:Name="DeauthorisetionButton" Grid.Column="5" Grid.ColumnSpan="2" Margin="5" Background="#FFB46EB4" Visibility="Hidden" Click="DeauthorisetionButton_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="20"/>
+                    </Style>
+                </Button.Resources>
+                <Grid Margin="5">
                     <Viewbox MinHeight="100" MaxHeight="200" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock Margin="5" Text="Выйти" Foreground="White"/>
+                        <TextBlock Margin="5" Text="Выйти" Foreground="White" FontWeight="Bold"/>
                     </Viewbox>
                 </Grid>
             </Button>
@@ -192,8 +227,13 @@
                     </Grid.RowDefinitions>
 
                     <Button x:Name="FindeRouteButton" Grid.Column="1" Grid.Row="1" Background="#FFB46EB4" Click="FindeRouteButton_Click">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="20"/>
+                            </Style>
+                        </Button.Resources>
                         <Viewbox>
-                            <TextBlock Margin="7.5" Text="Найти маршрут" Foreground="White"/>
+                            <TextBlock Margin="7.5" Text="Найти маршрут" Foreground="White" FontWeight="Bold"/>
                         </Viewbox>
                     </Button>
                 </Grid>
@@ -223,18 +263,33 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Button x:Name="CreateUserButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="CreateUserButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Create" Foreground="White"/>
+                                        <TextBlock Text="Create" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                                 <Button x:Name="UpdateUserButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple" Click="UpdateUserButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Update" Foreground="White"/>
+                                        <TextBlock Text="Update" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                                 <Button x:Name="DeleteUserButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple" Click="DeleteUserButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Delete" Foreground="White"/>
+                                        <TextBlock Text="Delete" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                             </Grid>
@@ -270,18 +325,33 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Button x:Name="CreateTicketButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="CreateTicketButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Create" Foreground="White"/>
+                                        <TextBlock Text="Create" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                                 <Button x:Name="UpdateTicketButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple" Click="UpdateTicketButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Update" Foreground="White"/>
+                                        <TextBlock Text="Update" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                                 <Button x:Name="DeleteTicketButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple" Click="DeleteTicketButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Delete" Foreground="White"/>
+                                        <TextBlock Text="Delete" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                             </Grid>
@@ -320,18 +390,33 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Button x:Name="CreateTransportButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="CreateTransportButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Create" Foreground="White"/>
+                                        <TextBlock Text="Create" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                                 <Button x:Name="UpdateTransportButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple" Click="UpdateTransportButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Update" Foreground="White"/>
+                                        <TextBlock Text="Update" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                                 <Button x:Name="DeleteTransportButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple" Click="DeleteTransportButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Delete" Foreground="White"/>
+                                        <TextBlock Text="Delete" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                             </Grid>
@@ -367,18 +452,33 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Button x:Name="CreateStopSequencesButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="CreateStopSequencesButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Create" Foreground="White"/>
+                                        <TextBlock Text="Create" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                                 <Button x:Name="UpdateStopSequencesButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple" Click="UpdateStopSequencesButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Update" Foreground="White"/>
+                                        <TextBlock Text="Update" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                                 <Button x:Name="DeleteStopSequencesButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple" Click="DeleteStopSequencesButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Delete" Foreground="White"/>
+                                        <TextBlock Text="Delete" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                             </Grid>
@@ -415,18 +515,33 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Button x:Name="CreateStoppingOnTheRouteButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="CreateStoppingOnTheRouteButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Create" Foreground="White"/>
+                                        <TextBlock Text="Create" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                                 <Button x:Name="UpdateStoppingOnTheRouteButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple" Click="UpdateStoppingOnTheRouteButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Update" Foreground="White"/>
+                                        <TextBlock Text="Update" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                                 <Button x:Name="DeleteStoppingOnTheRouteButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple" Click="DeleteStoppingOnTheRouteButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Delete" Foreground="White"/>
+                                        <TextBlock Text="Delete" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                             </Grid>
@@ -459,18 +574,33 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Button x:Name="CreateRouteButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="CreateRouteButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Create" Foreground="White"/>
+                                        <TextBlock Text="Create" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                                 <Button x:Name="UpdateRouteButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple" Click="UpdateRouteButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Update" Foreground="White"/>
+                                        <TextBlock Text="Update" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                                 <Button x:Name="DeleteRouteButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple" Click="DeleteRouteButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Delete" Foreground="White"/>
+                                        <TextBlock Text="Delete" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                             </Grid>
@@ -504,18 +634,33 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Button x:Name="CreateLocalityButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="CreateLocalityButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Create" Foreground="White"/>
+                                        <TextBlock Text="Create" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                                 <Button x:Name="UpdateLocalityButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple" Click="UpdateLocalityButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Update" Foreground="White"/>
+                                        <TextBlock Text="Update" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                                 <Button x:Name="DeleteLocalityButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple" Click="DeleteLocalityButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Delete" Foreground="White"/>
+                                        <TextBlock Text="Delete" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                             </Grid>
@@ -549,18 +694,33 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Button x:Name="CreateDriverButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="CreateDriverButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Create" Foreground="White"/>
+                                        <TextBlock Text="Create" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                                 <Button x:Name="UpdateDriverButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple" Click="UpdateDriverButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Update" Foreground="White"/>
+                                        <TextBlock Text="Update" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                                 <Button x:Name="DeleteDriverButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple" Click="DeleteDriverButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Delete" Foreground="White"/>
+                                        <TextBlock Text="Delete" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                             </Grid>
@@ -600,18 +760,33 @@
                                 </Viewbox>
 
                                 <Button x:Name="CreateDayOfTheWeekButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="CreateDayOfTheWeekButton_Click" Visibility="Hidden">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Create" Foreground="White"/>
+                                        <TextBlock Text="Create" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                                 <Button x:Name="UpdateDayOfTheWeekButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple" Click="UpdateDayOfTheWeekButton_Click" Visibility="Hidden">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Update" Foreground="White"/>
+                                        <TextBlock Text="Update" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                                 <Button x:Name="DeleteDayOfTheWeekButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple" Click="DeleteDayOfTheWeekButton_Click" Visibility="Hidden">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Delete" Foreground="White"/>
+                                        <TextBlock Text="Delete" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                             </Grid>
@@ -644,18 +819,33 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Button x:Name="CreateCruiseButton" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="CreateCruiseButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Create" Foreground="White"/>
+                                        <TextBlock Text="Create" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                                 <Button x:Name="UpdateCruiseButton" Grid.Column="1" Margin="30,7,30,7" Background="Purple" Click="UpdateCruiseButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Update" Foreground="White"/>
+                                        <TextBlock Text="Update" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                                 <Button x:Name="DeleteCruiseButton" Grid.Column="2" Margin="30,7,30,7" Background="Purple" Click="DeleteCruiseButton_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox>
-                                        <TextBlock Text="Delete" Foreground="White"/>
+                                        <TextBlock Text="Delete" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
                             </Grid>
@@ -699,8 +889,13 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Button x:Name="Report1Button" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="Report1Button_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox Margin="5,0,5,0">
-                                        <TextBlock Text="Найти маршрут по конечной остановке" Foreground="White"/>
+                                        <TextBlock Text="Найти маршрут по конечной остановке" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
 
@@ -739,8 +934,13 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Button x:Name="Report2Button" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="Report2Button_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox Margin="5,0,5,0">
-                                        <TextBlock Text="Поиск рейса по времени в пути маршрута" Foreground="White"/>
+                                        <TextBlock Text="Поиск рейса по времени в пути маршрута" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
 
@@ -779,8 +979,13 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Button x:Name="Report3Button" Grid.Column="0" Margin="30,7,30,7" Background="Purple" Click="Report3Button_Click">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="20"/>
+                                        </Style>
+                                    </Button.Resources>
                                     <Viewbox Margin="5,0,5,0">
-                                        <TextBlock Text="Поиск рейса по начальным и конеынм остановкам" Foreground="White"/>
+                                        <TextBlock Text="Поиск рейса по начальным и конеынм остановкам" Foreground="White" FontWeight="Bold"/>
                                     </Viewbox>
                                 </Button>
 
@@ -848,8 +1053,13 @@
                             </Grid.RowDefinitions>
 
                             <Button x:Name="UpdateChartDependenceOfSalaryOnLengthOfServiceTabItemButton" Background="Purple" Margin="3" Click="UpdateChartDependenceOfSalaryOnLengthOfServiceTabItemButton_Click">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="20"/>
+                                    </Style>
+                                </Button.Resources>
                                 <Viewbox Margin="5">
-                                    <TextBlock Text="Обновить" Foreground="White"/>
+                                    <TextBlock Text="Обновить" Foreground="White" FontWeight="Bold"/>
                                 </Viewbox>
                             </Button>
 
@@ -898,8 +1108,13 @@
                             </Grid.RowDefinitions>
 
                             <Button x:Name="UpdateChartDriversSalaryTabItemButton" Background="Purple" Margin="3" Click="UpdateChartDriversSalaryTabItemButton_Click">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="20"/>
+                                    </Style>
+                                </Button.Resources>
                                 <Viewbox Margin="5">
-                                    <TextBlock Text="Обновить" Foreground="White"/>
+                                    <TextBlock Text="Обновить" Foreground="White" FontWeight="Bold"/>
                                 </Viewbox>
                             </Button>
 
@@ -948,8 +1163,13 @@
                             </Grid.RowDefinitions>
 
                             <Button x:Name="UpdateChartUsersStatusesCountTabItemButton" Background="Purple" Margin="3" Click="UpdateChartUsersStatusesCountTabItemButton_Click">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="20"/>
+                                    </Style>
+                                </Button.Resources>
                                 <Viewbox Margin="5">
-                                    <TextBlock Text="Обновить" Foreground="White"/>
+                                    <TextBlock Text="Обновить" Foreground="White" FontWeight="Bold"/>
                                 </Viewbox>
                             </Button>
 
@@ -1001,8 +1221,13 @@
                             </Grid.RowDefinitions>
 
                             <Button x:Name="UpdateChartAmountOfCreatedCruisesOnTheRouteTabItemButton" Background="Purple" Margin="3" Click="UpdateChartAmountOfCreatedCruisesOnTheRouteTabItemButton_Click">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="20"/>
+                                    </Style>
+                                </Button.Resources>
                                 <Viewbox Margin="5">
-                                    <TextBlock Text="Обновить" Foreground="White"/>
+                                    <TextBlock Text="Обновить" Foreground="White" FontWeight="Bold"/>
                                 </Viewbox>
                             </Button>
 
@@ -1044,8 +1269,13 @@
                             </Grid.RowDefinitions>
 
                             <Button x:Name="UpdateChartAmountOfStoppingOnTheRouteTabItemButton" Background="Purple" Margin="3" Click="UpdateChartAmountOfStoppingOnTheRouteTabItemButton_Click">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="20"/>
+                                    </Style>
+                                </Button.Resources>
                                 <Viewbox Margin="5">
-                                    <TextBlock Text="Обновить" Foreground="White"/>
+                                    <TextBlock Text="Обновить" Foreground="White" FontWeight="Bold"/>
                                 </Viewbox>
                             </Button>
 

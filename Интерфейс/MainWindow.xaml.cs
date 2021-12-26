@@ -252,6 +252,8 @@ namespace Интерфейс
 
         private void CRUDTabOpenButton_Click(object sender, RoutedEventArgs e)
         {
+            MessageBox.Show("При изменении информации в Таблицах вы несёте за это полную ответственность!");
+
             FindeRouteGrid.Visibility = Visibility.Hidden;
             CRUDGrid.Visibility = Visibility.Visible;
             CreateReportsGrid.Visibility = Visibility.Hidden;
@@ -1166,21 +1168,6 @@ namespace Интерфейс
                 allCruise = DBComunication.Cruise.GetAll();
                 InsertInformationInCruiseDataGrid();
             }
-        }
-        private void MakeSetupForCruiseCUWindow(CruiseCUWindow Window)
-        {
-            Window.DayOfTheWeekIDComboBox.ItemsSource = allDayOfTheWeek;
-            Window.DayOfTheWeekIDComboBox.DisplayMemberPath = "DayOfTheWeekName";
-            Window.DayOfTheWeekIDComboBox.SelectedValuePath = "ID";
-            Window.RouteIDOfTheCruiseComboBox.ItemsSource = allRoute;
-            Window.RouteIDOfTheCruiseComboBox.DisplayMemberPath = "ID";
-            Window.RouteIDOfTheCruiseComboBox.SelectedValuePath = "ID";
-            Window.DriverIDOfTheCruiseComboBox.ItemsSource = allDriver;
-            Window.DriverIDOfTheCruiseComboBox.DisplayMemberPath = "FullName";
-            Window.DriverIDOfTheCruiseComboBox.SelectedValuePath = "ID";
-            Window.TransportIDOfTheCruiseComboBox.ItemsSource = allTransport;
-            Window.TransportIDOfTheCruiseComboBox.DisplayMemberPath = "RegistrationNumber";
-            Window.TransportIDOfTheCruiseComboBox.SelectedValuePath = "ID";
         }
 
         #endregion

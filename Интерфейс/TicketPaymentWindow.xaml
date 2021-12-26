@@ -17,9 +17,14 @@
         </Viewbox>
 
         <Button x:Name="AcceptButton" Grid.Row="1" Margin="5" Background="#FFB46EB4" Click="AcceptButton_Click">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="20"/>
+                </Style>
+            </Button.Resources>
             <Grid Margin="0,0,0,0">
                 <Viewbox Height="80" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock Margin="5" Text="Оплатить" Foreground="White"/>
+                    <TextBlock Margin="5" Text="Оплатить" Foreground="White" FontWeight="Bold"/>
                 </Viewbox>
             </Grid>
         </Button>

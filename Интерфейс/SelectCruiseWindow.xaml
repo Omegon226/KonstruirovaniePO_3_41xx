@@ -36,7 +36,7 @@
                             <StackPanel Margin="2" Grid.Row="0" VerticalAlignment="Center">
                                 <TextBlock Text="Время отбытия:" FontSize="17" TextAlignment="Center"/>
                                 <Viewbox Height="35">
-                                    <TextBlock Text="{Binding Path=CruiseStartDate}" TextAlignment="Center"/>
+                                    <TextBlock Text="{Binding Path=CruiseStartDate}" TextAlignment="Center" FontWeight="Bold"/>
                                 </Viewbox>
                             </StackPanel>
                             <Viewbox Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="15,4,0,4">
@@ -54,7 +54,7 @@
                             <StackPanel Margin="5" Grid.Row="0" VerticalAlignment="Center">
                                 <TextBlock Text="Время поездки:" FontSize="17" TextAlignment="Center"/>
                                 <Viewbox Height="35">
-                                    <TextBlock Text="{Binding Path=CruiseFullTimeInCruise}" TextAlignment="Center"/>
+                                    <TextBlock Text="{Binding Path=CruiseFullTimeInCruise}" TextAlignment="Center" FontWeight="Bold"/>
                                 </Viewbox>
                             </StackPanel>
                             <Viewbox Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5,4,0,4">
@@ -71,7 +71,7 @@
 
                             <Grid Grid.Row="0" VerticalAlignment="Center">
                                 <Viewbox Margin="5">
-                                    <TextBlock Text="{Binding Path=CruiseFullPrice}" TextAlignment="Center"/>
+                                    <TextBlock Text="{Binding Path=CruiseFullPrice}" TextAlignment="Center" FontWeight="Bold"/>
                                 </Viewbox>
 
                             </Grid>
@@ -80,7 +80,7 @@
                                     <TextBlock Text="Кол-во свободных мест" FontSize="16" TextAlignment="Center"/>
                                 </Viewbox>
                                 <Viewbox Height="35" Margin="0,0,0,10">
-                                    <TextBlock Text="{Binding Path=CruiseAmountOfFreeSeats}" TextAlignment="Center"/>
+                                    <TextBlock Text="{Binding Path=CruiseAmountOfFreeSeats}"  TextAlignment="Center" FontWeight="Bold"/>
                                 </Viewbox>
                             </StackPanel>
 
@@ -101,11 +101,16 @@
             </Grid.RowDefinitions>
 
             <Button x:Name="ReturnBackOnMainWindowFromSelectCruiseWindowButton" Grid.Row="1" MaxHeight="300" Margin="18" Background="Purple" Click="ReturnBackOnMainWindowFromSelectCruiseWindowButton_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="20"/>
+                    </Style>
+                </Button.Resources>
                 <Grid Margin="0,-5,0,0">
                     <Viewbox>
                         <StackPanel Margin="5">
-                            <TextBlock Text="Вернуться на" Foreground="White"/>
-                            <TextBlock Text="Главное окно" Foreground="White"/>
+                            <TextBlock Text="Вернуться на" Foreground="White" FontWeight="Bold"/>
+                            <TextBlock Text="Главное окно" Foreground="White" FontWeight="Bold"/>
                         </StackPanel>
                     </Viewbox>
                 </Grid>
@@ -132,9 +137,14 @@
                 </Viewbox>
 
                 <Button x:Name="BuyTicketsButton" Grid.Column="1" Margin="5,25,15,25" MaxHeight="200" Background="Purple" Click="BuyTicketsButton_Click">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="20"/>
+                        </Style>
+                    </Button.Resources>
                     <Grid>
                         <Viewbox Margin="5">
-                            <TextBlock Text="Купить билет" Foreground="White"/>
+                            <TextBlock Text="Купить билет" Foreground="White" FontWeight="Bold"/>
                         </Viewbox>
                     </Grid>
                 </Button>

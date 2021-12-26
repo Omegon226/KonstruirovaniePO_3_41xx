@@ -58,8 +58,13 @@
         </Grid>
         <Grid Grid.Row="2" Grid.Column="2">
             <Button x:Name="AcceptButton" Width="200" Height="70" FontSize="25" Background="#FFB46EB4" Click="AcceptButton_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="20"/>
+                    </Style>
+                </Button.Resources>
                 <Viewbox Margin="0,-5,0,0">
-                    <TextBlock Margin="5" Text="Заказать билет" Foreground="White"/>
+                    <TextBlock Margin="5" Text="Заказать билет" Foreground="White" FontWeight="Bold"/>
                 </Viewbox>
             </Button>
         </Grid>
