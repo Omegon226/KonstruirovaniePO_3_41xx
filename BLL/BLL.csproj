@@ -103,6 +103,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\FindeAditionalInformationForCruise.cs" />
     <Compile Include="Services\FindeAmountOfCruiseOnTheRoute.cs" />
+    <Compile Include="Services\FindeAmountOfPurchesedTicketsForUsers.cs" />
     <Compile Include="Services\FindeAmountOfSoldTicketsForLiveTimeOfAllCruises.cs" />
     <Compile Include="Services\FindeAmountOfStoppingOnTheRoute.cs" />
     <Compile Include="Services\FindeCruise.cs" />
@@ -110,7 +111,10 @@
     <Compile Include="Services\FindeOrderedSeatsForCruise.cs" />
     <Compile Include="Services\FindeRoute.cs" />
     <Compile Include="Services\FindeRouteForCruises.cs" />
+    <Compile Include="Services\FindeStoppingsPerLocality.cs" />
     <Compile Include="Services\FindeUsersStatusesCount.cs" />
+    <Compile Include="Services\FindeWorckLoadOfDrivers.cs" />
+    <Compile Include="Services\FindeWorckLoadOfTransports.cs" />
     <Compile Include="Services\PDFCreator.cs" />
   </ItemGroup>
   <ItemGroup />

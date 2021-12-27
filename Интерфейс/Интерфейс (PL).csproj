@@ -155,6 +155,8 @@
     <Compile Include="CharsBuildersClasses\DependenceOfSalaryOnLengthOfServiceChart.cs" />
     <Compile Include="CharsBuildersClasses\DriversSalaryChart.cs" />
     <Compile Include="CharsBuildersClasses\UsersStatusCountChart.cs" />
+    <Compile Include="CharsBuildersClasses\WorckLoadOfDriversChart.cs" />
+    <Compile Include="CharsBuildersClasses\WorckLoadOfTransportsChart.cs" />
     <Compile Include="CRUDClasses\CRUDLogicForCruise.cs" />
     <Compile Include="CRUDClasses\CRUDLogicForDriver.cs" />
     <Compile Include="CRUDClasses\CRUDLogicForLocality.cs" />

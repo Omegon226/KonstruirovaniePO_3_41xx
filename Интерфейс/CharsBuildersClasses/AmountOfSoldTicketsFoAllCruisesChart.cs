@@ -36,7 +36,7 @@ namespace Интерфейс.CharsBuildersClasses
             for (int i = 0; i < ResultOfSP.Count; ++i)
             {
                 CountOfStatuses.Add(ResultOfSP[i].AmountOfSaldTickets);
-                Labels[i] = ResultOfSP[i].CruiseID.ToString();
+                Labels[i] = "ID Рейса = " + ResultOfSP[i].CruiseID.ToString();
             }
 
             SeriesCollection = new SeriesCollection

@@ -50,7 +50,7 @@ namespace Интерфейс
         public MainWindow()
         {
             CRUD = new CRUDOperations(DBComunication);
-            Charts = new ChartsBuilder();
+            Charts = new ChartsBuilder(DBComunication);
 
             InitializeComponent();
             LoadAllInformationFromDataBase();
@@ -1188,6 +1188,16 @@ namespace Интерфейс
         {
             Report3DataGrid.ItemsSource = FindeRoute.StoredProcedureExecute1((int)Report3StartingLocationComboBox.SelectedValue, (int)Report3LastLocationComboBox.SelectedValue);
         }
+        private void Report4Button_Click(object sender, RoutedEventArgs e)
+        {
+            FindeAmountOfPurchesedTicketsForUsers report = new FindeAmountOfPurchesedTicketsForUsers(DBComunication);
+            Report4DataGrid.ItemsSource = report.FindeResult();
+        }
+        private void Report5Button_Click(object sender, RoutedEventArgs e)
+        {
+            FindeStoppingsPerLocality report = new FindeStoppingsPerLocality(DBComunication);
+            Report5DataGrid.ItemsSource = report.FindeResult();
+        }
 
         #endregion
 
@@ -1216,6 +1226,14 @@ namespace Интерфейс
             UpdateAllChartsInfo();
         }
         private void UpdateChartAmountOfSoldTicketsFoAllCruisesTabItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateAllChartsInfo();
+        }
+        private void UpdateChartWorckLoadOfDriversTabItemButton_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateAllChartsInfo();
+        }
+        private void UpdateChartWorckLoadOfTransportsTabItemButton_Click(object sender, RoutedEventArgs e)
         {
             UpdateAllChartsInfo();
         }
@@ -1250,6 +1268,8 @@ namespace Интерфейс
             BuildChartAmountOfCreatedCruisesOnTheRoute();
             BuildChartAmountOfStoppingOnTheRoute();
             BuildChartAmountOfSoldTicketsFoAllCruises();
+            BuildChartWorckLoadOfDrivers();
+            BuildChartWorckLoadOfTransports();
         }
 
         private void UpdateDriverChartInfo()
@@ -1309,8 +1329,26 @@ namespace Интерфейс
             Charts.AmountOfSoldTicketsFoAllCruises.SetInformationForChart();
 
             ChartAmountOfSoldTicketsFoAllCruises.Series = Charts.AmountOfSoldTicketsFoAllCruises.SeriesCollection;
-            ChartAmountOfSoldTicketsFoAllXAx.LabelFormatter = Charts.AmountOfSoldTicketsFoAllCruises.Formatter;
-            ChartAmountOfSoldTicketsFoAllYAx.Labels = Charts.AmountOfSoldTicketsFoAllCruises.Labels;
+            ChartAmountOfSoldTicketsFoAllCruisesXAx.LabelFormatter = Charts.AmountOfSoldTicketsFoAllCruises.Formatter;
+            ChartAmountOfSoldTicketsFoAllCruisesYAx.Labels = Charts.AmountOfSoldTicketsFoAllCruises.Labels;
+        }
+
+        private void BuildChartWorckLoadOfDrivers()
+        {
+            Charts.WorckLoadOfDrivers.SetInformationForChart();
+
+            ChartWorckLoadOfDrivers.Series = Charts.WorckLoadOfDrivers.SeriesCollection;
+            ChartWorckLoadOfDriversXAx.LabelFormatter = Charts.WorckLoadOfDrivers.Formatter;
+            ChartWorckLoadOfDriversYAx.Labels = Charts.WorckLoadOfDrivers.Labels;
+        }
+
+        private void BuildChartWorckLoadOfTransports()
+        {
+            Charts.WorckLoadOfTransports.SetInformationForChart();
+
+            ChartWorckLoadOfTransports.Series = Charts.WorckLoadOfTransports.SeriesCollection;
+            ChartWorckLoadOfTransportsXAx.LabelFormatter = Charts.WorckLoadOfTransports.Formatter;
+            ChartWorckLoadOfTransportsYAx.Labels = Charts.WorckLoadOfTransports.Labels;
         }
 
         #endregion

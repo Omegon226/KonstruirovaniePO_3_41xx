@@ -15,7 +15,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <ListBox x:Name="CruisesList" SelectionChanged="CruisesList_SelectionChanged" Grid.Column="1" Background="#FFB46EB4">
+        <ListBox x:Name="CruisesList" SelectionChanged="CruisesList_SelectionChanged" Grid.Column="1" Background="Purple">
 
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -100,7 +100,7 @@
                 <RowDefinition Height="0.2*"/>
             </Grid.RowDefinitions>
 
-            <Button x:Name="ReturnBackOnMainWindowFromSelectCruiseWindowButton" Grid.Row="1" MaxHeight="300" Margin="18" Background="Purple" Click="ReturnBackOnMainWindowFromSelectCruiseWindowButton_Click">
+            <Button x:Name="ReturnBackOnMainWindowFromSelectCruiseWindowButton" Grid.Row="1" MaxHeight="300" Margin="18" Background="#FFB46EB4" Click="ReturnBackOnMainWindowFromSelectCruiseWindowButton_Click">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="20"/>
@@ -136,7 +136,7 @@
                     <xctk:IntegerUpDown x:Name="AmountOfTeacketsToBuyIntegerUpDown" Value="1"/>
                 </Viewbox>
 
-                <Button x:Name="BuyTicketsButton" Grid.Column="1" Margin="5,25,15,25" MaxHeight="200" Background="Purple" Click="BuyTicketsButton_Click">
+                <Button x:Name="BuyTicketsButton" Grid.Column="1" Margin="5,25,15,25" MaxHeight="200" Background="#FFB46EB4" Click="BuyTicketsButton_Click">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="20"/>
