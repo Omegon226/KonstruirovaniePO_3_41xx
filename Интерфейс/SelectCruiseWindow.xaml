@@ -144,7 +144,7 @@
                     </Button.Resources>
                     <Grid>
                         <Viewbox Margin="5">
-                            <TextBlock Text="Купить билет" Foreground="White" FontWeight="Bold"/>
+                            <TextBlock Text="Купить билет/ы" Foreground="White" FontWeight="Bold"/>
                         </Viewbox>
                     </Grid>
                 </Button>

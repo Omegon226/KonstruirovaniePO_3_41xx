@@ -190,12 +190,25 @@ namespace Интерфейс
                 AuthorizationSecuence();
             }
 
+            if (AuthorisedUser == null)
+            {
+                DialogResult = false;
+                this.Close();
+                return;
+            }
+
             for (int i = 0; i < AllTicketsToBuy.Count; ++i)
             {
                 AllTicketsToBuy[i].UserID = AuthorisedUser.ID;
             }
 
-            PaymentSecuence(FullPriceOfTickets);
+            bool SucesessOfPayment = PaymentSecuence(FullPriceOfTickets);
+            if (SucesessOfPayment == false)
+            {
+                DialogResult = false;
+                this.Close();
+                return;
+            }
 
             for (int i = 0; i < AllTicketsToBuy.Count; ++i)
             {
@@ -207,8 +220,6 @@ namespace Интерфейс
                 DBComunication.Ticket.Create(AllTicketsToBuy[i]);
                 allTicket = DBComunication.Ticket.GetAll();
             }
-
-            MessageBox.Show("Вы успешно оплатили билеты!");
 
             DialogResult = true;
             this.Close();
@@ -265,7 +276,7 @@ namespace Интерфейс
                 FindeSameUserAndUpdateStatus(AuthorizedUser);
             }
         }
-        private void PaymentSecuence(double FullPriceOfTickets)
+        private bool PaymentSecuence(double FullPriceOfTickets)
         {
             string TextOfPayment = "К оплате: " + FullPriceOfTickets.ToString() + " Руб.";
 
@@ -275,8 +286,15 @@ namespace Интерфейс
             if (result == false)
             {
                 MessageBox.Show("Вы отказались от покупки билетов");
-                return;
+                return(false);
             }
+            if (result == true)
+            {
+                MessageBox.Show("Вы успешно оплатили билеты!");
+                return (true);
+            }
+            MessageBox.Show("Что то пошло не так");
+            return (false);
         }
 
         private void FindeSameUserAndUpdateStatus(UserModel UserToFinde)
