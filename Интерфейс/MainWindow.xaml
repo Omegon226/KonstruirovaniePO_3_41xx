@@ -240,13 +240,13 @@
             </Grid>
         </Grid>
 
-        <Grid Grid.Row="1" x:Name="CRUDGrid" Visibility="Hidden">
+        <Grid Grid.Row="1" x:Name="CRUDGrid" Visibility="Visible">
 
             <TabControl x:Name="TabControlForCRUD" Background="#FF440D44">
 
                 <TabItem x:Name="UserTab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Пользователи (Таблица User)</TextBlock>
+                        <TextBlock Margin="3" FontSize="18">Пользователи (Таблица User)</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -308,7 +308,7 @@
 
                 <TabItem x:Name="TicketTab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Билеты (Таблица Ticket)</TextBlock>
+                        <TextBlock Margin="3" FontSize="18">Билеты (Таблица Ticket)</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -373,7 +373,7 @@
 
                 <TabItem x:Name="TransportTab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Транспорт (Таблица Transport)</TextBlock>
+                        <TextBlock Margin="3" FontSize="18">Транспорт (Таблица Transport)</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -435,7 +435,7 @@
 
                 <TabItem x:Name="StopSequencesTab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Остановки в Маршруте (Таблица StopSequences)</TextBlock>
+                        <TextBlock Margin="3" FontSize="18">Остановки в Маршруте (Таблица StopSequences)</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -498,7 +498,7 @@
 
                 <TabItem x:Name="StoppingOnTheRouteTab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Остановки (Таблица StoppingOnTheRoute)</TextBlock>
+                        <TextBlock Margin="3" FontSize="18">Остановки (Таблица StoppingOnTheRoute)</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -557,7 +557,7 @@
 
                 <TabItem x:Name="RouteTab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Маршруты (Таблица Route)</TextBlock>
+                        <TextBlock Margin="3" FontSize="18">Маршруты (Таблица Route)</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -617,7 +617,7 @@
 
                 <TabItem x:Name="LocalityTab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Населйнные пункты (Таблица Locality)</TextBlock>
+                        <TextBlock Margin="3" FontSize="18">Населйнные пункты (Таблица Locality)</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -677,7 +677,7 @@
 
                 <TabItem x:Name="DriverTab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Водители (Таблица Driver)</TextBlock>
+                        <TextBlock Margin="3" FontSize="18">Водители (Таблица Driver)</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -739,7 +739,7 @@
 
                 <TabItem x:Name="DayOfTheWeekTab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Дни недели (Таблица DayOfTheWeek)</TextBlock>
+                        <TextBlock Margin="3" FontSize="18">Дни недели (Таблица DayOfTheWeek)</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -802,7 +802,7 @@
 
                 <TabItem x:Name="CruiseTab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Рейсы (Таблица Cruise)</TextBlock>
+                        <TextBlock Margin="3" FontSize="18">Рейсы (Таблица Cruise)</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -872,7 +872,7 @@
                 
                 <TabItem x:Name="Report1Tab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Найти маршрут по конечной остановке</TextBlock>
+                        <TextBlock Margin="3" FontSize="18">Найти маршрут по конечной остановке</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -917,7 +917,7 @@
 
                 <TabItem x:Name="Report2Tab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Поиск рейса по времени в пути маршрута</TextBlock>
+                        <TextBlock Margin="3" FontSize="18">Поиск рейса по времени в пути маршрута</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -962,7 +962,7 @@
 
                 <TabItem x:Name="Report3Tab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Поиск рейса по начальным и конеынм остановкам</TextBlock>
+                        <TextBlock Margin="3" FontSize="18">Поиск рейса по начальным и конечным остановкам</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -1029,7 +1029,7 @@
 
                 <TabItem x:Name="Report4Tab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Информация о кол-ве заказнных билетах пользователями</TextBlock>
+                        <TextBlock Margin="3" FontSize="18">Информация о кол-ве заказнных билетах пользователями</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -1066,7 +1066,7 @@
                 
                 <TabItem x:Name="Report5Tab">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Нагруженность остановками места остановки</TextBlock>
+                        <TextBlock Margin="3" FontSize="18">Нагруженность остановками места остановки</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -1104,13 +1104,13 @@
             </TabControl>
         </Grid>
 
-        <Grid Grid.Row="1" x:Name="CreateChartsGrid" Visibility="Visible">
+        <Grid Grid.Row="1" x:Name="CreateChartsGrid" Visibility="Hidden">
 
             <TabControl x:Name="TabControlForCharts" Background="#FF440D44">
 
                 <TabItem x:Name="ChartDependenceOfSalaryOnLengthOfServiceTabItem">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Зависимость зарплаты от стажа</TextBlock>
+                        <TextBlock Margin="3" FontSize="18">Зависимость зарплаты от стажа</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -1165,7 +1165,7 @@
 
                 <TabItem x:Name="ChartDriversSalaryTabItem">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Зарплата водителей</TextBlock>
+                        <TextBlock Margin="3" FontSize="18">Зарплата водителей</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -1220,7 +1220,7 @@
 
                 <TabItem x:Name="ChartUsersStatusesCountTabItem">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Количество статусов пользователей</TextBlock>
+                        <TextBlock Margin="3" FontSize="18">Количество статусов пользователей</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -1278,7 +1278,7 @@
 
                 <TabItem x:Name="ChartAmountOfCreatedCruisesOnTheRouteTabItem">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Количество рейсов на маршрут</TextBlock>
+                        <TextBlock Margin="3" FontSize="18">Количество рейсов на маршрут</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -1326,7 +1326,7 @@
 
                 <TabItem x:Name="ChartAmountOfStoppingOnTheRouteTabItem">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Количество остановок на Рейс</TextBlock>
+                        <TextBlock Margin="3" FontSize="18">Количество остановок на рейс</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -1374,7 +1374,7 @@
 
                 <TabItem x:Name="ChartAmountOfSoldTicketsFoAllCruisesTabItem">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Количество купленных билетов на рейс</TextBlock>
+                        <TextBlock Margin="3" FontSize="18">Количество купленных билетов на рейс</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -1422,7 +1422,7 @@
 
                 <TabItem x:Name="ChartWorckLoadOfDriversTabItem">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Нагруженность водителей</TextBlock>
+                        <TextBlock Margin="3" FontSize="18">Нагруженность водителей</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
@@ -1470,7 +1470,7 @@
 
                 <TabItem x:Name="ChartWorckLoadOfTransportsTabItem">
                     <TabItem.Header>
-                        <TextBlock Margin="3">Нагруженность транспорта</TextBlock>
+                        <TextBlock Margin="3" FontSize="18">Нагруженность транспорта</TextBlock>
                     </TabItem.Header>
                     <TabItem.Content>
                         <Grid>
